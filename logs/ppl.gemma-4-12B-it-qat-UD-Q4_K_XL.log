@@ -1,0 +1,21 @@
+llama-perplexity.exe : 0.01.968.621 W load: control-looking token:     50 '<|tool_response>' was not control-type; 
+this is probably a bug in the model. its type will be overridden
+At C:\Projects\p100 testing\scripts\ppl.ps1:43 char:3
++   & $PPLEXE -m $p -f $DATA -c $Ctx --chunks $Chunks -ngl 999 2> $log  ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (0.01.968.621 W ...l be overridden:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+0.01.969.129 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. 
+its type will be overridden
+0.02.012.662 W load: special_eog_ids contains '<|tool_response>', removing '</s>' token from EOG list
+0.06.534.088 I cmn          init: llama threadpool init, n_threads = 6
+0.06.677.801 I 
+0.06.677.835 I system_info: n_threads = 6 (n_threads_batch = 6) / 12 | CUDA : ARCHS = 500,610,700,750,800,860,890,900 
+| USE_GRAPHS = 1 | FA_QUANTS = q4_0-q4_0,q8_0-q8_0,f16-f16,bf16-bf16 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 
+| F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.06.677.841 I perplexity: tokenizing the input ..
+0.07.204.089 I perplexity: tokenization took 526.242 ms
+0.07.204.491 I perplexity: calculating perplexity over 60 chunks, n_ctx=512, batch_size=2048, n_seq=4
+0.12.881.303 I perplexity: 5.68 seconds per pass - ETA 1.32.090.964 E Unexpected negative standard deviation of 
+log(prob)

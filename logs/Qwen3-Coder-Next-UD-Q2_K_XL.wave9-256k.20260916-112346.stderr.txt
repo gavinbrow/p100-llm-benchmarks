@@ -1,0 +1,14 @@
+llama-bench.exe : ggml_cuda_init: found 2 CUDA devices (Total VRAM: 32574 MiB):
+At C:\Projects\p100 testing\scripts\bench.ps1:71 char:1
++ & $LB @args 1> $jsonOut 2> $errOut
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (ggml_cuda_init:...AM: 32574 MiB)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  Device 0: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB
+  Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB
+load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll
+load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll
+load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll
+llama_bench: error: failed to create context with model 
+'C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-Next-GGUF\Qwen3-Coder-Next-UD-Q2_K_XL.gguf'

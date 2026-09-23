@@ -1,0 +1,505 @@
+######## PHASE 1: 256k ########
+
+==== 08:50  Nemotron-3.5-Lightning Q4_0  d=261120 ====
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 261120 -ctk f16 -ctv f16 -fa on
+  pp512@d261120      125.85 t/s  +/-  1.77   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d261120       39.14 t/s  +/-  0.03   [k=f16 v=f16 fa=1 dev=auto]
+  done in 871.8s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 14.5 min
+
+==== 09:05  Nex-N2.5-mini Q4_K_M  d=261120 ====
+=== nex-agi_Nex-N2.5-mini-Q4_K_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\bartowski\nex-agi_Nex-N2.5-mini-GGUF\nex-agi_Nex-N2.5-mini-Q4_K_M.gguf -p 512 -n 128 -r 2 -o json -d 261120 -ctk f16 -ctv f16 -fa on
+  pp512@d261120       86.32 t/s  +/-  0.08   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d261120       24.05 t/s  +/-  0.00   [k=f16 v=f16 fa=1 dev=auto]
+  done in 1311.2s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 21.9 min
+
+==== 09:27  gemma-4-26B-A4B Q4_0  d=261120 ====
+=== gemma-4-26B-A4B-it-QAT-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 261120 -ctk f16 -ctv f16 -fa on
+  pp512@d261120       58.45 t/s  +/-  0.01   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d261120       26.26 t/s  +/-  0.01   [k=f16 v=f16 fa=1 dev=auto]
+  done in 1566s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 26.1 min
+
+==== 09:53  Qwen3.6-35B-A3B UD-Q4_K_M  d=131072 ====
+=== Qwen3.6-35B-A3B-UD-Q4_K_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q4_K_M.gguf -p 512 -n 128 -r 2 -o json -d 131072 -ctk f16 -ctv f16 -fa on
+  pp512@d131072      146.25 t/s  +/-  0.99   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d131072       31.83 t/s  +/-  0.05   [k=f16 v=f16 fa=1 dev=auto]
+  done in 450.8s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 7.5 min
+
+==== 10:00  Qwen3.6-35B-A3B UD-Q4_K_M  d=261120 ====
+=== Qwen3.6-35B-A3B-UD-Q4_K_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q4_K_M.gguf -p 512 -n 128 -r 2 -o json -d 261120 -ctk f16 -ctv f16 -fa on
+  pp512@d261120       88.51 t/s  +/-  0.91   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d261120       23.66 t/s  +/-  0.01   [k=f16 v=f16 fa=1 dev=auto]
+  done in 1278.1s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 21.3 min
+
+==== 10:22  Ornith-1.5-35B Q4_K_M  d=131072 ====
+=== Ornith-1.5-35B-Q4_K_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ornith-ai\Ornith-1.5-35B-A3B-GGUF\Ornith-1.5-35B-Q4_K_M.gguf -p 512 -n 128 -r 2 -o json -d 131072 -ctk f16 -ctv f16 -fa on
+  pp512@d131072      147.27 t/s  +/-  0.56   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d131072       31.64 t/s  +/-  0.03   [k=f16 v=f16 fa=1 dev=auto]
+  done in 458.2s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 7.6 min
+
+==== 10:29  Ornith-1.5-35B Q4_K_M  d=261120 ====
+=== Ornith-1.5-35B-Q4_K_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ornith-ai\Ornith-1.5-35B-A3B-GGUF\Ornith-1.5-35B-Q4_K_M.gguf -p 512 -n 128 -r 2 -o json -d 261120 -ctk f16 -ctv f16 -fa on
+  pp512@d261120       88.36 t/s  +/-  1.95   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d261120       23.36 t/s  +/-  0.01   [k=f16 v=f16 fa=1 dev=auto]
+  done in 1284.8s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 21.4 min
+
+==== 10:51  Qwen3.5-9B Q8_0  d=131072 ====
+=== Qwen3.5-9B-Q8_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q8_0.gguf -p 512 -n 128 -r 2 -o json -d 131072 -ctk f16 -ctv f16 -fa on
+  pp512@d131072      162.96 t/s  +/-  1.88   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d131072       25.49 t/s  +/-  0.00   [k=f16 v=f16 fa=1 dev=auto]
+  done in 336.6s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 5.6 min
+
+==== 10:56  Qwen3.5-9B Q8_0  d=261120 ====
+=== Qwen3.5-9B-Q8_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q8_0.gguf -p 512 -n 128 -r 2 -o json -d 261120 -ctk f16 -ctv f16 -fa on
+  pp512@d261120       96.60 t/s  +/-  1.11   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d261120       21.19 t/s  +/-  0.01   [k=f16 v=f16 fa=1 dev=auto]
+  done in 971.5s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 16.2 min
+
+==== 11:12  Qwen3-Coder-Next UD-Q2_K_XL  d=131072 ====
+=== Qwen3-Coder-Next-UD-Q2_K_XL | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-Next-GGUF\Qwen3-Coder-Next-UD-Q2_K_XL.gguf -p 512 -n 128 -r 2 -o json -d 131072 -ctk f16 -ctv f16 -fa on
+  pp512@d131072      115.19 t/s  +/-  0.75   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d131072       24.51 t/s  +/-  0.00   [k=f16 v=f16 fa=1 dev=auto]
+  done in 651.2s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 10.9 min
+
+==== 11:23  Qwen3-Coder-Next UD-Q2_K_XL  d=261120 ====
+=== Qwen3-Coder-Next-UD-Q2_K_XL | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-Next-GGUF\Qwen3-Coder-Next-UD-Q2_K_XL.gguf -p 512 -n 128 -r 2 -o json -d 261120 -ctk f16 -ctv f16 -fa on
+  FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to create context with model  | 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-Next-GGUF\Qwen3-Coder-Next-UD-Q2_K_XL.gguf'
+  [FAIL] 0.3 min
+  CEILING: Qwen3-Coder-Next UD-Q2_K_XL at d=261120 - skipping deeper
+
+==== 11:24  Qwen3-Next-80B-Instruct Q2_K  d=131072 ====
+=== Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\bartowski\Qwen_Qwen3-Next-80B-A3B-Instruct-GGUF\Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf -p 512 -n 128 -r 2 -o json -d 131072 -ctk f16 -ctv f16 -fa on
+  pp512@d131072      114.80 t/s  +/-  0.21   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d131072       23.80 t/s  +/-  0.01   [k=f16 v=f16 fa=1 dev=auto]
+  done in 633.7s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 10.6 min
+
+==== 11:34  Qwen3-Next-80B-Instruct Q2_K  d=261120 ====
+=== Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\bartowski\Qwen_Qwen3-Next-80B-A3B-Instruct-GGUF\Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf -p 512 -n 128 -r 2 -o json -d 261120 -ctk f16 -ctv f16 -fa on
+  FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to create context with model 'C:\Users\PC\.lmstudio\models\bartowski\Qwen_Qwen3-Next-80B-A3B | -Instruct-GGUF\Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf'
+  [FAIL] 0.9 min
+  CEILING: Qwen3-Next-80B-Instruct Q2_K at d=261120 - skipping deeper
+
+==== 11:35  Qwen3.5-122B-A10B i1-IQ1_M  d=131072 ====
+=== Qwen3.5-122B-A10B.i1-IQ1_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\mradermacher\Qwen3.5-122B-A10B-i1-GGUF\Qwen3.5-122B-A10B.i1-IQ1_M.gguf -p 512 -n 128 -r 2 -o json -d 131072 -ctk f16 -ctv f16 -fa on
+  pp512@d131072       57.60 t/s  +/-  0.13   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d131072       15.62 t/s  +/-  0.00   [k=f16 v=f16 fa=1 dev=auto]
+  done in 1607.5s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 26.8 min
+
+==== 12:02  Qwen3.5-122B-A10B i1-IQ1_M  d=261120 ====
+=== Qwen3.5-122B-A10B.i1-IQ1_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\mradermacher\Qwen3.5-122B-A10B-i1-GGUF\Qwen3.5-122B-A10B.i1-IQ1_M.gguf -p 512 -n 128 -r 2 -o json -d 261120 -ctk f16 -ctv f16 -fa on
+  FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to create context with model  | 'C:\Users\PC\.lmstudio\models\mradermacher\Qwen3.5-122B-A10B-i1-GGUF\Qwen3.5-122B-A10B.i1-IQ1_M.gguf'
+  [FAIL] 0.3 min
+  CEILING: Qwen3.5-122B-A10B i1-IQ1_M at d=261120 - skipping deeper
+
+==== 12:02  Qwen3-Coder-30B-A3B Q4_K_M (q8_0 KV)  d=131072 ====
+=== Qwen3-Coder-30B-A3B-Instruct-Q4_K_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-30B-A3B-Instruct-GGUF\Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf -p 512 -n 128 -r 2 -o json -d 131072 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d131072       43.97 t/s  +/-  0.08   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d131072        6.20 t/s  +/-  0.00   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 1725.4s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 28.8 min
+
+==== 12:31  Qwen3-Coder-30B-A3B Q4_K_M (q8_0 KV)  d=261120 ====
+=== Qwen3-Coder-30B-A3B-Instruct-Q4_K_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-30B-A3B-Instruct-GGUF\Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf -p 512 -n 128 -r 2 -o json -d 261120 -ctk q8_0 -ctv q8_0 -fa on
+  FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to create context with model  | 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-30B-A3B-Instruct-GGUF\Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf'
+  [FAIL] 0.2 min
+  CEILING: Qwen3-Coder-30B-A3B Q4_K_M (q8_0 KV) at d=261120 - skipping deeper
+
+==== 12:31  Qwen3.8-27B UD-IQ4_XS  d=131072 ====
+=== Qwen3.8-27B-UD-IQ4_XS | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-UD-IQ4_XS.gguf -p 512 -n 128 -r 2 -o json -d 131072 -ctk f16 -ctv f16 -fa on
+  pp512@d131072       55.22 t/s  +/-  0.26   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d131072        9.36 t/s  +/-  0.00   [k=f16 v=f16 fa=1 dev=auto]
+  done in 1281.7s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 21.4 min
+
+==== 12:52  Qwen3.8-27B UD-IQ4_XS  d=261120 ====
+=== Qwen3.8-27B-UD-IQ4_XS | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-UD-IQ4_XS.gguf -p 512 -n 128 -r 2 -o json -d 261120 -ctk f16 -ctv f16 -fa on
+  FAILED (exit -1073740791):   Device 0: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB |   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | D:\a\llama.cpp\llama.cpp\ggml\src\ggml-cuda\ggml-cuda.cu:108: CUDA error
+  [FAIL] 0.2 min
+  CEILING: Qwen3.8-27B UD-IQ4_XS at d=261120 - skipping deeper
+
+==== 12:53  Qwen3.8-27B Q4_0  d=261120 ====
+=== Qwen3.8-27B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 261120 -ctk f16 -ctv f16 -fa on
+  FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to create context with model  | 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf'
+  [FAIL] 0.2 min
+  CEILING: Qwen3.8-27B Q4_0 at d=261120 - skipping deeper
+
+######## PHASE 2: one card vs two ########
+
+==== 12:53  LFM2.5-2.6B Q4_K_M  d=0 ====
+=== LFM2.5-2.6B-Q4_K_M | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\LiquidAI\LFM2.5-2.6B-GGUF\LFM2.5-2.6B-Q4_K_M.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512            1,940.72 t/s  +/-  3.61   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               81.01 t/s  +/-  0.05   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 11.9s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.2 min
+=== LFM2.5-2.6B-Q4_K_M | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\LiquidAI\LFM2.5-2.6B-GGUF\LFM2.5-2.6B-Q4_K_M.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512            1,881.28 t/s  +/-  3.70   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               79.03 t/s  +/-  0.04   [k=f16 v=f16 fa=1 dev=auto]
+  done in 11.5s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.2 min
+
+==== 12:53  LFM2.5-2.6B Q8_0  d=0 ====
+=== LFM2.5-2.6B-Q8_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\LiquidAI\LFM2.5-2.6B-GGUF\LFM2.5-2.6B-Q8_0.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512            1,887.07 t/s  +/-  3.07   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               84.87 t/s  +/-  0.04   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 12.6s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.2 min
+=== LFM2.5-2.6B-Q8_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\LiquidAI\LFM2.5-2.6B-GGUF\LFM2.5-2.6B-Q8_0.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512            1,829.13 t/s  +/-  4.00   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               82.57 t/s  +/-  0.06   [k=f16 v=f16 fa=1 dev=auto]
+  done in 11.9s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.2 min
+
+==== 12:54  LFM2.5-2.6B F16  d=0 ====
+=== LFM2.5-2.6B-F16 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\LiquidAI\LFM2.5-2.6B-GGUF\LFM2.5-2.6B-F16.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512            2,255.68 t/s  +/- 10.30   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               72.67 t/s  +/-  0.19   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 16s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.3 min
+=== LFM2.5-2.6B-F16 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\LiquidAI\LFM2.5-2.6B-GGUF\LFM2.5-2.6B-F16.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512            2,241.93 t/s  +/-  5.32   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               71.34 t/s  +/-  0.02   [k=f16 v=f16 fa=1 dev=auto]
+  done in 14.2s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.2 min
+
+==== 12:54  Qwen3.8-2B Q8_0  d=0 ====
+=== Qwen3.8-2B-Q8_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-2B-GGUF\Qwen3.8-2B-Q8_0.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512            2,528.98 t/s  +/-  4.59   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128              100.43 t/s  +/-  0.05   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 10.6s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.2 min
+=== Qwen3.8-2B-Q8_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-2B-GGUF\Qwen3.8-2B-Q8_0.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512            2,483.81 t/s  +/-  9.02   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               95.87 t/s  +/-  0.05   [k=f16 v=f16 fa=1 dev=auto]
+  done in 10.1s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.2 min
+
+==== 12:55  Qwen3.5-9B Q4_K_M  d=0 ====
+=== Qwen3.5-9B-Q4_K_M | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_K_M.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512              584.07 t/s  +/-  8.66   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               31.07 t/s  +/-  1.19   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 31.6s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.5 min
+=== Qwen3.5-9B-Q4_K_M | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_K_M.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512              585.30 t/s  +/-  2.30   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               33.25 t/s  +/-  0.01   [k=f16 v=f16 fa=1 dev=auto]
+  done in 28.4s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.5 min
+
+==== 12:56  Qwen3.5-9B Q8_0  d=0 ====
+=== Qwen3.5-9B-Q8_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q8_0.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512              559.47 t/s  +/- 14.30   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               30.57 t/s  +/-  0.90   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 35.5s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.6 min
+=== Qwen3.5-9B-Q8_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q8_0.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512              568.37 t/s  +/-  0.88   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               32.04 t/s  +/-  0.19   [k=f16 v=f16 fa=1 dev=auto]
+  done in 31.1s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.5 min
+
+==== 12:57  Llama-3.1-8B Q8_0  d=0 ====
+=== Meta-Llama-3.1-8B-Instruct-Q8_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\bartowski\Meta-Llama-3.1-8B-Instruct-GGUF\Meta-Llama-3.1-8B-Instruct-Q8_0.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512              633.09 t/s  +/- 21.20   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               33.90 t/s  +/-  0.93   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 31.8s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.5 min
+=== Meta-Llama-3.1-8B-Instruct-Q8_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\bartowski\Meta-Llama-3.1-8B-Instruct-GGUF\Meta-Llama-3.1-8B-Instruct-Q8_0.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512              647.87 t/s  +/-  2.31   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               36.05 t/s  +/-  0.01   [k=f16 v=f16 fa=1 dev=auto]
+  done in 27.8s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.5 min
+
+==== 12:58  gemma-4-12B UD-Q4_K_XL  d=0 ====
+=== gemma-4-12B-it-qat-UD-Q4_K_XL | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\gemma-4-12B-it-qat-GGUF\gemma-4-12B-it-qat-UD-Q4_K_XL.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512              372.23 t/s  +/-  7.32   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               27.17 t/s  +/-  0.97   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 38.7s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.7 min
+=== gemma-4-12B-it-qat-UD-Q4_K_XL | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\gemma-4-12B-it-qat-GGUF\gemma-4-12B-it-qat-UD-Q4_K_XL.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512              374.34 t/s  +/-  1.16   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               29.18 t/s  +/-  0.01   [k=f16 v=f16 fa=1 dev=auto]
+  done in 35.2s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.6 min
+
+==== 12:59  gpt-oss-20b MXFP4  d=0 ====
+=== gpt-oss-20b-MXFP4 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512              498.12 t/s  +/-  7.75   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               62.07 t/s  +/-  1.30   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 28.2s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.5 min
+=== gpt-oss-20b-MXFP4 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512              501.36 t/s  +/-  3.76   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               62.26 t/s  +/-  0.03   [k=f16 v=f16 fa=1 dev=auto]
+  done in 23.8s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.4 min
+
+==== 13:00  Qwen3.8-27B UD-Q3_K_XL  d=0 ====
+=== Qwen3.8-27B-UD-Q3_K_XL | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-UD-Q3_K_XL.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512              135.25 t/s  +/-  2.41   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               10.10 t/s  +/-  0.05   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 98.5s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.7 min
+=== Qwen3.8-27B-UD-Q3_K_XL | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-UD-Q3_K_XL.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512              137.35 t/s  +/-  0.09   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               11.71 t/s  +/-  0.20   [k=f16 v=f16 fa=1 dev=auto]
+  done in 85s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.4 min
+
+==== 13:03  Qwen3.8-27B UD-IQ4_XS  d=0 ====
+=== Qwen3.8-27B-UD-IQ4_XS | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-UD-IQ4_XS.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512              134.92 t/s  +/-  3.95   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               10.72 t/s  +/-  0.03   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 96s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.6 min
+=== Qwen3.8-27B-UD-IQ4_XS | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-UD-IQ4_XS.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512              138.27 t/s  +/-  0.33   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               12.58 t/s  +/-  0.25   [k=f16 v=f16 fa=1 dev=auto]
+  done in 81.7s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.4 min
+
+==== 13:06  gemma-4-26B-A4B Q4_0  d=0 ====
+=== gemma-4-26B-A4B-it-QAT-Q4_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512              523.06 t/s  +/-  4.29   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               55.21 t/s  +/-  0.21   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 31.5s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.5 min
+=== gemma-4-26B-A4B-it-QAT-Q4_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512              523.37 t/s  +/-  2.87   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               53.81 t/s  +/-  0.02   [k=f16 v=f16 fa=1 dev=auto]
+  done in 26.8s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.5 min
+
+==== 13:07  Mistral-Small-3.2-24B UD-Q4_K_XL  d=0 ====
+=== Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Mistral-Small-3.2-24B-Instruct-2506-GGUF\Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512              165.31 t/s  +/-  0.24   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               11.86 t/s  +/-  0.68   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 85.5s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.4 min
+=== Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Mistral-Small-3.2-24B-Instruct-2506-GGUF\Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512              165.41 t/s  +/-  0.24   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               13.99 t/s  +/-  0.31   [k=f16 v=f16 fa=1 dev=auto]
+  done in 72.7s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.2 min
+
+==== 13:10  phi-4 Q8_0  d=0 ====
+=== phi-4-Q8_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\phi-4-GGUF\phi-4-Q8_0.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512              257.32 t/s  +/-  2.21   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               17.56 t/s  +/-  0.86   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 62s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.0 min
+=== phi-4-Q8_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\phi-4-GGUF\phi-4-Q8_0.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512              260.68 t/s  +/-  0.40   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               19.82 t/s  +/-  0.02   [k=f16 v=f16 fa=1 dev=auto]
+  done in 52.8s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 0.9 min
+
+==== 13:11  Qwen3.6-27B Q4_0  d=0 ====
+=== Qwen3.6-27B-Q4_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-27B-GGUF\Qwen3.6-27B-Q4_0.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512              135.92 t/s  +/-  3.58   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               12.17 t/s  +/-  0.47   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 88.5s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.5 min
+=== Qwen3.6-27B-Q4_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-27B-GGUF\Qwen3.6-27B-Q4_0.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512              141.02 t/s  +/-  0.25   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               14.44 t/s  +/-  0.22   [k=f16 v=f16 fa=1 dev=auto]
+  done in 75.3s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.3 min
+
+==== 13:14  Qwen3.8-27B Q4_0  d=0 ====
+=== Qwen3.8-27B-Q4_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf -p 512 -n 128 -r 5 -o json -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512              137.18 t/s  +/-  3.06   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128               12.20 t/s  +/-  0.04   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 88.5s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.5 min
+=== Qwen3.8-27B-Q4_0 | suite=quick | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf -p 512 -n 128 -r 5 -o json -ctk f16 -ctv f16 -fa on
+  pp512              140.92 t/s  +/-  0.25   [k=f16 v=f16 fa=1 dev=auto]
+  tg128               14.47 t/s  +/-  0.12   [k=f16 v=f16 fa=1 dev=auto]
+  done in 75.2s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.3 min
+
+==== 13:17  Qwen3.5-9B Q4_K_M  d=32768  1 vs 2 cards ====
+=== Qwen3.5-9B-Q4_K_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_K_M.gguf -p 512 -n 128 -r 2 -o json -d 32768 -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512@d32768       316.91 t/s  +/-  3.42   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128@d32768        26.64 t/s  +/-  0.42   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 104.6s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.8 min
+=== Qwen3.5-9B-Q4_K_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_K_M.gguf -p 512 -n 128 -r 2 -o json -d 32768 -ctk f16 -ctv f16 -fa on
+  pp512@d32768       348.40 t/s  +/-  6.09   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d32768        31.17 t/s  +/-  0.02   [k=f16 v=f16 fa=1 dev=auto]
+  done in 62.5s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.1 min
+
+==== 13:20  Qwen3.5-9B Q4_K_M  d=131072  1 vs 2 cards ====
+=== Qwen3.5-9B-Q4_K_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_K_M.gguf -p 512 -n 128 -r 2 -o json -d 131072 -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512@d131072      145.88 t/s  +/-  3.93   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128@d131072       22.94 t/s  +/-  0.49   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 614.8s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 10.3 min
+=== Qwen3.5-9B-Q4_K_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_K_M.gguf -p 512 -n 128 -r 2 -o json -d 131072 -ctk f16 -ctv f16 -fa on
+  pp512@d131072      165.39 t/s  +/-  0.45   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d131072       26.27 t/s  +/-  0.01   [k=f16 v=f16 fa=1 dev=auto]
+  done in 330.7s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 5.5 min
+
+==== 13:36  Qwen3.5-9B Q4_K_M  d=261120  1 vs 2 cards ====
+=== Qwen3.5-9B-Q4_K_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_K_M.gguf -p 512 -n 128 -r 2 -o json -d 261120 -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512@d261120       87.88 t/s  +/-  0.67   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128@d261120       18.61 t/s  +/-  0.69   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 1873.6s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 31.2 min
+=== Qwen3.5-9B-Q4_K_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_K_M.gguf -p 512 -n 128 -r 2 -o json -d 261120 -ctk f16 -ctv f16 -fa on
+  pp512@d261120       96.15 t/s  +/-  1.34   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d261120       21.69 t/s  +/-  0.00   [k=f16 v=f16 fa=1 dev=auto]
+  done in 988.7s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 16.5 min
+
+==== 14:23  gpt-oss-20b MXFP4  d=32768  1 vs 2 cards ====
+=== gpt-oss-20b-MXFP4 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512 -n 128 -r 2 -o json -d 32768 -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512@d32768       251.35 t/s  +/-  1.78   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128@d32768        49.11 t/s  +/-  2.19   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 126.6s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 2.1 min
+=== gpt-oss-20b-MXFP4 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512 -n 128 -r 2 -o json -d 32768 -ctk f16 -ctv f16 -fa on
+  pp512@d32768       287.08 t/s  +/-  0.03   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d32768        54.81 t/s  +/-  0.30   [k=f16 v=f16 fa=1 dev=auto]
+  done in 75.1s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.3 min
+
+==== 14:27  gpt-oss-20b MXFP4  d=130048  1 vs 2 cards ====
+=== gpt-oss-20b-MXFP4 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512 -n 128 -r 2 -o json -d 130048 -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512@d130048      116.66 t/s  +/-  0.77   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128@d130048       35.68 t/s  +/-  1.26   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 765.5s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 12.8 min
+=== gpt-oss-20b-MXFP4 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512 -n 128 -r 2 -o json -d 130048 -ctk f16 -ctv f16 -fa on
+  pp512@d130048      133.50 t/s  +/-  0.52   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d130048       42.35 t/s  +/-  0.00   [k=f16 v=f16 fa=1 dev=auto]
+  done in 416.3s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 6.9 min
+
+==== 14:46  gemma-4-26B-A4B Q4_0  d=32768  1 vs 2 cards ====
+=== gemma-4-26B-A4B-it-QAT-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 32768 -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512@d32768       228.83 t/s  +/-  0.61   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128@d32768        43.94 t/s  +/-  0.64   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 133.9s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 2.2 min
+=== gemma-4-26B-A4B-it-QAT-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 32768 -ctk f16 -ctv f16 -fa on
+  pp512@d32768       255.84 t/s  +/-  0.26   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d32768        46.64 t/s  +/-  0.04   [k=f16 v=f16 fa=1 dev=auto]
+  done in 74.6s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 1.3 min
+
+==== 14:50  gemma-4-26B-A4B Q4_0  d=65536  1 vs 2 cards ====
+=== gemma-4-26B-A4B-it-QAT-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 65536 -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  FAILED (exit -1073740791):   Device 0: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB |   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | D:\a\llama.cpp\llama.cpp\ggml\src\ggml-cuda\ggml-cuda.cu:108: CUDA error
+  [FAIL] 0.2 min
+=== gemma-4-26B-A4B-it-QAT-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 65536 -ctk f16 -ctv f16 -fa on
+  pp512@d65536       173.26 t/s  +/-  0.06   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d65536        41.87 t/s  +/-  0.03   [k=f16 v=f16 fa=1 dev=auto]
+  done in 163.7s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 2.7 min
+
+==== 14:53  Qwen3.8-27B UD-Q3_K_XL  d=32768  1 vs 2 cards ====
+=== Qwen3.8-27B-UD-Q3_K_XL | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-UD-Q3_K_XL.gguf -p 512 -n 128 -r 2 -o json -d 32768 -dev CUDA0 -ctk f16 -ctv f16 -fa on
+  pp512@d32768        86.62 t/s  +/-  3.69   [k=f16 v=f16 fa=1 dev=CUDA0]
+  tg128@d32768         8.91 t/s  +/-  0.26   [k=f16 v=f16 fa=1 dev=CUDA0]
+  done in 382s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 6.4 min
+=== Qwen3.8-27B-UD-Q3_K_XL | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-UD-Q3_K_XL.gguf -p 512 -n 128 -r 2 -o json -d 32768 -ctk f16 -ctv f16 -fa on
+  pp512@d32768        97.79 t/s  +/-  0.42   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d32768        10.86 t/s  +/-  0.08   [k=f16 v=f16 fa=1 dev=auto]
+  done in 254.2s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 4.2 min
+
+######## PHASE 3: stretch ########
+
+==== 15:03  Nemotron-3.5-Lightning Q4_0 (1M trained)  d=524288 ====
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 524288 -ctk f16 -ctv f16 -fa on
+  pp512@d524288       73.88 t/s  +/-  1.42   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d524288       26.87 t/s  +/-  0.05   [k=f16 v=f16 fa=1 dev=auto]
+  done in 2936.2s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 48.9 min
+
+==== 15:52  Nemotron-3.5-Lightning Q4_0 (1M trained)  d=1047552 ====
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 1047552 -ctk f16 -ctv f16 -fa on

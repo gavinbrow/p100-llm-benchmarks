@@ -1,0 +1,26 @@
+0.00.152.301 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.152.411 I srv          init: The UI is disabled
+0.00.152.411 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.152.512 W srv  llama_server: -----------------
+0.00.152.515 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.152.517 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.152.517 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.152.517 W srv  llama_server: -----------------
+0.00.169.098 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf'
+0.01.227.888 W load: setting token '<|constrain|>' (200003) attribute to USER_DEFINED (16), old attributes: 8
+0.01.228.056 W load: setting token '<|message|>' (200008) attribute to USER_DEFINED (16), old attributes: 8
+0.01.232.940 W load: setting token '<|channel|>' (200005) attribute to USER_DEFINED (16), old attributes: 8
+0.01.232.945 W load: setting token '<|start|>' (200006) attribute to USER_DEFINED (16), old attributes: 8
+0.01.232.956 W load: special_eog_ids contains both '<|return|>' and '<|call|>', or '<|calls|>' and '<|flush|>' tokens, removing '<|end|>' token from EOG list
+0.06.030.772 W llama_kv_cache_iswa: using full-size SWA cache (ref: https://github.com/ggml-org/llama.cpp/pull/13194#issuecomment-2868343055)
+0.06.133.583 I cmn          init: llama threadpool init, n_threads = 6
+0.06.311.825 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 131072, kv_unified = 'false'
+0.06.316.684 I srv  llama_server: model loaded
+0.06.316.688 I srv  llama_server: listening on http://127.0.0.1:8110
+0.08.723.938 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 1.000
+0.08.724.045 I slot launch_slot_: id  0 | task 1 | processing task, is_child = 0
+0.09.710.503 I slot print_timing: id  0 | task 1 | prompt eval time =     249.57 ms /    11 tokens (   22.69 ms per token,    44.08 tokens per second)
+0.09.710.507 I slot print_timing: id  0 | task 1 |        eval time =     736.86 ms /    32 tokens (   23.77 ms per token,    42.07 tokens per second)
+0.09.710.508 I slot print_timing: id  0 | task 1 |       total time =     986.43 ms /    43 tokens
+0.09.710.509 I slot print_timing: id  0 | task 1 |    graphs reused =         31
+0.09.715.183 I slot      release: id  0 | task 1 | stop processing: n_tokens = 125764, truncated = 0

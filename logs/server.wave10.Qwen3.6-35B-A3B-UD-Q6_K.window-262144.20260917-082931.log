@@ -1,0 +1,18 @@
+0.00.156.711 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.156.824 I srv          init: The UI is disabled
+0.00.156.824 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.156.921 W srv  llama_server: -----------------
+0.00.156.924 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.156.925 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.156.925 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.156.926 W srv  llama_server: -----------------
+0.00.163.258 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q6_K.gguf'
+0.00.740.741 W common_fit_params: failed to fit params to free device memory: n_gpu_layers already set by user to 999, abort
+0.25.920.595 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 2560.00 MiB on device 0: cudaMalloc failed: out of memory
+0.25.920.707 E alloc_tensor_range: failed to allocate CUDA0 buffer of size 2684354560
+0.25.926.988 E llama_init_from_model: failed to initialize the context: failed to allocate buffer for kv cache
+0.25.927.008 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q6_K.gguf'
+0.25.927.014 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q6_K.gguf'
+0.25.927.030 E srv    load_model: failed to create_context with model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q6_K.gguf'
+0.25.927.227 I srv    operator(): operator(): cleaning up before exit...
+0.25.929.693 E srv  llama_server: exiting due to model loading error

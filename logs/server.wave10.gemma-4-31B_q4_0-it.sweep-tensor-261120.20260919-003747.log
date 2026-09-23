@@ -1,0 +1,18 @@
+0.00.152.082 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.152.191 I srv          init: The UI is disabled
+0.00.152.192 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.152.289 W srv  llama_server: -----------------
+0.00.152.293 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.152.294 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.152.294 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.152.295 W srv  llama_server: -----------------
+0.00.164.432 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\google\gemma-4-31B-it-qat-q4_0-gguf\gemma-4-31B_q4_0-it.gguf'
+0.00.164.520 W common_fit_params: failed to fit params to free device memory: llama_params_fit is not implemented for SPLIT_MODE_TENSOR, abort
+0.00.833.030 W load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.00.833.518 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.00.875.548 W load: special_eog_ids contains '<|tool_response>', removing '</s>' token from EOG list
+0.15.219.101 W llama_context: n_ctx_seq (264192) > n_ctx_train (262144) -- possible training context overflow
+0.15.219.134 W internal AllReduce init failed (n_devices != 2?); falling back to meta-backend butterfly
+D:/a/llama.cpp/llama.cpp/ggml/src/ggml-backend-meta.cpp:1760: GGML_ASSERT(meta_buf_ctx->bufs[i]) failed
+0.15.225.056 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 10320.00 MiB on device 0: cudaMalloc failed: out of memory
+0.15.225.063 E alloc_tensor_range: failed to allocate CUDA0 buffer of size 10821304320

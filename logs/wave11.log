@@ -1,0 +1,435 @@
+[14:44:10] WAVE 11 start: ['t1', 't2', 'p', 's', 'e', 't3', 'b']
+[14:44:10] T1 tensor vs layer, empty cache: 44 model files
+[14:44:10]   [1/44] Qwen3.8-27B-Q4_0
+[14:44:10]   bench: wave11-tensor-d0 -sm layer,tensor
+[14:47:21]    pp512              140.81 t/s  +/-  0.16   [k=f16 v=f16 fa=-1 dev=auto]
+[14:47:21]    pp2048             189.09 t/s  +/-  0.04   [k=f16 v=f16 fa=-1 dev=auto]
+[14:47:21]    tg128               14.54 t/s  +/-  0.00   [k=f16 v=f16 fa=-1 dev=auto]
+[14:47:21]    pp512              176.43 t/s  +/-  0.25   [k=f16 v=f16 fa=-1 dev=auto]
+[14:47:21]    pp2048             167.65 t/s  +/-  1.87   [k=f16 v=f16 fa=-1 dev=auto]
+[14:47:21]    tg128               18.60 t/s  +/-  0.71   [k=f16 v=f16 fa=-1 dev=auto]
+[14:47:21]   [2/44] Qwen3.8-27B-UD-Q3_K_XL
+[14:47:21]   bench: wave11-tensor-d0 -sm layer,tensor
+[14:50:51]    pp512              137.17 t/s  +/-  0.28   [k=f16 v=f16 fa=-1 dev=auto]
+[14:50:51]    pp2048             168.24 t/s  +/-  1.55   [k=f16 v=f16 fa=-1 dev=auto]
+[14:50:51]    tg128               11.07 t/s  +/-  0.11   [k=f16 v=f16 fa=-1 dev=auto]
+[14:50:51]    pp512              170.90 t/s  +/-  1.66   [k=f16 v=f16 fa=-1 dev=auto]
+[14:50:51]    pp2048             160.98 t/s  +/-  1.73   [k=f16 v=f16 fa=-1 dev=auto]
+[14:50:51]    tg128               15.06 t/s  +/-  0.53   [k=f16 v=f16 fa=-1 dev=auto]
+[14:50:51]   [3/44] Qwen3.8-27B-UD-IQ4_XS
+[14:50:51]   bench: wave11-tensor-d0 -sm layer,tensor
+[14:54:17]    pp512              137.56 t/s  +/-  0.61   [k=f16 v=f16 fa=-1 dev=auto]
+[14:54:17]    pp2048             166.03 t/s  +/-  3.91   [k=f16 v=f16 fa=-1 dev=auto]
+[14:54:17]    tg128               12.03 t/s  +/-  0.29   [k=f16 v=f16 fa=-1 dev=auto]
+[14:54:17]    pp512              172.85 t/s  +/-  1.35   [k=f16 v=f16 fa=-1 dev=auto]
+[14:54:17]    pp2048             163.07 t/s  +/-  0.09   [k=f16 v=f16 fa=-1 dev=auto]
+[14:54:17]    tg128               15.15 t/s  +/-  0.56   [k=f16 v=f16 fa=-1 dev=auto]
+[14:54:17]   [4/44] Qwen3.8-27B-UD-Q6_K
+[14:54:17]   bench: wave11-tensor-d0 -sm layer,tensor
+[14:58:08]    pp512              141.60 t/s  +/-  0.27   [k=f16 v=f16 fa=-1 dev=auto]
+[14:58:08]    pp2048             171.60 t/s  +/-  1.68   [k=f16 v=f16 fa=-1 dev=auto]
+[14:58:08]    tg128                9.03 t/s  +/-  0.19   [k=f16 v=f16 fa=-1 dev=auto]
+[14:58:08]    pp512              175.45 t/s  +/-  0.43   [k=f16 v=f16 fa=-1 dev=auto]
+[14:58:08]    pp2048             164.53 t/s  +/-  1.41   [k=f16 v=f16 fa=-1 dev=auto]
+[14:58:08]    tg128               12.27 t/s  +/-  0.81   [k=f16 v=f16 fa=-1 dev=auto]
+[14:58:08]   [5/44] Qwen3.8-27B-Q8_0
+[14:58:08]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:02:24]    pp512              132.72 t/s  +/-  0.22   [k=f16 v=f16 fa=-1 dev=auto]
+[15:02:24]    pp2048             164.57 t/s  +/-  4.39   [k=f16 v=f16 fa=-1 dev=auto]
+[15:02:24]    tg128               10.26 t/s  +/-  0.06   [k=f16 v=f16 fa=-1 dev=auto]
+[15:02:24]    pp512              168.15 t/s  +/-  0.17   [k=f16 v=f16 fa=-1 dev=auto]
+[15:02:24]    pp2048             161.22 t/s  +/-  2.83   [k=f16 v=f16 fa=-1 dev=auto]
+[15:02:24]    tg128               13.80 t/s  +/-  0.90   [k=f16 v=f16 fa=-1 dev=auto]
+[15:02:24]   [6/44] Qwen3.8-27B-Q4_K_M
+[15:02:24]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:05:57]    pp512              137.50 t/s  +/-  0.94   [k=f16 v=f16 fa=-1 dev=auto]
+[15:05:57]    pp2048             169.25 t/s  +/-  1.65   [k=f16 v=f16 fa=-1 dev=auto]
+[15:05:57]    tg128               10.94 t/s  +/-  0.13   [k=f16 v=f16 fa=-1 dev=auto]
+[15:05:57]    pp512              171.41 t/s  +/-  2.69   [k=f16 v=f16 fa=-1 dev=auto]
+[15:05:57]    pp2048             161.18 t/s  +/-  1.28   [k=f16 v=f16 fa=-1 dev=auto]
+[15:05:57]    tg128               14.36 t/s  +/-  1.50   [k=f16 v=f16 fa=-1 dev=auto]
+[15:05:57]   [7/44] Qwen3.6-35B-A3B-UD-Q4_K_M
+[15:05:57]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:07:22]    pp512              463.71 t/s  +/-  1.95   [k=f16 v=f16 fa=-1 dev=auto]
+[15:07:22]    pp2048             582.50 t/s  +/- 16.71   [k=f16 v=f16 fa=-1 dev=auto]
+[15:07:22]    tg128               48.98 t/s  +/-  0.09   [k=f16 v=f16 fa=-1 dev=auto]
+[15:07:22]    pp512              599.53 t/s  +/-  5.44   [k=f16 v=f16 fa=-1 dev=auto]
+[15:07:22]    pp2048             577.08 t/s  +/-  9.01   [k=f16 v=f16 fa=-1 dev=auto]
+[15:07:22]    tg128               52.92 t/s  +/-  0.04   [k=f16 v=f16 fa=-1 dev=auto]
+[15:07:22]   [8/44] Qwen3.6-35B-A3B-MXFP4_MOE
+[15:07:22]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:08:43]    pp512              493.84 t/s  +/-  1.74   [k=f16 v=f16 fa=-1 dev=auto]
+[15:08:43]    pp2048             616.85 t/s  +/- 15.01   [k=f16 v=f16 fa=-1 dev=auto]
+[15:08:43]    tg128               50.83 t/s  +/-  0.03   [k=f16 v=f16 fa=-1 dev=auto]
+[15:08:43]    pp512              623.96 t/s  +/-  5.68   [k=f16 v=f16 fa=-1 dev=auto]
+[15:08:43]    pp2048             584.00 t/s  +/- 13.15   [k=f16 v=f16 fa=-1 dev=auto]
+[15:08:43]    tg128               53.71 t/s  +/-  0.07   [k=f16 v=f16 fa=-1 dev=auto]
+[15:08:43]   [9/44] LFM2.5-2.6B-Q4_0
+[15:08:43]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:09:06]    pp512            1,935.79 t/s  +/-  3.54   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:06]    pp2048           2,668.22 t/s  +/- 64.82   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:06]    tg128               92.38 t/s  +/-  0.10   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:06]    pp512            1,900.13 t/s  +/-  4.83   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:06]    pp2048           1,816.25 t/s  +/- 41.88   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:06]    tg128               97.34 t/s  +/-  0.35   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:06]   [10/44] LFM2.5-2.6B-Q4_K_M
+[15:09:06]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:09:31]    pp512            1,880.76 t/s  +/-  2.59   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:31]    pp2048           2,454.12 t/s  +/- 34.62   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:31]    tg128               78.77 t/s  +/-  0.49   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:31]    pp512            1,856.68 t/s  +/- 27.62   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:31]    pp2048           1,673.95 t/s  +/- 18.03   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:31]    tg128               82.78 t/s  +/-  0.96   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:31]   [11/44] LFM2.5-2.6B-Q8_0
+[15:09:31]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:09:57]    pp512            1,831.54 t/s  +/-  7.86   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:57]    pp2048           2,170.30 t/s  +/- 159.74   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:57]    tg128               82.44 t/s  +/-  0.06   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:57]    pp512            1,828.03 t/s  +/- 28.69   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:57]    pp2048           1,705.99 t/s  +/-  0.74   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:57]    tg128               90.37 t/s  +/-  1.06   [k=f16 v=f16 fa=-1 dev=auto]
+[15:09:57]   [12/44] LFM2.5-2.6B-F16
+[15:09:57]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:10:28]    pp512            2,241.13 t/s  +/-  4.54   [k=f16 v=f16 fa=-1 dev=auto]
+[15:10:28]    pp2048           1,899.58 t/s  +/- 785.97   [k=f16 v=f16 fa=-1 dev=auto]
+[15:10:28]    tg128               71.40 t/s  +/-  0.09   [k=f16 v=f16 fa=-1 dev=auto]
+[15:10:28]    pp512            2,025.85 t/s  +/-  2.56   [k=f16 v=f16 fa=-1 dev=auto]
+[15:10:28]    pp2048           1,936.05 t/s  +/-  2.95   [k=f16 v=f16 fa=-1 dev=auto]
+[15:10:28]    tg128               77.34 t/s  +/-  1.89   [k=f16 v=f16 fa=-1 dev=auto]
+[15:10:28]   [13/44] Qwen3.5-9B-Q4_0
+[15:10:28]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:11:27]    pp512              594.15 t/s  +/-  6.69   [k=f16 v=f16 fa=-1 dev=auto]
+[15:11:27]    pp2048             793.42 t/s  +/-  6.67   [k=f16 v=f16 fa=-1 dev=auto]
+[15:11:27]    tg128               38.30 t/s  +/-  0.29   [k=f16 v=f16 fa=-1 dev=auto]
+[15:11:27]    pp512              603.76 t/s  +/- 11.64   [k=f16 v=f16 fa=-1 dev=auto]
+[15:11:27]    pp2048             591.39 t/s  +/-  6.30   [k=f16 v=f16 fa=-1 dev=auto]
+[15:11:27]    tg128               48.17 t/s  +/-  1.33   [k=f16 v=f16 fa=-1 dev=auto]
+[15:11:27]   [14/44] Qwen3.5-9B-Q4_K_M
+[15:11:27]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:12:30]    pp512              585.37 t/s  +/-  6.06   [k=f16 v=f16 fa=-1 dev=auto]
+[15:12:30]    pp2048             754.94 t/s  +/- 23.89   [k=f16 v=f16 fa=-1 dev=auto]
+[15:12:30]    tg128               31.91 t/s  +/-  0.20   [k=f16 v=f16 fa=-1 dev=auto]
+[15:12:30]    pp512              600.15 t/s  +/-  4.42   [k=f16 v=f16 fa=-1 dev=auto]
+[15:12:30]    pp2048             570.66 t/s  +/-  4.24   [k=f16 v=f16 fa=-1 dev=auto]
+[15:12:30]    tg128               41.85 t/s  +/-  0.34   [k=f16 v=f16 fa=-1 dev=auto]
+[15:12:30]   [15/44] Qwen3.5-9B-Q8_0
+[15:12:30]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:13:38]    pp512              568.84 t/s  +/-  1.40   [k=f16 v=f16 fa=-1 dev=auto]
+[15:13:38]    pp2048             747.80 t/s  +/- 25.15   [k=f16 v=f16 fa=-1 dev=auto]
+[15:13:38]    tg128               31.74 t/s  +/-  0.14   [k=f16 v=f16 fa=-1 dev=auto]
+[15:13:38]    pp512              588.90 t/s  +/- 13.18   [k=f16 v=f16 fa=-1 dev=auto]
+[15:13:38]    pp2048             576.54 t/s  +/-  0.50   [k=f16 v=f16 fa=-1 dev=auto]
+[15:13:38]    tg128               42.53 t/s  +/-  1.25   [k=f16 v=f16 fa=-1 dev=auto]
+[15:13:38]   [16/44] Qwen3.5-9B-BF16
+[15:13:38]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:15:09]    pp512              400.64 t/s  +/-  0.22   [k=f16 v=f16 fa=-1 dev=auto]
+[15:15:09]    pp2048             523.87 t/s  +/- 15.13   [k=f16 v=f16 fa=-1 dev=auto]
+[15:15:09]    tg128               26.24 t/s  +/-  0.44   [k=f16 v=f16 fa=-1 dev=auto]
+[15:15:09]    pp512              495.32 t/s  +/- 13.32   [k=f16 v=f16 fa=-1 dev=auto]
+[15:15:09]    pp2048             468.13 t/s  +/-  0.79   [k=f16 v=f16 fa=-1 dev=auto]
+[15:15:09]    tg128               37.82 t/s  +/-  0.76   [k=f16 v=f16 fa=-1 dev=auto]
+[15:15:09]   [17/44] Qwen3.8-27B-UD-Q8_K_XL
+[15:15:09]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:19:30]    pp512              130.92 t/s  +/-  0.29   [k=f16 v=f16 fa=-1 dev=auto]
+[15:19:30]    pp2048             163.99 t/s  +/-  3.93   [k=f16 v=f16 fa=-1 dev=auto]
+[15:19:30]    tg128               10.01 t/s  +/-  0.07   [k=f16 v=f16 fa=-1 dev=auto]
+[15:19:30]    pp512              166.99 t/s  +/-  0.46   [k=f16 v=f16 fa=-1 dev=auto]
+[15:19:30]    pp2048             162.81 t/s  +/-  2.76   [k=f16 v=f16 fa=-1 dev=auto]
+[15:19:30]    tg128               13.69 t/s  +/-  0.47   [k=f16 v=f16 fa=-1 dev=auto]
+[15:19:30]   [18/44] Qwen3.6-35B-A3B-UD-Q6_K
+[15:19:30]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:22:10]    pp512              446.30 t/s  +/-  4.05   [k=f16 v=f16 fa=-1 dev=auto]
+[15:22:10]    pp2048             572.60 t/s  +/-  7.26   [k=f16 v=f16 fa=-1 dev=auto]
+[15:22:10]    tg128               46.28 t/s  +/-  1.58   [k=f16 v=f16 fa=-1 dev=auto]
+[15:22:10]    pp512              576.07 t/s  +/-  6.14   [k=f16 v=f16 fa=-1 dev=auto]
+[15:22:10]    pp2048             581.88 t/s  +/-  1.24   [k=f16 v=f16 fa=-1 dev=auto]
+[15:22:10]    tg128               52.83 t/s  +/-  0.12   [k=f16 v=f16 fa=-1 dev=auto]
+[15:22:10]   [19/44] LFM2.5-2.6B-BF16
+[15:22:10]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:22:44]    pp512            1,233.45 t/s  +/-  0.71   [k=f16 v=f16 fa=-1 dev=auto]
+[15:22:44]    pp2048           1,845.21 t/s  +/-  1.00   [k=f16 v=f16 fa=-1 dev=auto]
+[15:22:44]    tg128               71.41 t/s  +/-  0.01   [k=f16 v=f16 fa=-1 dev=auto]
+[15:22:44]    pp512            1,340.00 t/s  +/-  3.02   [k=f16 v=f16 fa=-1 dev=auto]
+[15:22:44]    pp2048           1,327.90 t/s  +/-  2.29   [k=f16 v=f16 fa=-1 dev=auto]
+[15:22:44]    tg128               84.31 t/s  +/-  0.08   [k=f16 v=f16 fa=-1 dev=auto]
+[15:22:44]   [20/44] Qwen3.6-27B-Q4_0
+[15:22:44]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:25:57]    pp512              140.67 t/s  +/-  0.26   [k=f16 v=f16 fa=-1 dev=auto]
+[15:25:57]    pp2048             184.25 t/s  +/-  3.97   [k=f16 v=f16 fa=-1 dev=auto]
+[15:25:57]    tg128               14.21 t/s  +/-  0.11   [k=f16 v=f16 fa=-1 dev=auto]
+[15:25:57]    pp512              175.49 t/s  +/-  2.17   [k=f16 v=f16 fa=-1 dev=auto]
+[15:25:57]    pp2048             166.78 t/s  +/-  0.05   [k=f16 v=f16 fa=-1 dev=auto]
+[15:25:57]    tg128               17.25 t/s  +/-  1.12   [k=f16 v=f16 fa=-1 dev=auto]
+[15:25:57]   [21/44] Qwen3-Coder-30B-A3B-Instruct-Q4_K_M
+[15:25:57]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:27:24]    pp512              439.43 t/s  +/-  0.87   [k=f16 v=f16 fa=-1 dev=auto]
+[15:27:24]    pp2048             424.51 t/s  +/-  4.44   [k=f16 v=f16 fa=-1 dev=auto]
+[15:27:24]    tg128               57.34 t/s  +/-  0.08   [k=f16 v=f16 fa=-1 dev=auto]
+[15:27:24]    pp512              492.98 t/s  +/-  5.15   [k=f16 v=f16 fa=-1 dev=auto]
+[15:27:24]    pp2048             488.22 t/s  +/-  2.53   [k=f16 v=f16 fa=-1 dev=auto]
+[15:27:24]    tg128               58.34 t/s  +/-  0.02   [k=f16 v=f16 fa=-1 dev=auto]
+[15:27:24]   [22/44] Ornith-1.5-35B-Q4_K_M
+[15:27:24]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:28:50]    pp512              487.17 t/s  +/-  2.82   [k=f16 v=f16 fa=-1 dev=auto]
+[15:28:50]    pp2048             585.42 t/s  +/- 11.09   [k=f16 v=f16 fa=-1 dev=auto]
+[15:28:50]    tg128               48.47 t/s  +/-  0.01   [k=f16 v=f16 fa=-1 dev=auto]
+[15:28:50]    pp512              619.84 t/s  +/-  4.32   [k=f16 v=f16 fa=-1 dev=auto]
+[15:28:50]    pp2048             600.41 t/s  +/-  9.97   [k=f16 v=f16 fa=-1 dev=auto]
+[15:28:50]    tg128               53.06 t/s  +/-  0.11   [k=f16 v=f16 fa=-1 dev=auto]
+[15:28:50]   [23/44] gemma-4-12B-it-qat-UD-Q4_K_XL
+[15:28:50]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:30:09]    FAILED (exit -1073740791):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | D:/a/llama.cpp/llama.cpp/ggml/src/ggml-backend-meta.cpp:543: GGML_ASSERT(src_ss[0].axis != GGML_BACKEND_SPLIT_AXIS_0)  | failed
+[15:30:09]   [24/44] NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0
+[15:30:09]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:30:49]    FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to load model 'C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-G | GUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf'
+[15:30:49]   [25/44] Qwen3-32B-Q6_K
+[15:30:49]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:35:26]    pp512              115.88 t/s  +/-  0.08   [k=f16 v=f16 fa=-1 dev=auto]
+[15:35:26]    pp2048             152.07 t/s  +/-  5.37   [k=f16 v=f16 fa=-1 dev=auto]
+[15:35:26]    tg128                6.72 t/s  +/-  0.12   [k=f16 v=f16 fa=-1 dev=auto]
+[15:35:26]    pp512              177.59 t/s  +/-  2.77   [k=f16 v=f16 fa=-1 dev=auto]
+[15:35:26]    pp2048             157.93 t/s  +/-  3.96   [k=f16 v=f16 fa=-1 dev=auto]
+[15:35:26]    tg128                8.98 t/s  +/-  0.39   [k=f16 v=f16 fa=-1 dev=auto]
+[15:35:26]   [26/44] Llama-3.3-70B-Instruct-UD-Q2_K_XL
+[15:35:26]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:43:50]    pp512               54.11 t/s  +/-  0.52   [k=f16 v=f16 fa=-1 dev=auto]
+[15:43:50]    pp2048              63.89 t/s  +/-  0.12   [k=f16 v=f16 fa=-1 dev=auto]
+[15:43:50]    tg128                4.07 t/s  +/-  0.05   [k=f16 v=f16 fa=-1 dev=auto]
+[15:43:50]    pp512               80.83 t/s  +/-  2.06   [k=f16 v=f16 fa=-1 dev=auto]
+[15:43:50]    pp2048              73.81 t/s  +/-  0.88   [k=f16 v=f16 fa=-1 dev=auto]
+[15:43:50]    tg128                5.67 t/s  +/-  0.25   [k=f16 v=f16 fa=-1 dev=auto]
+[15:43:50]   [27/44] Qwen_Qwen3-Next-80B-A3B-Thinking-Q2_K
+[15:43:50]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:45:55]    pp512              308.64 t/s  +/-  6.08   [k=f16 v=f16 fa=-1 dev=auto]
+[15:45:55]    pp2048             382.51 t/s  +/-  7.49   [k=f16 v=f16 fa=-1 dev=auto]
+[15:45:55]    tg128               32.13 t/s  +/-  0.03   [k=f16 v=f16 fa=-1 dev=auto]
+[15:45:55]    pp512              430.71 t/s  +/-  6.41   [k=f16 v=f16 fa=-1 dev=auto]
+[15:45:55]    pp2048             426.26 t/s  +/-  4.85   [k=f16 v=f16 fa=-1 dev=auto]
+[15:45:55]    tg128               32.94 t/s  +/-  0.19   [k=f16 v=f16 fa=-1 dev=auto]
+[15:45:55]   [28/44] Seed-OSS-36B-Instruct-Q6_K
+[15:45:55]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:51:55]    pp512               95.54 t/s  +/-  0.43   [k=f16 v=f16 fa=-1 dev=auto]
+[15:51:55]    pp2048             125.01 t/s  +/-  3.98   [k=f16 v=f16 fa=-1 dev=auto]
+[15:51:55]    tg128                6.06 t/s  +/-  0.11   [k=f16 v=f16 fa=-1 dev=auto]
+[15:51:55]    pp512              160.36 t/s  +/-  0.41   [k=f16 v=f16 fa=-1 dev=auto]
+[15:51:55]    pp2048             151.21 t/s  +/-  2.61   [k=f16 v=f16 fa=-1 dev=auto]
+[15:51:55]    tg128                8.73 t/s  +/-  0.67   [k=f16 v=f16 fa=-1 dev=auto]
+[15:51:55]   [29/44] Meta-Llama-3.1-8B-Instruct-Q8_0
+[15:51:55]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:52:59]    pp512              646.22 t/s  +/-  1.15   [k=f16 v=f16 fa=-1 dev=auto]
+[15:52:59]    pp2048             827.87 t/s  +/- 13.56   [k=f16 v=f16 fa=-1 dev=auto]
+[15:52:59]    tg128               35.79 t/s  +/-  0.21   [k=f16 v=f16 fa=-1 dev=auto]
+[15:52:59]    pp512              602.71 t/s  +/-  4.18   [k=f16 v=f16 fa=-1 dev=auto]
+[15:52:59]    pp2048             564.80 t/s  +/-  6.67   [k=f16 v=f16 fa=-1 dev=auto]
+[15:52:59]    tg128               48.55 t/s  +/-  0.04   [k=f16 v=f16 fa=-1 dev=auto]
+[15:52:59]   [30/44] gpt-oss-20b-MXFP4
+[15:52:59]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:54:03]    pp512              500.25 t/s  +/-  5.79   [k=f16 v=f16 fa=-1 dev=auto]
+[15:54:03]    pp2048             638.60 t/s  +/- 11.32   [k=f16 v=f16 fa=-1 dev=auto]
+[15:54:03]    tg128               62.24 t/s  +/-  0.24   [k=f16 v=f16 fa=-1 dev=auto]
+[15:54:03]    pp512              700.49 t/s  +/-  9.83   [k=f16 v=f16 fa=-1 dev=auto]
+[15:54:03]    pp2048             650.93 t/s  +/-  2.79   [k=f16 v=f16 fa=-1 dev=auto]
+[15:54:03]    tg128               80.12 t/s  +/-  0.17   [k=f16 v=f16 fa=-1 dev=auto]
+[15:54:03]   [31/44] phi-4-Q8_0
+[15:54:03]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:56:07]    pp512              260.25 t/s  +/-  0.19   [k=f16 v=f16 fa=-1 dev=auto]
+[15:56:07]    pp2048             356.88 t/s  +/-  4.73   [k=f16 v=f16 fa=-1 dev=auto]
+[15:56:07]    tg128               19.24 t/s  +/-  0.35   [k=f16 v=f16 fa=-1 dev=auto]
+[15:56:07]    pp512              291.43 t/s  +/-  0.73   [k=f16 v=f16 fa=-1 dev=auto]
+[15:56:07]    pp2048             277.36 t/s  +/-  1.04   [k=f16 v=f16 fa=-1 dev=auto]
+[15:56:07]    tg128               27.67 t/s  +/-  0.57   [k=f16 v=f16 fa=-1 dev=auto]
+[15:56:07]   [32/44] gemma-4-26B-A4B-it-QAT-Q4_0
+[15:56:07]   bench: wave11-tensor-d0 -sm layer,tensor
+[15:57:23]    pp512              523.03 t/s  +/-  3.75   [k=f16 v=f16 fa=-1 dev=auto]
+[15:57:23]    pp2048             649.41 t/s  +/- 106.28   [k=f16 v=f16 fa=-1 dev=auto]
+[15:57:23]    tg128               53.23 t/s  +/-  0.32   [k=f16 v=f16 fa=-1 dev=auto]
+[15:57:23]    pp512              531.20 t/s  +/-  1.47   [k=f16 v=f16 fa=-1 dev=auto]
+[15:57:23]    pp2048             516.04 t/s  +/-  2.15   [k=f16 v=f16 fa=-1 dev=auto]
+[15:57:23]    tg128               52.87 t/s  +/-  0.03   [k=f16 v=f16 fa=-1 dev=auto]
+[15:57:23]   [33/44] Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL
+[15:57:23]   bench: wave11-tensor-d0 -sm layer,tensor
+[16:00:03]    pp512              165.41 t/s  +/-  0.04   [k=f16 v=f16 fa=-1 dev=auto]
+[16:00:03]    pp2048             218.68 t/s  +/-  7.16   [k=f16 v=f16 fa=-1 dev=auto]
+[16:00:03]    tg128               13.29 t/s  +/-  0.70   [k=f16 v=f16 fa=-1 dev=auto]
+[16:00:03]    pp512              278.68 t/s  +/-  5.36   [k=f16 v=f16 fa=-1 dev=auto]
+[16:00:03]    pp2048             263.63 t/s  +/-  0.48   [k=f16 v=f16 fa=-1 dev=auto]
+[16:00:03]    tg128               17.87 t/s  +/-  0.55   [k=f16 v=f16 fa=-1 dev=auto]
+[16:00:03]   [34/44] gemma-4-31B_q4_0-it
+[16:00:03]   bench: wave11-tensor-d0 -sm layer,tensor
+[16:03:23]    pp512              151.87 t/s  +/-  0.46   [k=f16 v=f16 fa=-1 dev=auto]
+[16:03:23]    pp2048             182.12 t/s  +/-  3.63   [k=f16 v=f16 fa=-1 dev=auto]
+[16:03:23]    tg128               12.23 t/s  +/-  0.26   [k=f16 v=f16 fa=-1 dev=auto]
+[16:03:23]    pp512              200.49 t/s  +/-  8.16   [k=f16 v=f16 fa=-1 dev=auto]
+[16:03:23]    pp2048             173.96 t/s  +/-  4.18   [k=f16 v=f16 fa=-1 dev=auto]
+[16:03:23]    tg128               15.70 t/s  +/-  0.18   [k=f16 v=f16 fa=-1 dev=auto]
+[16:03:23]   [35/44] mistralai_Magistral-Small-2509-Q6_K
+[16:03:23]   bench: wave11-tensor-d0 -sm layer,tensor
+[16:06:24]    pp512              171.66 t/s  +/-  0.27   [k=f16 v=f16 fa=-1 dev=auto]
+[16:06:24]    pp2048             236.33 t/s  +/- 10.77   [k=f16 v=f16 fa=-1 dev=auto]
+[16:06:24]    tg128                9.56 t/s  +/-  0.22   [k=f16 v=f16 fa=-1 dev=auto]
+[16:06:24]    pp512              294.92 t/s  +/-  7.77   [k=f16 v=f16 fa=-1 dev=auto]
+[16:06:24]    pp2048             268.70 t/s  +/- 21.72   [k=f16 v=f16 fa=-1 dev=auto]
+[16:06:24]    tg128               13.04 t/s  +/-  0.66   [k=f16 v=f16 fa=-1 dev=auto]
+[16:06:24]   [36/44] zai-org_GLM-4.7-Flash-Q5_K_M
+[16:06:24]   bench: wave11-tensor-d0 -sm layer,tensor
+[16:07:25]    FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to load model  | 'C:\Users\PC\.lmstudio\models\bartowski\zai-org_GLM-4.7-Flash-GGUF\zai-org_GLM-4.7-Flash-Q5_K_M.gguf'
+[16:07:25]   [37/44] nex-agi_Nex-N2.5-mini-Q4_K_M
+[16:07:25]   bench: wave11-tensor-d0 -sm layer,tensor
+[16:08:53]    pp512              444.83 t/s  +/-  1.20   [k=f16 v=f16 fa=-1 dev=auto]
+[16:08:53]    pp2048             576.26 t/s  +/-  6.92   [k=f16 v=f16 fa=-1 dev=auto]
+[16:08:53]    tg128               51.05 t/s  +/-  0.03   [k=f16 v=f16 fa=-1 dev=auto]
+[16:08:53]    pp512              585.68 t/s  +/-  3.64   [k=f16 v=f16 fa=-1 dev=auto]
+[16:08:53]    pp2048             564.01 t/s  +/-  9.15   [k=f16 v=f16 fa=-1 dev=auto]
+[16:08:53]    tg128               54.33 t/s  +/-  0.08   [k=f16 v=f16 fa=-1 dev=auto]
+[16:08:53]   [38/44] allenai_Olmo-3.1-32B-Think-Q5_K_M
+[16:08:53]   bench: wave11-tensor-d0 -sm layer,tensor
+[16:11:13]    FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to load model  | 'C:\Users\PC\.lmstudio\models\bartowski\allenai_Olmo-3.1-32B-Think-GGUF\allenai_Olmo-3.1-32B-Think-Q5_K_M.gguf'
+[16:11:13]   [39/44] DeepSeek-R1-Distill-Qwen-32B-Q5_K_M
+[16:11:13]   bench: wave11-tensor-d0 -sm layer,tensor
+[16:15:23]    pp512              109.49 t/s  +/-  0.59   [k=f16 v=f16 fa=-1 dev=auto]
+[16:15:23]    pp2048             146.75 t/s  +/-  1.86   [k=f16 v=f16 fa=-1 dev=auto]
+[16:15:23]    tg128                8.59 t/s  +/-  0.13   [k=f16 v=f16 fa=-1 dev=auto]
+[16:15:23]    pp512              173.57 t/s  +/-  2.50   [k=f16 v=f16 fa=-1 dev=auto]
+[16:15:23]    pp2048             159.86 t/s  +/-  3.11   [k=f16 v=f16 fa=-1 dev=auto]
+[16:15:23]    tg128               11.29 t/s  +/-  0.02   [k=f16 v=f16 fa=-1 dev=auto]
+[16:15:23]   [40/44] Qwen3-Coder-Next-UD-Q2_K_XL
+[16:15:23]   bench: wave11-tensor-d0 -sm layer,tensor
+[16:17:28]    pp512              307.45 t/s  +/-  1.33   [k=f16 v=f16 fa=-1 dev=auto]
+[16:17:28]    pp2048             353.05 t/s  +/-  7.23   [k=f16 v=f16 fa=-1 dev=auto]
+[16:17:28]    tg128               33.02 t/s  +/-  0.24   [k=f16 v=f16 fa=-1 dev=auto]
+[16:17:28]    pp512              427.64 t/s  +/-  4.57   [k=f16 v=f16 fa=-1 dev=auto]
+[16:17:28]    pp2048             408.01 t/s  +/-  6.61   [k=f16 v=f16 fa=-1 dev=auto]
+[16:17:28]    tg128               33.31 t/s  +/-  0.15   [k=f16 v=f16 fa=-1 dev=auto]
+[16:17:28]   [41/44] Mistral-Small-4-119B-2603.i1-IQ1_M
+[16:17:28]   bench: wave11-tensor-d0 -sm layer,tensor
+[16:19:01]    FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to load model  | 'C:\Users\PC\.lmstudio\models\mradermacher\Mistral-Small-4-119B-2603-i1-GGUF\Mistral-Small-4-119B-2603.i1-IQ1_M.gguf'
+[16:19:01]   [42/44] Qwen3.5-122B-A10B.i1-IQ1_M
+[16:19:01]   bench: wave11-tensor-d0 -sm layer,tensor
+[16:22:32]    pp512              165.44 t/s  +/-  1.39   [k=f16 v=f16 fa=-1 dev=auto]
+[16:22:32]    pp2048             161.27 t/s  +/-  0.51   [k=f16 v=f16 fa=-1 dev=auto]
+[16:22:32]    tg128               25.01 t/s  +/-  0.00   [k=f16 v=f16 fa=-1 dev=auto]
+[16:22:32]    pp512              137.45 t/s  +/-  0.94   [k=f16 v=f16 fa=-1 dev=auto]
+[16:22:32]    pp2048             135.12 t/s  +/-  0.72   [k=f16 v=f16 fa=-1 dev=auto]
+[16:22:32]    tg128               29.51 t/s  +/-  0.07   [k=f16 v=f16 fa=-1 dev=auto]
+[16:22:32]   [43/44] Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K
+[16:22:32]   bench: wave11-tensor-d0 -sm layer,tensor
+[16:24:36]    pp512              307.82 t/s  +/-  4.20   [k=f16 v=f16 fa=-1 dev=auto]
+[16:24:36]    pp2048             388.78 t/s  +/-  1.14   [k=f16 v=f16 fa=-1 dev=auto]
+[16:24:36]    tg128               32.09 t/s  +/-  0.00   [k=f16 v=f16 fa=-1 dev=auto]
+[16:24:36]    pp512              428.21 t/s  +/-  7.20   [k=f16 v=f16 fa=-1 dev=auto]
+[16:24:36]    pp2048             425.99 t/s  +/-  1.57   [k=f16 v=f16 fa=-1 dev=auto]
+[16:24:36]    tg128               33.19 t/s  +/-  0.46   [k=f16 v=f16 fa=-1 dev=auto]
+[16:24:36]   [44/44] Qwen3.8-2B-Q8_0
+[16:24:36]   bench: wave11-tensor-d0 -sm layer,tensor
+[16:24:58]    pp512            2,483.50 t/s  +/- 10.35   [k=f16 v=f16 fa=-1 dev=auto]
+[16:24:58]    pp2048           3,747.98 t/s  +/-  1.90   [k=f16 v=f16 fa=-1 dev=auto]
+[16:24:58]    tg128               95.83 t/s  +/-  0.23   [k=f16 v=f16 fa=-1 dev=auto]
+[16:24:58]    pp512            1,971.11 t/s  +/-  2.05   [k=f16 v=f16 fa=-1 dev=auto]
+[16:24:58]    pp2048           1,937.72 t/s  +/-  0.32   [k=f16 v=f16 fa=-1 dev=auto]
+[16:24:58]    tg128               99.30 t/s  +/-  0.11   [k=f16 v=f16 fa=-1 dev=auto]
+[16:24:58] STEP t1 done in 1.68 h
+[16:24:58] T2a tensor at 128k, fast long-context models
+[16:24:58]   [1/9] NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 @ 131072
+[16:24:58]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 131072
+[16:24:59]    FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to load model 'C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-G | GUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf'
+[16:24:59]   [2/9] Qwen3.6-35B-A3B-UD-Q4_K_M @ 131072
+[16:24:59]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 131072
+[16:32:54]    pp512@d131072      213.73 t/s  +/- 10.12   [k=f16 v=f16 fa=1 dev=auto]
+[16:32:54]    tg128@d131072       39.25 t/s  +/-  0.10   [k=f16 v=f16 fa=1 dev=auto]
+[16:32:54]   [3/9] nex-agi_Nex-N2.5-mini-Q4_K_M @ 131072
+[16:32:54]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 131072
+[16:41:08]    pp512@d131072      188.61 t/s  +/- 29.08   [k=f16 v=f16 fa=1 dev=auto]
+[16:41:08]    tg128@d131072       39.58 t/s  +/-  0.02   [k=f16 v=f16 fa=1 dev=auto]
+[16:41:08]   [4/9] Ornith-1.5-35B-Q4_K_M @ 131072
+[16:41:08]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 131072
+[16:48:53]    pp512@d131072      218.03 t/s  +/-  1.21   [k=f16 v=f16 fa=1 dev=auto]
+[16:48:53]    tg128@d131072       40.24 t/s  +/-  0.28   [k=f16 v=f16 fa=1 dev=auto]
+[16:48:53]   [5/9] gemma-4-26B-A4B-it-QAT-Q4_0 @ 131072
+[16:48:53]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 131072
+[16:58:34]    pp512@d131072      158.25 t/s  +/-  3.77   [k=f16 v=f16 fa=1 dev=auto]
+[16:58:34]    tg128@d131072       39.81 t/s  +/-  0.12   [k=f16 v=f16 fa=1 dev=auto]
+[16:58:34]   [6/9] Qwen3.5-9B-Q8_0 @ 131072
+[16:58:34]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 131072
+[17:05:48]    pp512@d131072      230.85 t/s  +/- 10.38   [k=f16 v=f16 fa=1 dev=auto]
+[17:05:48]    tg128@d131072       36.65 t/s  +/-  0.16   [k=f16 v=f16 fa=1 dev=auto]
+[17:05:48]   [7/9] gpt-oss-20b-MXFP4 @ 131072
+[17:05:48]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 131072
+[17:13:46]    pp512@d131072      188.15 t/s  +/- 26.56   [k=f16 v=f16 fa=1 dev=auto]
+[17:13:46]    tg128@d131072       57.08 t/s  +/-  0.35   [k=f16 v=f16 fa=1 dev=auto]
+[17:13:46]   [8/9] Qwen3-Coder-Next-UD-Q2_K_XL @ 131072
+[17:13:46]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 131072
+[17:24:18]    pp512@d131072      166.08 t/s  +/-  8.24   [k=f16 v=f16 fa=1 dev=auto]
+[17:24:18]    tg128@d131072       29.13 t/s  +/-  0.20   [k=f16 v=f16 fa=1 dev=auto]
+[17:24:18]   [9/9] Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K @ 131072
+[17:24:18]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 131072
+[17:34:50]    pp512@d131072      169.37 t/s  +/-  4.10   [k=f16 v=f16 fa=1 dev=auto]
+[17:34:50]    tg128@d131072       29.01 t/s  +/-  0.22   [k=f16 v=f16 fa=1 dev=auto]
+[17:34:50] T2b tensor at 32k (or the model's own ceiling), dense and slow models
+[17:34:50]   [1/15] Qwen3.8-27B-Q4_0 @ 32768
+[17:34:50]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 32768
+[17:39:27]    pp512@d32768       118.86 t/s  +/- 11.97   [k=f16 v=f16 fa=1 dev=auto]
+[17:39:27]    tg128@d32768        17.22 t/s  +/-  0.14   [k=f16 v=f16 fa=1 dev=auto]
+[17:39:27]   [2/15] gemma-4-31B_q4_0-it @ 32768
+[17:39:27]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 32768
+[17:44:40]    pp512@d32768        99.53 t/s  +/-  2.68   [k=f16 v=f16 fa=1 dev=auto]
+[17:44:40]    tg128@d32768        14.47 t/s  +/-  0.31   [k=f16 v=f16 fa=1 dev=auto]
+[17:44:40]   [3/15] Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL @ 32768
+[17:44:40]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 32768
+[17:48:24]    pp512@d32768       140.78 t/s  +/-  4.88   [k=f16 v=f16 fa=1 dev=auto]
+[17:48:24]    tg128@d32768        17.07 t/s  +/-  0.81   [k=f16 v=f16 fa=1 dev=auto]
+[17:48:24]   [4/15] mistralai_Magistral-Small-2509-Q6_K @ 32768
+[17:48:24]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 32768
+[17:52:11]    pp512@d32768       150.29 t/s  +/- 13.72   [k=f16 v=f16 fa=1 dev=auto]
+[17:52:11]    tg128@d32768        12.52 t/s  +/-  0.35   [k=f16 v=f16 fa=1 dev=auto]
+[17:52:11]   [5/15] allenai_Olmo-3.1-32B-Think-Q5_K_M @ 32768
+[17:52:11]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 32768
+[17:52:12]    FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to load model  | 'C:\Users\PC\.lmstudio\models\bartowski\allenai_Olmo-3.1-32B-Think-GGUF\allenai_Olmo-3.1-32B-Think-Q5_K_M.gguf'
+[17:52:12]   [6/15] DeepSeek-R1-Distill-Qwen-32B-Q5_K_M @ 32768
+[17:52:12]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 32768
+[17:58:35]    pp512@d32768        85.82 t/s  +/-  2.55   [k=f16 v=f16 fa=1 dev=auto]
+[17:58:35]    tg128@d32768         7.77 t/s  +/-  0.22   [k=f16 v=f16 fa=1 dev=auto]
+[17:58:35]   [7/15] phi-4-Q8_0 @ 32768
+[17:58:35]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 32768
+[18:02:17]    pp512@d32768       130.92 t/s  +/- 12.67   [k=f16 v=f16 fa=1 dev=auto]
+[18:02:17]    tg128@d32768        23.46 t/s  +/-  0.21   [k=f16 v=f16 fa=1 dev=auto]
+[18:02:17]   [8/15] Meta-Llama-3.1-8B-Instruct-Q8_0 @ 32768
+[18:02:17]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 32768
+[18:04:20]    pp512@d32768       258.95 t/s  +/-  4.21   [k=f16 v=f16 fa=1 dev=auto]
+[18:04:20]    tg128@d32768        39.57 t/s  +/-  0.60   [k=f16 v=f16 fa=1 dev=auto]
+[18:04:20]   [9/15] zai-org_GLM-4.7-Flash-Q5_K_M @ 32768
+[18:04:20]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 32768
+[18:04:21]    FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to load model  | 'C:\Users\PC\.lmstudio\models\bartowski\zai-org_GLM-4.7-Flash-GGUF\zai-org_GLM-4.7-Flash-Q5_K_M.gguf'
+[18:04:21]   [10/15] Mistral-Small-4-119B-2603.i1-IQ1_M @ 32768
+[18:04:21]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 32768
+[18:04:23]    FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to load model  | 'C:\Users\PC\.lmstudio\models\mradermacher\Mistral-Small-4-119B-2603-i1-GGUF\Mistral-Small-4-119B-2603.i1-IQ1_M.gguf'
+[18:04:23]   [11/15] Qwen3.5-122B-A10B.i1-IQ1_M @ 32768
+[18:04:23]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 32768
+[18:09:44]    pp512@d32768       111.02 t/s  +/-  1.21   [k=f16 v=f16 fa=1 dev=auto]
+[18:09:44]    tg128@d32768        26.26 t/s  +/-  0.04   [k=f16 v=f16 fa=1 dev=auto]
+[18:09:44]   [12/15] Qwen3-Coder-30B-A3B-Instruct-Q4_K_M @ 32768
+[18:09:44]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 32768
+[18:12:20]    pp512@d32768       176.27 t/s  +/-  8.53   [k=f16 v=f16 fa=1 dev=auto]
+[18:12:20]    tg128@d32768        43.18 t/s  +/-  0.11   [k=f16 v=f16 fa=1 dev=auto]
+[18:12:20]   [13/15] Qwen3-32B-Q6_K @ 16384
+[18:12:20]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 16384
+[18:15:55]    pp512@d16384        97.56 t/s  +/-  0.51   [k=f16 v=f16 fa=1 dev=auto]
+[18:15:55]    tg128@d16384         8.66 t/s  +/-  0.37   [k=f16 v=f16 fa=1 dev=auto]
+[18:15:55]   [14/15] Seed-OSS-36B-Instruct-Q6_K @ 8192
+[18:15:55]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 8192
+[18:18:22]    pp512@d8192         95.72 t/s  +/-  1.45   [k=f16 v=f16 fa=1 dev=auto]
+[18:18:22]    tg128@d8192          7.48 t/s  +/-  0.32   [k=f16 v=f16 fa=1 dev=auto]
+[18:18:22]   [15/15] Llama-3.3-70B-Instruct-UD-Q2_K_XL @ 8192
+[18:18:22]   bench: wave11-tensor-depth -sm tensor -fa on -ctk f16 -ctv f16 -d 8192
+[18:22:02]    pp512@d8192         60.54 t/s  +/-  3.61   [k=f16 v=f16 fa=1 dev=auto]
+[18:22:02]    tg128@d8192          5.19 t/s  +/-  0.13   [k=f16 v=f16 fa=1 dev=auto]
+[18:22:02] STEP t2 done in 1.95 h
+[18:22:02] P nemotron-32k: npp 32768, parallel [1, 2, 4, 8], ctx 263168
+[18:37:22]   pl 1: prefill    591.8 t/s total, gen   63.34 t/s total
+[18:37:22]   pl 2: prefill    552.6 t/s total, gen   99.68 t/s total
+[18:37:22]   pl 4: prefill    552.5 t/s total, gen  122.00 t/s total
+[18:37:22]   pl 8: prefill    556.6 t/s total, gen   83.89 t/s total
+[18:37:22] P qwen36-64k: npp 65536, parallel [1, 2, 4], ctx 262656
+[18:58:29]   pl 1: prefill    381.3 t/s total, gen   37.50 t/s total
+[18:58:29]   pl 2: prefill    372.2 t/s total, gen   57.40 t/s total
+[18:58:29]   pl 4: prefill    370.4 t/s total, gen   66.85 t/s total
+[18:58:29] P qwen35-9b-64k: npp 65536, parallel [1, 2, 4], ctx 262656

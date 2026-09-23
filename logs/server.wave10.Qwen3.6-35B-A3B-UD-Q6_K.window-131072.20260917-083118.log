@@ -1,0 +1,15 @@
+0.00.157.110 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.157.233 I srv          init: The UI is disabled
+0.00.157.233 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.157.333 W srv  llama_server: -----------------
+0.00.157.336 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.157.338 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.157.338 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.157.338 W srv  llama_server: -----------------
+0.00.172.756 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q6_K.gguf'
+0.00.797.819 W common_fit_params: failed to fit params to free device memory: n_gpu_layers already set by user to 999, abort
+1.02.256.218 I cmn          init: llama threadpool init, n_threads = 6
+1.02.323.001 E CUDA error: out of memory
+1.02.323.006 E   current device: 0, in function ggml_cuda_kernel_can_use_pdl at D:\a\llama.cpp\llama.cpp\ggml\src\ggml-cuda\common.cuh:1679
+1.02.323.006 E   cudaFuncGetAttributes(&attr, kernel)
+D:\a\llama.cpp\llama.cpp\ggml\src\ggml-cuda\ggml-cuda.cu:108: CUDA error

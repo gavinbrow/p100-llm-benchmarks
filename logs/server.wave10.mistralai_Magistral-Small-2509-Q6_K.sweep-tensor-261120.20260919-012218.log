@@ -1,0 +1,14 @@
+0.00.151.910 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.152.014 I srv          init: The UI is disabled
+0.00.152.015 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.152.111 W srv  llama_server: -----------------
+0.00.152.114 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.152.116 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.152.116 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.152.116 W srv  llama_server: -----------------
+0.00.159.048 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\bartowski\mistralai_Magistral-Small-2509-GGUF\mistralai_Magistral-Small-2509-Q6_K.gguf'
+0.00.159.148 W common_fit_params: failed to fit params to free device memory: llama_params_fit is not implemented for SPLIT_MODE_TENSOR, abort
+0.14.209.174 W llama_context: n_ctx_seq (264192) > n_ctx_train (131072) -- possible training context overflow
+0.14.209.208 W internal AllReduce init failed (n_devices != 2?); falling back to meta-backend butterfly
+0.14.215.390 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 20640.00 MiB on device 0: cudaMalloc failed: out of memory
+D:/a/llama.cpp/llama.cpp/ggml/src/ggml-backend-meta.cpp:1760: GGML_ASSERT(meta_buf_ctx->bufs[i]) failed

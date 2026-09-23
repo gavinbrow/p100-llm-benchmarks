@@ -1,0 +1,409 @@
+[01:53:28] WAVE 10 start: ['e6', 'e1', 'e3', 'e4', 'e5']
+[01:53:28] E6 nemotron-q4_0: candidates [1048576]
+[01:53:28]   server: -m C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 1048576 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[01:53:44]   server ready in 17s
+[01:53:52]       3637 tok: TTFT      5.9s  prefill avg    614.9 (last segment 614.9) t/s  gen  68.86 t/s
+[01:54:12]      16383 tok: TTFT     23.5s  prefill avg    697.2 (last segment 725.1) t/s  gen  66.39 t/s
+[01:54:40]      32631 tok: TTFT     49.7s  prefill avg    656.8 (last segment 620.6) t/s  gen  63.42 t/s
+[01:55:51]      64491 tok: TTFT    117.6s  prefill avg    548.5 (last segment 469.4) t/s  gen  58.05 t/s
+[01:59:06]     129714 tok: TTFT    310.6s  prefill avg    417.7 (last segment 338.0) t/s  gen  49.67 t/s
+[02:09:14]     260713 tok: TTFT    914.5s  prefill avg    285.1 (last segment 216.9) t/s  gen  38.19 t/s
+[02:43:47]     521751 tok: TTFT   2980.2s  prefill avg    175.1 (last segment 126.4) t/s  gen  26.40 t/s
+[04:47:57]    1042172 tok: TTFT  10418.8s  prefill avg    100.0 (last segment 70.0) t/s  gen  16.27 t/s
+[04:48:04]   vram peak: card0 13983 MiB, card1 12925 MiB
+[04:48:04] E6 qwen36-35b-ud-q4_k_m: candidates [262144]
+[04:48:04]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[04:48:23]   server ready in 19s
+[04:48:33]       3659 tok: TTFT      6.8s  prefill avg    537.0 (last segment 537.0) t/s  gen  47.03 t/s
+[04:48:58]      16323 tok: TTFT     29.6s  prefill avg    551.3 (last segment 555.7) t/s  gen  44.48 t/s
+[04:49:38]      32532 tok: TTFT     65.9s  prefill avg    494.0 (last segment 447.3) t/s  gen  41.92 t/s
+[04:51:10]      63933 tok: TTFT    154.5s  prefill avg    413.7 (last segment 354.1) t/s  gen  37.62 t/s
+[04:55:39]     129516 tok: TTFT    419.1s  prefill avg    309.1 (last segment 247.9) t/s  gen  31.31 t/s
+[05:09:47]     260734 tok: TTFT   1260.4s  prefill avg    206.9 (last segment 156.0) t/s  gen  23.39 t/s
+[05:09:55]   vram peak: card0 14654 MiB, card1 14141 MiB
+[05:09:55] E6 nex-n2.5-mini: candidates [262144]
+[05:09:55]   server: -m C:\Users\PC\.lmstudio\models\bartowski\nex-agi_Nex-N2.5-mini-GGUF\nex-agi_Nex-N2.5-mini-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[05:10:15]   server ready in 21s
+[05:10:26]       3659 tok: TTFT      7.6s  prefill avg    483.8 (last segment 483.8) t/s  gen  48.70 t/s
+[05:10:53]      16323 tok: TTFT     31.7s  prefill avg    514.9 (last segment 524.8) t/s  gen  46.15 t/s
+[05:11:34]      32532 tok: TTFT     70.4s  prefill avg    461.9 (last segment 418.7) t/s  gen  43.30 t/s
+[05:13:12]      63933 tok: TTFT    164.7s  prefill avg    388.1 (last segment 333.1) t/s  gen  38.86 t/s
+[05:17:52]     129516 tok: TTFT    440.0s  prefill avg    294.3 (last segment 238.2) t/s  gen  32.10 t/s
+[05:32:23]     260734 tok: TTFT   1304.5s  prefill avg    199.9 (last segment 151.8) t/s  gen  23.90 t/s
+[05:32:31]   vram peak: card0 14968 MiB, card1 14002 MiB
+[05:32:31] E6 gemma4-26b-a4b: candidates [262144]
+[05:32:31]   server: -m C:\Users\PC\.lmstudio\models\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[05:32:45]   server ready in 15s
+[05:32:53]       3761 tok: TTFT      5.5s  prefill avg    686.5 (last segment 686.5) t/s  gen  49.77 t/s
+[05:33:15]      16299 tok: TTFT     23.7s  prefill avg    687.9 (last segment 688.3) t/s  gen  47.62 t/s
+[05:33:51]      32645 tok: TTFT     57.1s  prefill avg    571.6 (last segment 489.2) t/s  gen  44.65 t/s
+[05:35:30]      64283 tok: TTFT    152.4s  prefill avg    421.9 (last segment 332.1) t/s  gen  40.72 t/s
+[05:40:51]     129480 tok: TTFT    469.3s  prefill avg    275.9 (last segment 205.7) t/s  gen  33.96 t/s
+[05:59:41]     260652 tok: TTFT   1592.8s  prefill avg    163.6 (last segment 116.8) t/s  gen  25.64 t/s
+[05:59:48]   vram peak: card0 10853 MiB, card1 11550 MiB
+[05:59:48] E6 qwen35-9b-q8_0: candidates [262144]
+[05:59:48]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q8_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[05:59:56]   server ready in 9s
+[06:00:05]       3659 tok: TTFT      4.5s  prefill avg    808.8 (last segment 808.8) t/s  gen  31.48 t/s
+[06:00:25]      16323 tok: TTFT     19.8s  prefill avg    825.1 (last segment 830.2) t/s  gen  30.71 t/s
+[06:00:55]      32532 tok: TTFT     45.6s  prefill avg    712.8 (last segment 627.1) t/s  gen  29.76 t/s
+[06:02:05]      63933 tok: TTFT    111.4s  prefill avg    574.1 (last segment 477.9) t/s  gen  28.17 t/s
+[06:05:28]     129516 tok: TTFT    308.8s  prefill avg    419.4 (last segment 332.1) t/s  gen  25.26 t/s
+[06:16:15]     260734 tok: TTFT    948.5s  prefill avg    274.9 (last segment 205.1) t/s  gen  20.93 t/s
+[06:16:21]   vram peak: card0 9497 MiB, card1 10081 MiB
+[06:16:21] E6 qwen3-coder-next: candidates [262144, 196608, 131072]
+[06:16:21]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-Next-GGUF\Qwen3-Coder-Next-UD-Q2_K_XL.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[06:16:48]   ctx 262144: did not load
+[06:16:53]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-Next-GGUF\Qwen3-Coder-Next-UD-Q2_K_XL.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 196608 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[06:17:05]   server ready in 13s
+[06:17:19]       3667 tok: TTFT     10.0s  prefill avg    367.8 (last segment 367.8) t/s  gen  35.29 t/s
+[06:17:56]      16238 tok: TTFT     42.8s  prefill avg    379.1 (last segment 382.6) t/s  gen  33.72 t/s
+[06:18:52]      32459 tok: TTFT     94.5s  prefill avg    343.5 (last segment 314.1) t/s  gen  31.89 t/s
+[06:21:04]      64043 tok: TTFT    222.3s  prefill avg    288.1 (last segment 247.1) t/s  gen  28.91 t/s
+[06:27:09]     129489 tok: TTFT    581.5s  prefill avg    222.7 (last segment 182.2) t/s  gen  24.32 t/s
+[06:35:24]     194083 tok: TTFT   1070.1s  prefill avg    181.4 (last segment 132.2) t/s  gen  21.08 t/s
+[06:35:33]   vram peak: card0 16042 MiB, card1 15337 MiB
+[06:35:33] E6 qwen3-next-80b-instruct: candidates [262144, 196608, 131072]
+[06:35:33]   server: -m C:\Users\PC\.lmstudio\models\bartowski\Qwen_Qwen3-Next-80B-A3B-Instruct-GGUF\Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[06:35:59]   ctx 262144: did not load
+[06:36:04]   server: -m C:\Users\PC\.lmstudio\models\bartowski\Qwen_Qwen3-Next-80B-A3B-Instruct-GGUF\Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 196608 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[06:36:43]   ctx 196608: did not load
+[06:36:48]   server: -m C:\Users\PC\.lmstudio\models\bartowski\Qwen_Qwen3-Next-80B-A3B-Instruct-GGUF\Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[06:37:11]   server ready in 23s
+[06:37:25]       3667 tok: TTFT     10.4s  prefill avg    353.5 (last segment 353.5) t/s  gen  33.72 t/s
+[06:38:05]      16238 tok: TTFT     45.9s  prefill avg    353.4 (last segment 353.5) t/s  gen  32.41 t/s
+[06:39:01]      32459 tok: TTFT     98.1s  prefill avg    331.0 (last segment 311.3) t/s  gen  30.74 t/s
+[06:41:15]      64043 tok: TTFT    227.0s  prefill avg    282.1 (last segment 244.9) t/s  gen  27.99 t/s
+[06:47:21]     128459 tok: TTFT    587.2s  prefill avg    218.8 (last segment 178.9) t/s  gen  23.74 t/s
+[06:47:29]   vram peak: card0 15992 MiB, card1 15176 MiB
+[06:47:29] E6 gpt-oss-20b: candidates [131072]
+[06:47:29]   server: -m C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[06:47:42]   server ready in 13s
+[06:47:49]       3676 tok: TTFT      5.4s  prefill avg    683.1 (last segment 683.1) t/s  gen  59.64 t/s
+[06:48:10]      16244 tok: TTFT     23.5s  prefill avg    689.9 (last segment 692.0) t/s  gen  57.15 t/s
+[06:48:44]      32629 tok: TTFT     55.2s  prefill avg    590.6 (last segment 517.0) t/s  gen  54.12 t/s
+[06:50:08]      63924 tok: TTFT    136.4s  prefill avg    468.5 (last segment 385.5) t/s  gen  49.16 t/s
+[06:54:11]     127799 tok: TTFT    375.4s  prefill avg    340.4 (last segment 267.3) t/s  gen  41.59 t/s
+[06:54:17]   vram peak: card0 8136 MiB, card1 7855 MiB
+[06:54:17] E6 qwen38-2b-q8_0: candidates [262144]
+[06:54:17]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-2B-GGUF\Qwen3.8-2B-Q8_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[06:54:22]   server ready in 5s
+[06:54:25]       3659 tok: TTFT      1.1s  prefill avg   3261.8 (last segment 3261.8) t/s  gen  90.86 t/s
+[06:54:30]      16323 tok: TTFT      4.9s  prefill avg   3325.3 (last segment 3345.2) t/s  gen  87.90 t/s
+[06:54:38]      32532 tok: TTFT     11.4s  prefill avg   2850.8 (last segment 2493.2) t/s  gen  85.27 t/s
+[06:54:58]      63933 tok: TTFT     29.8s  prefill avg   2144.6 (last segment 1706.9) t/s  gen  79.08 t/s
+[06:56:03]     129516 tok: TTFT     92.0s  prefill avg   1407.7 (last segment 1054.5) t/s  gen  70.14 t/s
+[06:59:42]     260734 tok: TTFT    308.4s  prefill avg    845.5 (last segment 606.5) t/s  gen  57.33 t/s
+[06:59:48]   vram peak: card0 3736 MiB, card1 4130 MiB
+[06:59:48] E6 gemma4-12b: candidates [262144, 196608, 131072]
+[06:59:48]   server: -m C:\Users\PC\.lmstudio\models\unsloth\gemma-4-12B-it-qat-GGUF\gemma-4-12B-it-qat-UD-Q4_K_XL.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[06:59:56]   server ready in 9s
+[07:00:09]       3761 tok: TTFT      7.6s  prefill avg    491.7 (last segment 491.7) t/s  gen  27.61 t/s
+[07:00:41]      16299 tok: TTFT     35.2s  prefill avg    463.6 (last segment 455.8) t/s  gen  26.66 t/s
+[07:01:35]      32645 tok: TTFT     83.5s  prefill avg    390.7 (last segment 337.8) t/s  gen  25.45 t/s
+[07:03:49]      64283 tok: TTFT    211.7s  prefill avg    303.7 (last segment 246.9) t/s  gen  23.44 t/s
+[07:10:45]     129480 tok: TTFT    621.0s  prefill avg    208.5 (last segment 159.3) t/s  gen  19.99 t/s
+[07:34:38]     260652 tok: TTFT   2044.4s  prefill avg    127.5 (last segment 92.2) t/s  gen  15.52 t/s
+[07:34:44]   vram peak: card0 6999 MiB, card1 7275 MiB
+[07:34:44] E6 llama31-8b-q8_0: candidates [131072, 98304]
+[07:34:44]   server: -m C:\Users\PC\.lmstudio\models\bartowski\Meta-Llama-3.1-8B-Instruct-GGUF\Meta-Llama-3.1-8B-Instruct-Q8_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[07:34:53]   server ready in 9s
+[07:35:01]       3713 tok: TTFT      4.0s  prefill avg    919.8 (last segment 919.8) t/s  gen  34.45 t/s
+[07:35:25]      16085 tok: TTFT     24.1s  prefill avg    667.8 (last segment 617.2) t/s  gen  31.20 t/s
+[07:36:17]      32515 tok: TTFT     71.7s  prefill avg    453.6 (last segment 345.3) t/s  gen  27.79 t/s
+[07:38:49]      63903 tok: TTFT    217.8s  prefill avg    293.4 (last segment 214.8) t/s  gen  22.93 t/s
+[07:47:41]     127940 tok: TTFT    742.5s  prefill avg    172.3 (last segment 122.0) t/s  gen  16.75 t/s
+[07:47:47]   vram peak: card0 13600 MiB, card1 12664 MiB
+[07:47:47] E6 lfm25-2.6b-q8_0: candidates [131072]
+[07:47:47]   server: -m C:\Users\PC\.lmstudio\models\LiquidAI\LFM2.5-2.6B-GGUF\LFM2.5-2.6B-Q8_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[07:47:52]   server ready in 5s
+[07:47:55]       3746 tok: TTFT      1.5s  prefill avg   2521.9 (last segment 2521.9) t/s  gen  79.92 t/s
+[07:48:02]      16189 tok: TTFT      7.0s  prefill avg   2310.3 (last segment 2254.1) t/s  gen  77.12 t/s
+[07:48:15]      32748 tok: TTFT     17.4s  prefill avg   1884.7 (last segment 1597.5) t/s  gen  73.95 t/s
+[07:48:45]      64060 tok: TTFT     45.8s  prefill avg   1398.8 (last segment 1101.9) t/s  gen  69.11 t/s
+[07:50:20]     128498 tok: TTFT    138.3s  prefill avg    929.2 (last segment 696.7) t/s  gen  60.71 t/s
+[07:50:25]   vram peak: card0 3333 MiB, card1 3430 MiB
+[07:50:25] E6 ornith-1.5-35b: candidates [262144]
+[07:50:25]   server: -m C:\Users\PC\.lmstudio\models\ornith-ai\Ornith-1.5-35B-A3B-GGUF\Ornith-1.5-35B-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[07:50:42]   server ready in 17s
+[07:50:51]       3659 tok: TTFT      6.7s  prefill avg    549.6 (last segment 549.6) t/s  gen  46.33 t/s
+[07:51:19]      16323 tok: TTFT     30.8s  prefill avg    529.3 (last segment 523.9) t/s  gen  44.12 t/s
+[07:52:00]      32532 tok: TTFT     68.6s  prefill avg    474.0 (last segment 428.9) t/s  gen  41.57 t/s
+[07:53:34]      63933 tok: TTFT    159.6s  prefill avg    400.6 (last segment 345.2) t/s  gen  37.56 t/s
+[07:58:07]     129516 tok: TTFT    428.2s  prefill avg    302.5 (last segment 244.2) t/s  gen  31.19 t/s
+[08:12:21]     260734 tok: TTFT   1275.7s  prefill avg    204.4 (last segment 154.8) t/s  gen  23.44 t/s
+[08:12:29]   vram peak: card0 14315 MiB, card1 13800 MiB
+[08:12:29] E6 qwen3-coder-30b-f16kv: candidates [262144, 196608, 131072, 98304, 65536]
+[08:12:29]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-30B-A3B-Instruct-GGUF\Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[08:12:48]   ctx 262144: did not load
+[08:12:53]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-30B-A3B-Instruct-GGUF\Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 196608 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[08:13:05]   ctx 196608: did not load
+[08:13:10]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-30B-A3B-Instruct-GGUF\Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[08:13:28]   ctx 131072: did not load
+[08:13:33]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-30B-A3B-Instruct-GGUF\Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 98304 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[08:13:44]   server ready in 11s
+[08:13:55]       3667 tok: TTFT      8.8s  prefill avg    418.9 (last segment 418.9) t/s  gen  52.35 t/s
+[08:14:44]      16238 tok: TTFT     53.7s  prefill avg    302.6 (last segment 280.0) t/s  gen  42.52 t/s
+[08:16:21]      32459 tok: TTFT    147.5s  prefill avg    220.0 (last segment 172.8) t/s  gen  34.35 t/s
+[08:21:32]      64043 tok: TTFT    452.5s  prefill avg    141.5 (last segment 103.5) t/s  gen  25.03 t/s
+[08:29:23]      95722 tok: TTFT    917.4s  prefill avg    104.3 (last segment 68.2) t/s  gen  19.64 t/s
+[08:29:31]   vram peak: card0 14606 MiB, card1 13796 MiB
+[08:29:31] E6 qwen36-35b-q6_k: candidates [262144, 196608, 131072, 98304]
+[08:29:31]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q6_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[08:30:01]   ctx 262144: did not load
+[08:30:06]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q6_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 196608 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[08:31:13]   ctx 196608: did not load
+[08:31:18]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q6_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[08:32:30]   ctx 131072: did not load
+[08:32:35]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q6_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 98304 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[08:33:38]   server ready in 63s
+[08:33:48]       3659 tok: TTFT      7.1s  prefill avg    516.0 (last segment 516.0) t/s  gen  46.13 t/s
+[08:34:14]      16323 tok: TTFT     30.1s  prefill avg    542.8 (last segment 551.2) t/s  gen  43.96 t/s
+[08:34:51]      32532 tok: TTFT     64.1s  prefill avg    507.2 (last segment 475.9) t/s  gen  41.59 t/s
+[08:36:16]      63933 tok: TTFT    144.7s  prefill avg    441.9 (last segment 389.9) t/s  gen  37.47 t/s
+[08:38:13]      95731 tok: TTFT    258.3s  prefill avg    370.6 (last segment 279.8) t/s  gen  34.13 t/s
+[08:38:22]   vram peak: card0 15906 MiB, card1 15263 MiB
+[08:38:22] E6 qwen35-122b-iq1_m: candidates [262144, 196608, 131072, 98304]
+[08:38:22]   server: -m C:\Users\PC\.lmstudio\models\mradermacher\Qwen3.5-122B-A10B-i1-GGUF\Qwen3.5-122B-A10B.i1-IQ1_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[08:38:46]   ctx 262144: did not load
+[08:38:51]   server: -m C:\Users\PC\.lmstudio\models\mradermacher\Qwen3.5-122B-A10B-i1-GGUF\Qwen3.5-122B-A10B.i1-IQ1_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 196608 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[08:39:10]   ctx 196608: did not load
+[08:39:15]   server: -m C:\Users\PC\.lmstudio\models\mradermacher\Qwen3.5-122B-A10B-i1-GGUF\Qwen3.5-122B-A10B.i1-IQ1_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[08:39:30]   server ready in 15s
+[08:40:07]       3659 tok: TTFT     31.7s  prefill avg    115.3 (last segment 115.3) t/s  gen  24.07 t/s
+[08:42:11]      16323 tok: TTFT    150.4s  prefill avg    108.6 (last segment 106.8) t/s  gen  22.87 t/s
+[08:45:08]      32532 tok: TTFT    321.1s  prefill avg    101.3 (last segment 95.0) t/s  gen  21.45 t/s
+[08:51:47]      63933 tok: TTFT    712.6s  prefill avg     89.7 (last segment 80.2) t/s  gen  19.08 t/s
+[09:09:46]     128516 tok: TTFT   1783.4s  prefill avg     72.1 (last segment 60.3) t/s  gen  15.57 t/s
+[09:09:54]   vram peak: card0 16251 MiB, card1 15436 MiB
+[09:09:54] E6 mistral-small-3.2-24b: candidates [131072, 98304, 65536]
+[09:09:54]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Mistral-Small-3.2-24B-Instruct-2506-GGUF\Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[09:10:11]   ctx 131072: did not load
+[09:10:16]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Mistral-Small-3.2-24B-Instruct-2506-GGUF\Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 98304 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[09:10:25]   server ready in 9s
+[09:10:48]       3638 tok: TTFT     14.4s  prefill avg    252.9 (last segment 252.9) t/s  gen  14.04 t/s
+[09:11:54]      16384 tok: TTFT     69.6s  prefill avg    235.3 (last segment 230.7) t/s  gen  12.68 t/s
+[09:13:38]      32632 tok: TTFT    163.7s  prefill avg    199.4 (last segment 172.8) t/s  gen  12.42 t/s
+[09:18:03]      64492 tok: TTFT    416.2s  prefill avg    155.0 (last segment 126.2) t/s  gen  10.94 t/s
+[09:23:48]      95597 tok: TTFT    749.1s  prefill avg    127.6 (last segment 93.4) t/s  gen  10.04 t/s
+[09:23:55]   vram peak: card0 16205 MiB, card1 15373 MiB
+[09:23:55] E6 magistral-small-2509-q6_k: candidates [131072, 98304, 65536]
+[09:23:55]   server: -m C:\Users\PC\.lmstudio\models\bartowski\mistralai_Magistral-Small-2509-GGUF\mistralai_Magistral-Small-2509-Q6_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[09:24:14]   ctx 131072: did not load
+[09:24:19]   server: -m C:\Users\PC\.lmstudio\models\bartowski\mistralai_Magistral-Small-2509-GGUF\mistralai_Magistral-Small-2509-Q6_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 98304 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[09:24:34]   ctx 98304: did not load
+[09:24:39]   server: -m C:\Users\PC\.lmstudio\models\bartowski\mistralai_Magistral-Small-2509-GGUF\mistralai_Magistral-Small-2509-Q6_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 65536 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[09:24:49]   server ready in 11s
+[09:25:16]       3638 tok: TTFT     13.5s  prefill avg    269.6 (last segment 269.6) t/s  gen   9.97 t/s
+[09:26:22]      16384 tok: TTFT     66.2s  prefill avg    247.4 (last segment 241.6) t/s  gen   9.53 t/s
+[09:28:08]      32632 tok: TTFT    157.3s  prefill avg    207.4 (last segment 178.3) t/s  gen   8.70 t/s
+[09:32:20]      63506 tok: TTFT    393.9s  prefill avg    161.2 (last segment 130.5) t/s  gen   8.32 t/s
+[09:32:27]   vram peak: card0 15737 MiB, card1 14880 MiB
+[09:32:27] E6 qwen38-27b-q4_0: candidates [262144, 196608, 131072]
+[09:32:27]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[09:32:44]   ctx 262144: did not load
+[09:32:49]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 196608 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[09:32:57]   server ready in 9s
+[09:33:27]       3659 tok: TTFT     20.3s  prefill avg    180.1 (last segment 180.1) t/s  gen  14.29 t/s
+[09:34:45]      16323 tok: TTFT     88.9s  prefill avg    183.7 (last segment 184.8) t/s  gen  13.75 t/s
+[09:36:38]      32532 tok: TTFT    192.1s  prefill avg    169.4 (last segment 157.1) t/s  gen  13.13 t/s
+[09:40:50]      63933 tok: TTFT    433.6s  prefill avg    147.4 (last segment 130.0) t/s  gen  12.05 t/s
+[09:52:28]     129516 tok: TTFT   1119.0s  prefill avg    115.8 (last segment 95.7) t/s  gen  10.30 t/s
+[10:07:59]     194058 tok: TTFT   2034.9s  prefill avg     95.4 (last segment 70.5) t/s  gen   9.01 t/s
+[10:08:06]   vram peak: card0 14694 MiB, card1 15219 MiB
+[10:08:06] E6 qwen36-27b-q4_0: candidates [262144, 196608, 131072]
+[10:08:06]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-27B-GGUF\Qwen3.6-27B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[10:08:23]   ctx 262144: did not load
+[10:08:28]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-27B-GGUF\Qwen3.6-27B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 196608 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[10:08:36]   server ready in 9s
+[10:09:06]       3659 tok: TTFT     20.3s  prefill avg    180.3 (last segment 180.3) t/s  gen  14.30 t/s
+[10:10:23]      16323 tok: TTFT     88.5s  prefill avg    184.5 (last segment 185.8) t/s  gen  13.76 t/s
+[10:12:16]      32532 tok: TTFT    191.5s  prefill avg    169.9 (last segment 157.4) t/s  gen  13.12 t/s
+[10:16:30]      63933 tok: TTFT    435.1s  prefill avg    146.9 (last segment 128.9) t/s  gen  12.03 t/s
+[10:28:23]     129516 tok: TTFT   1135.1s  prefill avg    114.1 (last segment 93.7) t/s  gen  10.19 t/s
+[10:44:26]     194058 tok: TTFT   2083.1s  prefill avg     93.2 (last segment 68.1) t/s  gen   8.86 t/s
+[10:44:33]   vram peak: card0 14694 MiB, card1 15219 MiB
+[10:44:33] E6 gemma4-31b-q4_0: candidates [262144, 196608, 131072]
+[10:44:33]   server: -m C:\Users\PC\.lmstudio\models\google\gemma-4-31B-it-qat-q4_0-gguf\gemma-4-31B_q4_0-it.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[10:44:53]   ctx 262144: did not load
+[10:44:58]   server: -m C:\Users\PC\.lmstudio\models\google\gemma-4-31B-it-qat-q4_0-gguf\gemma-4-31B_q4_0-it.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 196608 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[10:45:13]   ctx 196608: did not load
+[10:45:18]   server: -m C:\Users\PC\.lmstudio\models\google\gemma-4-31B-it-qat-q4_0-gguf\gemma-4-31B_q4_0-it.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[10:45:29]   server ready in 11s
+[10:45:59]       3761 tok: TTFT     19.9s  prefill avg    188.8 (last segment 188.8) t/s  gen  12.33 t/s
+[10:47:26]      16299 tok: TTFT     95.2s  prefill avg    171.3 (last segment 166.6) t/s  gen  11.67 t/s
+[10:49:51]      32645 tok: TTFT    228.5s  prefill avg    142.9 (last segment 122.6) t/s  gen  10.74 t/s
+[10:56:00]      64283 tok: TTFT    585.2s  prefill avg    109.8 (last segment 88.7) t/s  gen  10.14 t/s
+[11:15:08]     128569 tok: TTFT   1717.0s  prefill avg     74.9 (last segment 56.8) t/s  gen   8.53 t/s
+[11:15:16]   vram peak: card0 15241 MiB, card1 15782 MiB
+[11:15:16] E6 olmo-3.1-32b-think: candidates [65536]
+[11:15:16]   server: -m C:\Users\PC\.lmstudio\models\bartowski\allenai_Olmo-3.1-32B-Think-GGUF\allenai_Olmo-3.1-32B-Think-Q5_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 65536 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[11:15:34]   server ready in 19s
+[11:16:14]       3721 tok: TTFT     25.3s  prefill avg    147.0 (last segment 147.0) t/s  gen   8.81 t/s
+[11:17:59]      16129 tok: TTFT    113.8s  prefill avg    141.7 (last segment 140.2) t/s  gen   8.16 t/s
+[11:20:25]      32709 tok: TTFT    244.0s  prefill avg    134.1 (last segment 127.4) t/s  gen   7.72 t/s
+[11:25:15]      63072 tok: TTFT    515.2s  prefill avg    122.4 (last segment 112.0) t/s  gen   6.96 t/s
+[11:25:23]   vram peak: card0 14530 MiB, card1 14256 MiB
+[11:25:23] E6 deepseek-r1-distill-32b: candidates [131072, 98304, 65536, 49152, 32768]
+[11:25:23]   server: -m C:\Users\PC\.lmstudio\models\bartowski\DeepSeek-R1-Distill-Qwen-32B-GGUF\DeepSeek-R1-Distill-Qwen-32B-Q5_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[11:25:46]   ctx 131072: did not load
+[11:25:51]   server: -m C:\Users\PC\.lmstudio\models\bartowski\DeepSeek-R1-Distill-Qwen-32B-GGUF\DeepSeek-R1-Distill-Qwen-32B-Q5_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 98304 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[11:26:05]   ctx 98304: did not load
+[11:26:10]   server: -m C:\Users\PC\.lmstudio\models\bartowski\DeepSeek-R1-Distill-Qwen-32B-GGUF\DeepSeek-R1-Distill-Qwen-32B-Q5_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 65536 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[11:26:25]   ctx 65536: did not load
+[11:26:30]   server: -m C:\Users\PC\.lmstudio\models\bartowski\DeepSeek-R1-Distill-Qwen-32B-GGUF\DeepSeek-R1-Distill-Qwen-32B-Q5_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 49152 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[11:26:45]   ctx 49152: did not load
+[11:26:50]   server: -m C:\Users\PC\.lmstudio\models\bartowski\DeepSeek-R1-Distill-Qwen-32B-GGUF\DeepSeek-R1-Distill-Qwen-32B-Q5_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 32768 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[11:27:02]   server ready in 13s
+[11:27:41]       3668 tok: TTFT     23.5s  prefill avg    156.0 (last segment 156.0) t/s  gen   8.75 t/s
+[11:29:35]      16239 tok: TTFT    119.7s  prefill avg    135.6 (last segment 130.7) t/s  gen   7.15 t/s
+[11:32:41]      31502 tok: TTFT    284.9s  prefill avg    110.6 (last segment 92.4) t/s  gen   5.94 t/s
+[11:32:49]   vram peak: card0 16110 MiB, card1 15824 MiB
+[11:32:49] E6 phi-4-q8_0: candidates [16384]
+[11:32:49]   server: -m C:\Users\PC\.lmstudio\models\unsloth\phi-4-GGUF\phi-4-Q8_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 16384 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[11:33:02]   server ready in 13s
+[11:33:18]       3721 tok: TTFT      9.5s  prefill avg    391.2 (last segment 391.2) t/s  gen  19.14 t/s
+[11:34:06]      15343 tok: TTFT     50.4s  prefill avg    304.7 (last segment 284.6) t/s  gen  17.32 t/s
+[11:34:13]   vram peak: card0 9741 MiB, card1 9411 MiB
+[11:34:13] E6 qwen3-32b-q6_k: candidates [40960, 32768, 24576, 16384]
+[11:34:13]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3-32B-GGUF\Qwen3-32B-Q6_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 40960 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[11:34:40]   ctx 40960: did not load
+[11:34:45]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3-32B-GGUF\Qwen3-32B-Q6_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 32768 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[11:35:02]   ctx 32768: did not load
+[11:35:07]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3-32B-GGUF\Qwen3-32B-Q6_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 24576 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[11:35:19]   server ready in 13s
+[11:35:26]   level 4096: FAILED [WinError 10054] An existing connection was forcibly closed by the remote host
+[11:35:31]   vram peak: card0 16286 MiB, card1 15939 MiB
+[11:35:31] E6 seed-oss-36b-q6_k: candidates [16384, 12288, 8192]
+[11:35:31]   server: -m C:\Users\PC\.lmstudio\models\lmstudio-community\Seed-OSS-36B-Instruct-GGUF\Seed-OSS-36B-Instruct-Q6_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 16384 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[11:35:59]   ctx 16384: did not load
+[11:36:04]   server: -m C:\Users\PC\.lmstudio\models\lmstudio-community\Seed-OSS-36B-Instruct-GGUF\Seed-OSS-36B-Instruct-Q6_K.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 12288 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[11:37:05]   server ready in 61s
+[11:37:09]   level 4096: FAILED [WinError 10054] An existing connection was forcibly closed by the remote host
+[11:37:14]   vram peak: card0 16152 MiB, card1 15820 MiB
+[11:37:14] E6 llama33-70b-q2_k_xl: candidates [16384, 12288, 8192]
+[11:37:14]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Llama-3.3-70B-Instruct-GGUF\Llama-3.3-70B-Instruct-UD-Q2_K_XL.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 16384 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[11:37:36]   server ready in 23s
+[11:37:39]   level 4096: FAILED [WinError 10054] An existing connection was forcibly closed by the remote host
+[11:37:44]   vram peak: card0 16263 MiB, card1 15822 MiB
+[11:37:44] E6 glm-4.7-flash-q5_k_m: candidates [131072]
+[11:37:44]   server: -m C:\Users\PC\.lmstudio\models\bartowski\zai-org_GLM-4.7-Flash-GGUF\zai-org_GLM-4.7-Flash-Q5_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[11:38:03]   server ready in 19s
+[11:38:21]       3715 tok: TTFT     14.4s  prefill avg    257.1 (last segment 257.1) t/s  gen  36.86 t/s
+[11:40:21]      16169 tok: TTFT    129.7s  prefill avg    124.7 (last segment 108.1) t/s  gen  25.71 t/s
+[11:45:40]      32617 tok: TTFT    441.2s  prefill avg     73.9 (last segment 52.8) t/s  gen  18.48 t/s
+[12:04:09]      64023 tok: TTFT   1539.6s  prefill avg     41.6 (last segment 28.6) t/s  gen  11.94 t/s
+[13:16:19]     127979 tok: TTFT   5850.6s  prefill avg     21.9 (last segment 14.8) t/s  gen   6.93 t/s
+[13:16:27]   vram peak: card0 14563 MiB, card1 14585 MiB
+[13:16:27] E6 mistral-small-4-119b-iq1_m: candidates [131072]
+[13:16:27]   server: -m C:\Users\PC\.lmstudio\models\mradermacher\Mistral-Small-4-119B-2603-i1-GGUF\Mistral-Small-4-119B-2603.i1-IQ1_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[13:16:51]   server ready in 25s
+[13:17:20]       3638 tok: TTFT     24.9s  prefill avg    146.4 (last segment 146.4) t/s  gen  36.44 t/s
+[13:19:23]      16384 tok: TTFT    143.6s  prefill avg    114.1 (last segment 107.3) t/s  gen  31.72 t/s
+[13:23:26]      32632 tok: TTFT    381.8s  prefill avg     85.5 (last segment 68.2) t/s  gen  27.25 t/s
+[13:35:56]      64492 tok: TTFT   1125.5s  prefill avg     57.3 (last segment 42.8) t/s  gen  21.31 t/s
+[14:19:39]     128788 tok: TTFT   3740.0s  prefill avg     34.4 (last segment 24.6) t/s  gen  14.85 t/s
+[14:19:47]   vram peak: card0 15861 MiB, card1 14452 MiB
+[14:19:47] E1 soak 27b-card0: Qwen3.8-27B-Q4_0 for 25 min
+[14:27:19]   cards at [45, 45] C after 452s
+[14:27:19]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 4096 --no-webui -dev CUDA0 -np 1 -fa on
+[14:27:32]   server ready in 13s
+[14:53:12]   27b-card0: first 14.19 -> last 10.59 t/s (-25.4%)  gpu={'0': {'loaded_samples': 1509, 'temp_max': 80, 'mem_max_mib': 15519, 'power_mean': 117.7, 'gfx_clock_mean': 906, 'throttled_pct': 70.7, 'reasons_seen': '0x20'}, '1': {'loaded_samples': 0, 'temp_max': 0, 'mem_max_mib': 9, 'power_mean': None, 'gfx_clock_mean': None, 'throttled_pct': None, 'reasons_seen': '0x0'}}
+[14:53:12] E1 soak 27b-card1: Qwen3.8-27B-Q4_0 for 25 min
+[14:59:14]   cards at [45, 42] C after 361s
+[14:59:14]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 4096 --no-webui -dev CUDA1 -np 1 -fa on
+[14:59:22]   server ready in 9s
+[15:24:37]   27b-card1: first 14.30 -> last 11.36 t/s (-20.6%)  gpu={'0': {'loaded_samples': 0, 'temp_max': 0, 'mem_max_mib': 265, 'power_mean': None, 'gfx_clock_mean': None, 'throttled_pct': None, 'reasons_seen': '0x0'}, '1': {'loaded_samples': 1490, 'temp_max': 80, 'mem_max_mib': 15519, 'power_mean': 122.9, 'gfx_clock_mean': 1017, 'throttled_pct': 62.8, 'reasons_seen': '0x20'}}
+[15:24:37] E1 soak 27b-both: Qwen3.8-27B-Q4_0 for 25 min
+[15:30:54]   cards at [42, 45] C after 376s
+[15:30:54]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 4096 --no-webui -np 1 -fa on
+[15:31:02]   server ready in 9s
+[15:56:17]   27b-both: first 14.49 -> last 13.69 t/s (-5.5%)  gpu={'0': {'loaded_samples': 416, 'temp_max': 80, 'mem_max_mib': 7908, 'power_mean': 111.3, 'gfx_clock_mean': 1229, 'throttled_pct': 25.7, 'reasons_seen': '0x20'}, '1': {'loaded_samples': 805, 'temp_max': 80, 'mem_max_mib': 8433, 'power_mean': 114.3, 'gfx_clock_mean': 1243, 'throttled_pct': 22.4, 'reasons_seen': '0x20'}}
+[15:56:17] E1 soak nemotron-both: NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 for 20 min
+[16:05:19]   cards at [45, 45] C after 542s
+[16:05:20]   server: -m C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 4096 --no-webui -np 1 -fa on
+[16:05:34]   server ready in 15s
+[16:25:47]   nemotron-both: first 69.96 -> last 69.17 t/s (-1.1%)  gpu={'0': {'loaded_samples': 16, 'temp_max': 79, 'mem_max_mib': 8895, 'power_mean': 82.5, 'gfx_clock_mean': 1268, 'throttled_pct': 0.0, 'reasons_seen': '0x0'}, '1': {'loaded_samples': 768, 'temp_max': 80, 'mem_max_mib': 9881, 'power_mean': 110.0, 'gfx_clock_mean': 1313, 'throttled_pct': 8.9, 'reasons_seen': '0x20'}}
+[16:25:47] E3 mtp-128k-base
+[16:25:47]   server: -m C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[16:25:58]   server ready in 11s
+[16:31:21]   code: 50.54 t/s  processed=124014 accept=None
+[16:31:29]   prose: 50.52 t/s  processed=514 accept=None
+[16:31:37]   fact: 50.57 t/s  processed=525 accept=None
+[16:31:44] E3 mtp-128k-n2
+[16:31:44]   server: -m C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 131072 --no-webui -np 1 -fa on -ctk f16 -ctv f16 --spec-type draft-mtp -md C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\mtp-NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf --spec-draft-n-max 2 -ngld 999
+[16:31:56]   server ready in 13s
+[16:40:12]   code: 62.55 t/s  processed=124014 accept=74.1
+[16:40:21]   prose: 47.68 t/s  processed=514 accept=44.9
+[16:40:27]   fact: 71.35 t/s  processed=525 accept=93.6
+[16:40:35] E3 mtp-256k-base
+[16:40:35]   server: -m C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16
+[16:40:46]   server ready in 11s
+[16:56:59]   code: 38.64 t/s  processed=254868 accept=None
+[16:57:10]   prose: 38.34 t/s  processed=514 accept=None
+[16:57:20]   fact: 39.09 t/s  processed=525 accept=None
+[16:57:28] E3 mtp-256k-n2
+[16:57:28]   server: -m C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 262144 --no-webui -np 1 -fa on -ctk f16 -ctv f16 --spec-type draft-mtp -md C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\mtp-NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf --spec-draft-n-max 2 -ngld 999
+[16:57:38]   server ready in 11s
+[17:21:37]   code: 47.56 t/s  processed=254868 accept=81.9
+[17:21:50]   prose: 36.76 t/s  processed=514 accept=52.2
+[17:22:00]   fact: 49.73 t/s  processed=525 accept=89.3
+[17:22:07] E4: -ub sweep at 64k
+[17:22:07]   bench: wave10-ubatch -d 65536 -b 4096 -ub 512 -ctk f16 -ctv f16 -fa on
+[17:24:48]    pp2048@d65536      341.44 t/s  +/-  6.64   [k=f16 v=f16 fa=1 dev=auto]
+[17:24:48]    tg128@d65536        59.39 t/s  +/-  0.19   [k=f16 v=f16 fa=1 dev=auto]
+[17:24:48]   bench: wave10-ubatch -d 65536 -b 4096 -ub 1024 -ctk f16 -ctv f16 -fa on
+[17:27:02]    pp2048@d65536      336.44 t/s  +/- 23.77   [k=f16 v=f16 fa=1 dev=auto]
+[17:27:02]    tg128@d65536        59.29 t/s  +/-  0.16   [k=f16 v=f16 fa=1 dev=auto]
+[17:27:02]   bench: wave10-ubatch -d 65536 -b 4096 -ub 2048 -ctk f16 -ctv f16 -fa on
+[17:29:07]    pp2048@d65536      343.32 t/s  +/- 12.23   [k=f16 v=f16 fa=1 dev=auto]
+[17:29:07]    tg128@d65536        59.45 t/s  +/-  0.03   [k=f16 v=f16 fa=1 dev=auto]
+[17:29:07]   bench: wave10-ubatch -d 65536 -b 4096 -ub 4096 -ctk f16 -ctv f16 -fa on
+[17:31:07]    pp2048@d65536      351.68 t/s  +/-  2.81   [k=f16 v=f16 fa=1 dev=auto]
+[17:31:07]    tg128@d65536        59.48 t/s  +/-  0.05   [k=f16 v=f16 fa=1 dev=auto]
+[17:31:07]   bench: wave10-ubatch -d 65536 -b 4096 -ub 512 -ctk f16 -ctv f16 -fa on
+[17:34:44]    pp2048@d65536      264.24 t/s  +/-  0.54   [k=f16 v=f16 fa=1 dev=auto]
+[17:34:44]    tg128@d65536        38.48 t/s  +/-  0.02   [k=f16 v=f16 fa=1 dev=auto]
+[17:34:44]   bench: wave10-ubatch -d 65536 -b 4096 -ub 1024 -ctk f16 -ctv f16 -fa on
+[17:37:41]    pp2048@d65536      272.75 t/s  +/-  3.13   [k=f16 v=f16 fa=1 dev=auto]
+[17:37:41]    tg128@d65536        38.30 t/s  +/-  0.10   [k=f16 v=f16 fa=1 dev=auto]
+[17:37:41]   bench: wave10-ubatch -d 65536 -b 4096 -ub 2048 -ctk f16 -ctv f16 -fa on
+[17:40:28]    pp2048@d65536      248.38 t/s  +/-  2.17   [k=f16 v=f16 fa=1 dev=auto]
+[17:40:28]    tg128@d65536        38.28 t/s  +/-  0.04   [k=f16 v=f16 fa=1 dev=auto]
+[17:40:28]   bench: wave10-ubatch -d 65536 -b 4096 -ub 4096 -ctk f16 -ctv f16 -fa on
+[17:43:10]    pp2048@d65536      249.49 t/s  +/-  0.48   [k=f16 v=f16 fa=1 dev=auto]
+[17:43:10]    tg128@d65536        38.26 t/s  +/-  0.03   [k=f16 v=f16 fa=1 dev=auto]
+[17:43:10] E5: tokens per 1,000 characters
+[17:43:11]   allenai_Olmo-3.1-32B-Think-Q5_K_M: english 227.8  code 345.0 tok/1k chars
+[17:43:12]   DeepSeek-R1-Distill-Qwen-32B-Q5_K_M: english 236.5  code 361.7 tok/1k chars
+[17:43:14]   Meta-Llama-3.1-8B-Instruct-Q8_0: english 227.6  code 344.8 tok/1k chars
+[17:43:15]   mistralai_Magistral-Small-2509-Q6_K: english 243.9  code 412.5 tok/1k chars
+[17:43:17]   nex-agi_Nex-N2.5-mini-Q4_K_M: english 235.3  code 373.8 tok/1k chars
+[17:43:19]   nvidia_Llama-3_3-Nemotron-Super-49B-v1_5-IQ4_XS: english 227.6  code 344.8 tok/1k chars
+[17:43:20]   Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K: english 236.5  code 361.6 tok/1k chars
+[17:43:22]   Qwen_Qwen3-Next-80B-A3B-Thinking-Q2_K: english 236.5  code 361.6 tok/1k chars
+[17:43:23]   zai-org_GLM-4.7-Flash-Q5_K_M: english 228.2  code 346.6 tok/1k chars
+[17:43:25]   gpt-oss-20b-MXFP4: english 227.3  code 347.8 tok/1k chars
+[17:43:27]   NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0: english 243.9  code 412.5 tok/1k chars
+[17:43:29]   gemma-4-31B_q4_0-it: english 236.5  code 420.8 tok/1k chars
+[17:43:31]   LFM2.5-2.6B-BF16: english 232.8  code 365.1 tok/1k chars
+[17:43:33]   gemma-4-26B-A4B-it-QAT-Q4_0: english 236.5  code 420.8 tok/1k chars
+[17:43:35]   Qwen3.6-35B-A3B-Q4_K_M: english 235.3  code 373.8 tok/1k chars
+[17:43:37]   Qwen3.8-27B-Q4_K_M: english 235.3  code 373.8 tok/1k chars
+[17:43:38]   Seed-OSS-36B-Instruct-Q6_K: english 237.9  code 387.7 tok/1k chars
+[17:43:40]   Mistral-Small-4-119B-2603.i1-IQ1_M: english 243.9  code 412.5 tok/1k chars
+[17:43:42]   Qwen3.5-122B-A10B.i1-IQ1_M: english 235.3  code 373.8 tok/1k chars
+[17:43:43]   Ornith-1.5-35B-Q4_K_M: english 235.3  code 373.8 tok/1k chars
+[17:43:46]   gemma-4-12B-it-qat-UD-Q4_K_XL: english 236.5  code 420.8 tok/1k chars
+[17:43:47]   Llama-3.3-70B-Instruct-UD-Q2_K_XL: english 227.6  code 344.8 tok/1k chars
+[17:43:49]   Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL: english 243.9  code 412.5 tok/1k chars
+[17:43:50]   phi-4-Q8_0: english 227.8  code 345.0 tok/1k chars
+[17:43:51]   Qwen3-32B-Q6_K: english 236.5  code 361.6 tok/1k chars
+[17:43:53]   Qwen3-Coder-30B-A3B-Instruct-Q4_K_M: english 236.5  code 361.6 tok/1k chars
+[17:43:54]   Qwen3-Coder-Next-UD-Q2_K_XL: english 236.5  code 361.6 tok/1k chars
+[17:43:56]   Qwen3.5-9B-BF16: english 235.3  code 373.8 tok/1k chars
+[17:43:58]   Qwen3.6-27B-Q4_0: english 235.3  code 373.8 tok/1k chars
+[17:44:00]   Qwen3.6-35B-A3B-MXFP4_MOE: english 235.3  code 373.8 tok/1k chars
+[17:44:01]   Qwen3.8-27B-Q4_0: english 235.3  code 373.8 tok/1k chars
+[17:44:03]   Qwen3.8-2B-Q8_0: english 235.3  code 373.8 tok/1k chars
+[17:44:03] WAVE 10 COMPLETE

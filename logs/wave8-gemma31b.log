@@ -1,0 +1,16 @@
+
+################ gemma-4-31B-it-qat ################
+=== gemma-4-31B_q4_0-it | suite=standard | reps=5 ===
+     C:\Users\PC\.lmstudio\models\google\gemma-4-31B-it-qat-q4_0-gguf\gemma-4-31B_q4_0-it.gguf -p 512,2048 -n 128 -r 5 -o json
+  pp512              152.37 t/s  +/-  0.53   [k=f16 v=f16 fa=-1 dev=auto]
+  pp2048             208.95 t/s  +/-  0.31   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128               12.93 t/s  +/-  0.00   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 144.3s -> C:\Projects\p100 testing\results\raw.jsonl
+---- gemma-4-31B-it-qat  d=0 ----
+---- gemma-4-31B-it-qat  d=4096 ----
+---- gemma-4-31B-it-qat  d=16384 ----
+---- gemma-4-31B-it-qat  d=32768 ----
+---- gemma-4-31B-it-qat  d=65536 ----
+---- gemma-4-31B-it-qat  d=131072 (extension) ----
+
+WAVE 8 COMPLETE

@@ -1,0 +1,15 @@
+llama-perplexity.exe : 0.11.594.210 I cmn          init: llama threadpool init, n_threads = 6
+At C:\Projects\p100 testing\scripts\ppl.ps1:43 char:3
++   & $PPLEXE -m $p -f $DATA -c $Ctx --chunks $Chunks -ngl 999 2> $log  ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (0.11.594.210 I ..., n_threads = 6:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+0.11.856.457 I 
+0.11.856.504 I system_info: n_threads = 6 (n_threads_batch = 6) / 12 | CUDA : ARCHS = 500,610,700,750,800,860,890,900 
+| USE_GRAPHS = 1 | FA_QUANTS = q4_0-q4_0,q8_0-q8_0,f16-f16,bf16-bf16 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 
+| F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.11.856.726 I perplexity: tokenizing the input ..
+0.12.280.723 I perplexity: tokenization took 423.992 ms
+0.12.287.855 I perplexity: calculating perplexity over 60 chunks, n_ctx=512, batch_size=2048, n_seq=4
+0.25.702.355 I perplexity: 13.41 seconds per pass - ETA 3.32.170.974 I Final estimate: PPL = 6.5822 +/- 0.13380

@@ -1,0 +1,15 @@
+0.00.149.877 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.150.043 I srv          init: The UI is disabled
+0.00.150.044 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.150.150 W srv  llama_server: -----------------
+0.00.150.152 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.150.154 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.150.154 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.150.154 W srv  llama_server: -----------------
+0.00.160.422 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\bartowski\DeepSeek-R1-Distill-Qwen-32B-GGUF\DeepSeek-R1-Distill-Qwen-32B-Q5_K_M.gguf'
+0.00.160.526 W common_fit_params: failed to fit params to free device memory: llama_params_fit is not implemented for SPLIT_MODE_TENSOR, abort
+0.00.431.854 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.10.484.923 W internal AllReduce init failed (n_devices != 2?); falling back to meta-backend butterfly
+D:/a/llama.cpp/llama.cpp/ggml/src/ggml-backend-meta.cpp:1760: GGML_ASSERT(meta_buf_ctx->bufs[i]) failed
+0.10.487.798 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 8576.00 MiB on device 0: cudaMalloc failed: out of memory
+0.10.487.802 

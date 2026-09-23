@@ -1,0 +1,19 @@
+0.00.153.850 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.153.956 I srv          init: The UI is disabled
+0.00.153.956 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.154.050 W srv  llama_server: -----------------
+0.00.154.053 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.154.055 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.154.055 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.154.055 W srv  llama_server: -----------------
+0.00.160.600 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-30B-A3B-Instruct-GGUF\Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf'
+0.00.518.265 W common_fit_params: failed to fit params to free device memory: n_gpu_layers already set by user to 999, abort
+0.00.717.903 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.12.815.112 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 12800.00 MiB on device 0: cudaMalloc failed: out of memory
+0.12.815.330 E alloc_tensor_range: failed to allocate CUDA0 buffer of size 13421772800
+0.12.819.589 E llama_init_from_model: failed to initialize the context: failed to allocate buffer for kv cache
+0.12.819.594 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-30B-A3B-Instruct-GGUF\Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf'
+0.12.819.595 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-30B-A3B-Instruct-GGUF\Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf'
+0.12.819.597 E srv    load_model: failed to create_context with model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-30B-A3B-Instruct-GGUF\Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf'
+0.12.819.602 I srv    operator(): operator(): cleaning up before exit...
+0.12.820.644 E srv  llama_server: exiting due to model loading error

@@ -1,0 +1,19 @@
+0.00.152.089 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.152.199 I srv          init: The UI is disabled
+0.00.152.199 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.152.288 W srv  llama_server: -----------------
+0.00.152.292 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.152.293 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.152.293 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.152.294 W srv  llama_server: -----------------
+0.00.158.422 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\bartowski\DeepSeek-R1-Distill-Qwen-32B-GGUF\DeepSeek-R1-Distill-Qwen-32B-Q5_K_M.gguf'
+0.00.508.541 W common_fit_params: failed to fit params to free device memory: n_gpu_layers already set by user to 999, abort
+0.00.725.206 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.10.331.546 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 12672.00 MiB on device 0: cudaMalloc failed: out of memory
+0.10.331.554 E alloc_tensor_range: failed to allocate CUDA0 buffer of size 13287555072
+0.10.333.940 E llama_init_from_model: failed to initialize the context: failed to allocate buffer for kv cache
+0.10.333.945 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\bartowski\DeepSeek-R1-Distill-Qwen-32B-GGUF\DeepSeek-R1-Distill-Qwen-32B-Q5_K_M.gguf'
+0.10.333.946 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\bartowski\DeepSeek-R1-Distill-Qwen-32B-GGUF\DeepSeek-R1-Distill-Qwen-32B-Q5_K_M.gguf'
+0.10.333.948 E srv    load_model: failed to create_context with model 'C:\Users\PC\.lmstudio\models\bartowski\DeepSeek-R1-Distill-Qwen-32B-GGUF\DeepSeek-R1-Distill-Qwen-32B-Q5_K_M.gguf'
+0.10.333.955 I srv    operator(): operator(): cleaning up before exit...
+0.10.334.997 E srv  llama_server: exiting due to model loading error

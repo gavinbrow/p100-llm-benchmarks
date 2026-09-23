@@ -1,0 +1,10 @@
+0.00.152.891 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.152.997 I srv          init: The UI is disabled
+0.00.152.998 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.153.096 W srv  llama_server: -----------------
+0.00.153.099 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.153.100 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.153.100 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.153.101 W srv  llama_server: -----------------
+0.00.157.538 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf'
+0.00.593.869 W common_fit_params: failed to fit params to free device memory: n_gpu_layers already set by user to 999, abort

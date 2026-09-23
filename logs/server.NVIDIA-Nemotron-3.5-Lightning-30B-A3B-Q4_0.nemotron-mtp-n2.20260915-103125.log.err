@@ -1,0 +1,39 @@
+0.00.158.902 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.159.019 I srv          init: The UI is disabled
+0.00.159.019 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.159.125 W srv  llama_server: -----------------
+0.00.159.126 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.159.128 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.159.128 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.159.128 W srv  llama_server: -----------------
+0.00.170.827 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf'
+0.09.300.781 I cmn          init: llama threadpool init, n_threads = 6
+0.09.451.315 I common_speculative_init_result: loading draft model 'C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\mtp-NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf'
+0.10.551.549 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 8192, kv_unified = 'true'
+0.10.588.298 W srv          init: chat template supports preserving reasoning, it is enabled by default (may use more tokens, disable via --no-reasoning-preserve)
+0.10.588.324 I srv  llama_server: model loaded
+0.10.588.327 I srv  llama_server: listening on http://127.0.0.1:8099
+0.12.038.007 I slot get_availabl: id  3 | task -1 | selected slot by LRU, t_last = -1
+0.12.038.063 I slot launch_slot_: id  3 | task 0 | processing task, is_child = 0
+0.14.733.054 I slot print_timing: id  3 | task 0 | prompt eval time =     381.76 ms /    28 tokens (   13.63 ms per token,    73.34 tokens per second)
+0.14.733.058 I slot print_timing: id  3 | task 0 |        eval time =    2313.14 ms /   256 tokens (    9.07 ms per token,   110.24 tokens per second)
+0.14.733.059 I slot print_timing: id  3 | task 0 |       total time =    2694.90 ms /   284 tokens
+0.14.733.060 I slot print_timing: id  3 | task 0 |    graphs reused =         86
+0.14.734.270 I slot print_timing: id  3 | task 0 | draft acceptance = 0.94318 (  166 accepted /   176 generated), mean len =  2.89
+0.14.734.333 I slot      release: id  3 | task 0 | stop processing: n_tokens = 283, truncated = 0
+0.14.748.885 I slot get_availabl: id  2 | task -1 | selected slot by LRU, t_last = -1
+0.14.748.904 I slot launch_slot_: id  2 | task 92 | processing task, is_child = 0
+0.17.789.880 I slot print_timing: id  2 | task 92 | prompt eval time =     315.49 ms /    26 tokens (   12.13 ms per token,    82.41 tokens per second)
+0.17.789.884 I slot print_timing: id  2 | task 92 |        eval time =    2683.60 ms /   256 tokens (   10.52 ms per token,    95.02 tokens per second)
+0.17.789.885 I slot print_timing: id  2 | task 92 |       total time =    2999.09 ms /   282 tokens
+0.17.789.886 I slot print_timing: id  2 | task 92 |    graphs reused =        187
+0.17.789.890 I slot print_timing: id  2 | task 92 | draft acceptance = 0.73786 (  152 accepted /   206 generated), mean len =  2.48
+0.17.789.921 I slot      release: id  2 | task 92 | stop processing: n_tokens = 281, truncated = 0
+0.17.792.718 I slot get_availabl: id  1 | task -1 | selected slot by LRU, t_last = -1
+0.17.792.735 I slot launch_slot_: id  1 | task 198 | processing task, is_child = 0
+0.20.958.423 I slot print_timing: id  1 | task 198 | prompt eval time =     477.48 ms /    37 tokens (   12.90 ms per token,    77.49 tokens per second)
+0.20.958.427 I slot print_timing: id  1 | task 198 |        eval time =    2647.72 ms /   256 tokens (   10.38 ms per token,    96.31 tokens per second)
+0.20.958.429 I slot print_timing: id  1 | task 198 |       total time =    3125.20 ms /   293 tokens
+0.20.958.429 I slot print_timing: id  1 | task 198 |    graphs reused =        286
+0.20.958.433 I slot print_timing: id  1 | task 198 | draft acceptance = 0.75743 (  153 accepted /   202 generated), mean len =  2.51
+0.20.958.466 I slot      release: id  1 | task 198 | stop processing: n_tokens = 292, truncated = 0

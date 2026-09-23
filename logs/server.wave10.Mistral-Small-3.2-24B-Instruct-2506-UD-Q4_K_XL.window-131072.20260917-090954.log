@@ -1,0 +1,18 @@
+0.00.159.334 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.159.444 I srv          init: The UI is disabled
+0.00.159.445 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.159.539 W srv  llama_server: -----------------
+0.00.159.542 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.159.544 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.159.544 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.159.544 W srv  llama_server: -----------------
+0.00.163.722 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\unsloth\Mistral-Small-3.2-24B-Instruct-2506-GGUF\Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf'
+0.00.592.281 W common_fit_params: failed to fit params to free device memory: n_gpu_layers already set by user to 999, abort
+0.11.675.196 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 10752.00 MiB on device 0: cudaMalloc failed: out of memory
+0.11.675.423 E alloc_tensor_range: failed to allocate CUDA0 buffer of size 11274289152
+0.11.679.133 E llama_init_from_model: failed to initialize the context: failed to allocate buffer for kv cache
+0.11.679.137 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\unsloth\Mistral-Small-3.2-24B-Instruct-2506-GGUF\Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf'
+0.11.679.138 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\unsloth\Mistral-Small-3.2-24B-Instruct-2506-GGUF\Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf'
+0.11.679.140 E srv    load_model: failed to create_context with model 'C:\Users\PC\.lmstudio\models\unsloth\Mistral-Small-3.2-24B-Instruct-2506-GGUF\Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf'
+0.11.679.145 I srv    operator(): operator(): cleaning up before exit...
+0.11.680.141 E srv  llama_server: exiting due to model loading error

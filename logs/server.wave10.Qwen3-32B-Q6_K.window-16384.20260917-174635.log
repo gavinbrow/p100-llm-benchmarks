@@ -1,0 +1,38 @@
+0.00.174.096 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.174.204 I srv          init: The UI is disabled
+0.00.174.204 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.174.297 W srv  llama_server: -----------------
+0.00.174.301 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.174.302 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.174.302 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.174.303 W srv  llama_server: -----------------
+0.00.191.431 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3-32B-GGUF\Qwen3-32B-Q6_K.gguf'
+0.00.759.428 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.22.534.290 I cmn          init: llama threadpool init, n_threads = 6
+0.22.985.088 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 16384, kv_unified = 'false'
+0.23.012.544 I srv  llama_server: model loaded
+0.23.012.549 I srv  llama_server: listening on http://127.0.0.1:8110
+0.25.691.007 I slot get_availabl: id  0 | task -1 | selected slot by LRU, t_last = -1
+0.25.691.418 I slot launch_slot_: id  0 | task 0 | processing task, is_child = 0
+0.36.242.825 I slot print_timing: id  0 | task 0 | prompt processing, n_tokens =   2048, progress = 0.56, t =  10.55 s / 194.13 tokens per second
+1.01.920.773 I slot print_timing: id  0 | task 0 | n_gen =    100, tg =   7.00 t/s, tg_3s =   7.07 t/s
+1.04.922.372 I slot print_timing: id  0 | task 0 | n_gen =    121, tg =   7.00 t/s, tg_3s =   7.00 t/s
+1.05.924.961 I slot print_timing: id  0 | task 0 | prompt eval time =   22091.56 ms /  3667 tokens (    6.02 ms per token,   165.99 tokens per second)
+1.05.924.965 I slot print_timing: id  0 | task 0 |        eval time =   18141.79 ms /   128 tokens (  142.85 ms per token,     7.00 tokens per second)
+1.05.924.966 I slot print_timing: id  0 | task 0 |       total time =   40233.35 ms /  3795 tokens
+1.05.924.967 I slot print_timing: id  0 | task 0 |    graphs reused =        127
+1.05.925.623 I slot      release: id  0 | task 0 | stop processing: n_tokens = 3794, truncated = 0
+1.06.012.408 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 0.240 (> 0.100 thold), f_keep = 0.966
+1.06.012.591 I slot launch_slot_: id  0 | task 130 | processing task, is_child = 0
+1.18.346.536 I slot print_timing: id  0 | task 130 | prompt processing, n_tokens =   2048, progress = 0.37, t =  12.33 s / 166.05 tokens per second
+1.31.647.639 I slot print_timing: id  0 | task 130 | prompt processing, n_tokens =   4096, progress = 0.51, t =  25.63 s / 159.78 tokens per second
+1.45.879.250 I slot print_timing: id  0 | task 130 | prompt processing, n_tokens =   6144, progress = 0.64, t =  39.87 s / 154.11 tokens per second
+2.01.676.101 I slot print_timing: id  0 | task 130 | prompt processing, n_tokens =   8192, progress = 0.78, t =  55.66 s / 147.17 tokens per second
+2.19.283.345 I slot print_timing: id  0 | task 130 | prompt processing, n_tokens =  10240, progress = 0.91, t =  73.27 s / 139.76 tokens per second
+2.50.700.592 I slot print_timing: id  0 | task 130 | n_gen =    100, tg =   6.15 t/s, tg_3s =   6.21 t/s
+2.53.806.182 I slot print_timing: id  0 | task 130 | n_gen =    120, tg =   6.20 t/s, tg_3s =   6.44 t/s
+2.55.103.591 I slot print_timing: id  0 | task 130 | prompt eval time =   88585.26 ms / 11590 tokens (    7.64 ms per token,   130.83 tokens per second)
+2.55.103.596 I slot print_timing: id  0 | task 130 |        eval time =   20505.25 ms /   128 tokens (  161.46 ms per token,     6.19 tokens per second)
+2.55.103.597 I slot print_timing: id  0 | task 130 |       total time =  109090.51 ms / 11718 tokens
+2.55.103.598 I slot print_timing: id  0 | task 130 |    graphs reused =        252
+2.55.106.877 I slot      release: id  0 | task 130 | stop processing: n_tokens = 15382, truncated = 0

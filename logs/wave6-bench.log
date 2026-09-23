@@ -1,0 +1,77 @@
+
+################ Llama-3.1-8B-Instruct-Q8_0 ################
+=== Meta-Llama-3.1-8B-Instruct-Q8_0 | suite=standard | reps=5 ===
+     C:\Users\PC\.lmstudio\models\bartowski\Meta-Llama-3.1-8B-Instruct-GGUF\Meta-Llama-3.1-8B-Instruct-Q8_0.gguf -p 512,2048 -n 128 -r 5 -o json
+  pp512              650.22 t/s  +/-  3.42   [k=f16 v=f16 fa=-1 dev=auto]
+  pp2048             927.98 t/s  +/-  1.94   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128               36.11 t/s  +/-  0.01   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 41.4s -> C:\Projects\p100 testing\results\raw.jsonl
+=== Meta-Llama-3.1-8B-Instruct-Q8_0 | suite=context | reps=3 ===
+     C:\Users\PC\.lmstudio\models\bartowski\Meta-Llama-3.1-8B-Instruct-GGUF\Meta-Llama-3.1-8B-Instruct-Q8_0.gguf -p 0 -n 128 -d 0,4096,16384,32768 -r 3 -o json
+  tg128               36.10 t/s  +/-  0.04   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d4096         34.65 t/s  +/-  0.01   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d16384        31.45 t/s  +/-  0.01   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d32768        28.02 t/s  +/-  0.01   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 148.1s -> C:\Projects\p100 testing\results\raw.jsonl
+
+################ gpt-oss-20b-MXFP4 ################
+=== gpt-oss-20b-MXFP4 | suite=standard | reps=5 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512,2048 -n 128 -r 5 -o json
+  pp512              501.56 t/s  +/-  3.73   [k=f16 v=f16 fa=-1 dev=auto]
+  pp2048             742.72 t/s  +/-  2.81   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128               62.42 t/s  +/-  0.02   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 43s -> C:\Projects\p100 testing\results\raw.jsonl
+=== gpt-oss-20b-MXFP4 | suite=context | reps=3 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 0 -n 128 -d 0,4096,16384,32768 -r 3 -o json
+  tg128               62.26 t/s  +/-  0.20   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d4096         61.24 t/s  +/-  0.12   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d16384        58.65 t/s  +/-  0.15   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d32768        55.49 t/s  +/-  0.32   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 117.7s -> C:\Projects\p100 testing\results\raw.jsonl
+
+################ phi-4-Q8_0 ################
+=== phi-4-Q8_0 | suite=standard | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\phi-4-GGUF\phi-4-Q8_0.gguf -p 512,2048 -n 128 -r 5 -o json
+  pp512              259.91 t/s  +/-  0.50   [k=f16 v=f16 fa=-1 dev=auto]
+  pp2048             374.16 t/s  +/-  3.68   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128               19.58 t/s  +/-  0.56   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 89.6s -> C:\Projects\p100 testing\results\raw.jsonl
+=== phi-4-Q8_0 | suite=context | reps=3 ===
+     C:\Users\PC\.lmstudio\models\unsloth\phi-4-GGUF\phi-4-Q8_0.gguf -p 0 -n 128 -d 0,4096,16384,32768 -r 3 -o json
+  tg128               19.85 t/s  +/-  0.01   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d4096         19.15 t/s  +/-  0.01   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d16384        17.45 t/s  +/-  0.01   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d32768        15.82 t/s  +/-  0.01   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 305.6s -> C:\Projects\p100 testing\results\raw.jsonl
+
+################ gemma-4-26B-A4B-it-QAT-Q4_0 ################
+=== gemma-4-26B-A4B-it-QAT-Q4_0 | suite=standard | reps=5 ===
+     C:\Users\PC\.lmstudio\models\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf -p 512,2048 -n 128 -r 5 -o json
+  pp512              523.43 t/s  +/-  2.90   [k=f16 v=f16 fa=-1 dev=auto]
+  pp2048             741.33 t/s  +/- 14.04   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128               53.44 t/s  +/-  0.13   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 47s -> C:\Projects\p100 testing\results\raw.jsonl
+=== gemma-4-26B-A4B-it-QAT-Q4_0 | suite=context | reps=3 ===
+     C:\Users\PC\.lmstudio\models\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf -p 0 -n 128 -d 0,4096,16384,32768 -r 3 -o json
+  tg128               53.52 t/s  +/-  0.08   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d4096         51.53 t/s  +/-  0.36   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d16384        49.10 t/s  +/-  0.44   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d32768        46.53 t/s  +/-  0.40   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 122.8s -> C:\Projects\p100 testing\results\raw.jsonl
+
+################ Mistral-Small-3.2-24B-UD-Q4_K_XL ################
+=== Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL | suite=standard | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Mistral-Small-3.2-24B-Instruct-2506-GGUF\Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf -p 512,2048 -n 128 -r 5 -o json
+  pp512              165.46 t/s  +/-  0.42   [k=f16 v=f16 fa=-1 dev=auto]
+  pp2048             241.57 t/s  +/-  2.83   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128               14.15 t/s  +/-  0.09   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 126.7s -> C:\Projects\p100 testing\results\raw.jsonl
+=== Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL | suite=context | reps=3 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Mistral-Small-3.2-24B-Instruct-2506-GGUF\Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf -p 0 -n 128 -d 0,4096,16384,32768 -r 3 -o json
+  tg128               14.16 t/s  +/-  0.34   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d4096         13.93 t/s  +/-  0.02   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d16384        13.23 t/s  +/-  0.08   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d32768        12.40 t/s  +/-  0.20   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 388.5s -> C:\Projects\p100 testing\results\raw.jsonl
+
+WAVE 6 BENCH COMPLETE

@@ -1,0 +1,19 @@
+0.00.158.369 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.158.476 I srv          init: The UI is disabled
+0.00.158.477 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.158.574 W srv  llama_server: -----------------
+0.00.158.578 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.158.579 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.158.580 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.158.580 W srv  llama_server: -----------------
+0.00.168.162 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\bartowski\Qwen_Qwen3-Next-80B-A3B-Instruct-GGUF\Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf'
+0.00.574.928 W common_fit_params: failed to fit params to free device memory: n_gpu_layers already set by user to 999, abort
+0.00.821.800 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.21.289.156 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 3072.00 MiB on device 0: cudaMalloc failed: out of memory
+0.21.289.340 E alloc_tensor_range: failed to allocate CUDA0 buffer of size 3221225472
+0.21.296.187 E llama_init_from_model: failed to initialize the context: failed to allocate buffer for kv cache
+0.21.296.192 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\bartowski\Qwen_Qwen3-Next-80B-A3B-Instruct-GGUF\Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf'
+0.21.296.202 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\bartowski\Qwen_Qwen3-Next-80B-A3B-Instruct-GGUF\Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf'
+0.21.296.226 E srv    load_model: failed to create_context with model 'C:\Users\PC\.lmstudio\models\bartowski\Qwen_Qwen3-Next-80B-A3B-Instruct-GGUF\Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf'
+0.21.296.444 I srv    operator(): operator(): cleaning up before exit...
+0.21.300.151 E srv  llama_server: exiting due to model loading error

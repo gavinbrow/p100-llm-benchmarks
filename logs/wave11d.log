@@ -1,0 +1,104 @@
+[15:46:54] WAVE 11d start: ['handoff', 'topups', 'bnemo']
+[15:46:54] handoff: waiting for 'STEP bub done' in wave11c.log
+[17:46:21]   stopped wave11b.py (pid 376)
+[17:46:21]   stopped wave11b.py (pid 6000)
+[17:46:31] STEP handoff done in 1.99 h
+[17:46:31]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 264064 --no-webui -np 1 -sm tensor -ctxcp 0 --cache-ram 0 -fa on -ctk f16 -ctv f16 -b 2048 -ub 512
+[17:46:52]   server ready in 21s
+[17:46:52] SWEEP tensor-top-Qwen3.6-35B-A3B-UD-Q4_K_M (tensor): levels [259392], ctx 264064, slot 262144
+[18:09:43]     259392: pp512    115.6  pp2048    118.3  tg   30.17  (fill 259392 tok in 1343.5s)
+[18:09:50]   vram peak: card0 13719 MiB, card1 13719 MiB
+[18:09:50]   server: -m C:\Users\PC\.lmstudio\models\bartowski\nex-agi_Nex-N2.5-mini-GGUF\nex-agi_Nex-N2.5-mini-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 264064 --no-webui -np 1 -sm tensor -ctxcp 0 --cache-ram 0 -fa on -ctk f16 -ctv f16 -b 2048 -ub 512
+[18:10:11]   server ready in 21s
+[18:10:11] SWEEP tensor-top-nex-agi_Nex-N2.5-mini-Q4_K_M (tensor): levels [259392], ctx 264064, slot 262144
+[18:33:38]     259392: pp512    120.9  pp2048    118.6  tg   30.98  (fill 259392 tok in 1379.9s)
+[18:33:45]   vram peak: card0 13807 MiB, card1 13807 MiB
+[18:33:45]   server: -m C:\Users\PC\.lmstudio\models\ornith-ai\Ornith-1.5-35B-A3B-GGUF\Ornith-1.5-35B-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 264064 --no-webui -np 1 -sm tensor -ctxcp 0 --cache-ram 0 -fa on -ctk f16 -ctv f16 -b 2048 -ub 512
+[18:34:06]   server ready in 21s
+[18:34:06] SWEEP tensor-top-Ornith-1.5-35B-Q4_K_M (tensor): levels [259392], ctx 264064, slot 262144
+[18:55:41]     259392: pp512    130.2  pp2048    127.3  tg   30.61  (fill 259392 tok in 1269.6s)
+[18:55:48]   vram peak: card0 13353 MiB, card1 13353 MiB
+[18:55:48]   server: -m C:\Users\PC\.lmstudio\models\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 264064 --no-webui -np 1 -sm tensor -ctxcp 0 --cache-ram 0 -fa on -ctk f16 -ctv f16 -b 2048 -ub 512
+[18:56:03]   server ready in 15s
+[18:56:03] SWEEP tensor-top-gemma-4-26B-A4B-it-QAT-Q4_0 (tensor): levels [259392], ctx 264064, slot 262144
+[19:24:45]     259392: pp512     89.3  pp2048     90.3  tg   30.32  (fill 259392 tok in 1688.6s)
+[19:24:52]   vram peak: card0 10625 MiB, card1 10849 MiB
+[19:24:52]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q8_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 264064 --no-webui -np 1 -sm tensor -ctxcp 0 --cache-ram 0 -fa on -ctk f16 -ctv f16 -b 2048 -ub 512
+[19:25:01]   server ready in 9s
+[19:25:01] SWEEP tensor-top-Qwen3.5-9B-Q8_0 (tensor): levels [259392], ctx 264064, slot 262144
+[19:44:55]     259392: pp512    139.8  pp2048    135.8  tg   28.51  (fill 259392 tok in 1169.8s)
+[19:45:01]   vram peak: card0 8943 MiB, card1 8943 MiB
+[19:45:01]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 134016 --no-webui -np 1 -sm tensor -ctxcp 0 --cache-ram 0 -fa on -ctk f16 -ctv f16 -b 2048 -ub 512
+[19:45:16]   server ready in 15s
+[19:45:16] SWEEP tensor-Qwen3.8-27B-Q4_0-131k (tensor): levels [4096, 16384, 32768, 65536, 131072], ctx 134016, slot 134144
+[19:46:03]       4096: pp512    164.1  pp2048    163.0  tg   17.29  (fill 4096 tok in 23.9s)
+[19:47:32]      16384: pp512    144.1  pp2048    143.6  tg   17.17  (fill 9601 tok in 63.8s)
+[19:49:44]      32768: pp512    120.5  pp2048    123.9  tg   16.47  (fill 13697 tok in 103.4s)
+[19:54:54]      65536: pp512     98.4  pp2048    100.2  tg   13.25  (fill 30081 tok in 274.3s)
+[20:08:32]     131072: pp512     70.5  pp2048     69.7  tg   11.90  (fill 62849 tok in 770.4s)
+[20:08:39]   vram peak: card0 12191 MiB, card1 12191 MiB
+[20:08:39]   server: -m C:\Users\PC\.lmstudio\models\bartowski\allenai_Olmo-3.1-32B-Think-GGUF\allenai_Olmo-3.1-32B-Think-Q5_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 68480 --no-webui -np 1 -sm layer -ctxcp 0 --cache-ram 0 -ctk f16 -ctv f16 -fa on -ub 512 -b 2048
+[20:08:57]   server ready in 19s
+[20:08:57] SWEEP backfill-top-allenai_Olmo-3.1-32B-Think-Q5_K_M--ctk_f16_-ctv_f16_-fa_on_-ub_512_-b_2048 (layer): levels [62784], ctx 68480, slot 65536
+[20:18:43]      62784: pp512     60.4  pp2048     88.4  tg    6.32  (fill 62784 tok in 533.9s)
+[20:18:51]   vram peak: card0 14638 MiB, card1 14364 MiB
+[20:18:51]   server: -m C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 132992 --no-webui -np 1 -sm layer -ctxcp 0 --cache-ram 0 -ctk f16 -ctv f16 -fa on -ub 512 -b 2048 -dev CUDA0
+[20:19:04]   server ready in 13s
+[20:19:04] SWEEP backfill-top-gpt-oss-20b-MXFP4--ctk_f16_-ctv_f16_-fa_on_-ub_512_-b_2048_-dev_CUDA0 (layer): levels [128320], ctx 132992, slot 131072
+[20:33:42]     128320: pp512     96.1  pp2048     95.6  tg   27.00  (fill 128320 tok in 845.9s)
+[20:33:49]   vram peak: card0 14664 MiB, card1 9 MiB
+[20:33:49]   server: -m C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 134016 --no-webui -np 1 -sm layer -ctxcp 0 --cache-ram 0 -ctk f16 -ctv f16 -fa on -ub 512 -b 2048
+[20:33:55]   server ready in 7s
+[20:33:55] SWEEP backfill-top-gpt-oss-20b-MXFP4--ctk_f16_-ctv_f16_-fa_on_-ub_512_-b_2048 (layer): levels [128320], ctx 134016, slot 131072
+[20:41:36]     128320: pp512    117.8  pp2048    163.7  tg   40.05  (fill 128320 tok in 441.1s)
+[20:41:43]   vram peak: card0 8184 MiB, card1 7903 MiB
+[20:41:43]   server: -m C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 134016 --no-webui -np 1 -sm layer -ctxcp 0 --cache-ram 0 -ctk q8_0 -ctv q8_0 -fa on -ub 512 -b 2048
+[20:41:50]   server ready in 7s
+[20:41:50] SWEEP backfill-top-gpt-oss-20b-MXFP4--ctk_q8_0_-ctv_q8_0_-fa_on_-ub_512_-b_2048 (layer): levels [128320], ctx 134016, slot 131072
+[20:49:44]     128320: pp512    117.6  pp2048    161.2  tg   17.55  (fill 128320 tok in 449.9s)
+[20:49:50]   vram peak: card0 7644 MiB, card1 7365 MiB
+[20:49:50]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 264064 --no-webui -np 1 -sm layer -ctxcp 0 --cache-ram 0 -ctk f16 -ctv f16 -fa on -ub 512 -b 2048 -dev CUDA0
+[20:49:57]   server ready in 7s
+[20:49:57] SWEEP backfill-top-Qwen3.5-9B-Q4_K_M--ctk_f16_-ctv_f16_-fa_on_-ub_512_-b_2048_-dev_CUDA0 (layer): levels [259392], ctx 264064, slot 262144
+[21:24:53]     259392: pp512     79.8  pp2048     75.9  tg   14.09  (fill 259392 tok in 2052.8s)
+[21:24:59]   vram peak: card0 14023 MiB, card1 9 MiB
+[21:24:59]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 264064 --no-webui -np 1 -sm layer -ctxcp 0 --cache-ram 0 -ctk f16 -ctv f16 -fa on -ub 512 -b 2048
+[21:25:03]   server ready in 5s
+[21:25:04] SWEEP backfill-top-Qwen3.5-9B-Q4_K_M--ctk_f16_-ctv_f16_-fa_on_-ub_512_-b_2048 (layer): levels [259392], ctx 264064, slot 262144
+[21:42:49]     259392: pp512     86.9  pp2048    131.1  tg   20.47  (fill 259392 tok in 1037.6s)
+[21:42:55]   vram peak: card0 7965 MiB, card1 8507 MiB
+[21:42:55]   server: -m C:\Users\PC\.lmstudio\models\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 264064 --no-webui -np 1 -sm layer -ctxcp 0 --cache-ram 0 -ctk f16 -ctv f16 -fa on -ub 512 -b 2048
+[21:43:08]   server ready in 13s
+[21:43:08] SWEEP backfill-top-gemma-4-26B-A4B-it-QAT-Q4_0--ctk_f16_-ctv_f16_-fa_on_-ub_512_-b_2048 (layer): levels [259392], ctx 264064, slot 262144
+[22:11:16]     259392: pp512     55.4  pp2048     77.2  tg   24.90  (fill 259392 tok in 1647.0s)
+[22:11:23]   vram peak: card0 10877 MiB, card1 11582 MiB
+[22:11:23]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q8_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 264064 --no-webui -np 1 -sm layer -ctxcp 0 --cache-ram 0 -ctk f16 -ctv f16 -fa on -ub 512 -b 2048
+[22:11:31]   server ready in 9s
+[22:11:31] SWEEP backfill-top-Qwen3.5-9B-Q8_0--ctk_f16_-ctv_f16_-fa_on_-ub_512_-b_2048 (layer): levels [259392], ctx 264064, slot 262144
+[22:29:00]     259392: pp512     88.3  pp2048    132.5  tg   20.52  (fill 259392 tok in 1020.7s)
+[22:29:06]   vram peak: card0 9537 MiB, card1 10121 MiB
+[22:29:06]   server: -m C:\Users\PC\.lmstudio\models\bartowski\nex-agi_Nex-N2.5-mini-GGUF\nex-agi_Nex-N2.5-mini-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 264064 --no-webui -np 1 -sm layer -ctxcp 0 --cache-ram 0 -ctk f16 -ctv f16 -fa on -ub 512 -b 2048
+[22:29:25]   server ready in 19s
+[22:29:25] SWEEP backfill-top-nex-agi_Nex-N2.5-mini-Q4_K_M--ctk_f16_-ctv_f16_-fa_on_-ub_512_-b_2048 (layer): levels [259392], ctx 264064, slot 262144
+[22:52:47]     259392: pp512     74.5  pp2048    104.1  tg   23.64  (fill 259392 tok in 1369.7s)
+[22:52:55]   vram peak: card0 14996 MiB, card1 14030 MiB
+[22:52:55]   server: -m C:\Users\PC\.lmstudio\models\ornith-ai\Ornith-1.5-35B-A3B-GGUF\Ornith-1.5-35B-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 264064 --no-webui -np 1 -sm layer -ctxcp 0 --cache-ram 0 -ctk f16 -ctv f16 -fa on -ub 512 -b 2048
+[22:53:11]   server ready in 17s
+[22:53:11] SWEEP backfill-top-Ornith-1.5-35B-Q4_K_M--ctk_f16_-ctv_f16_-fa_on_-ub_512_-b_2048 (layer): levels [259392], ctx 264064, slot 262144
+[23:16:14]     259392: pp512     79.8  pp2048    107.1  tg   23.21  (fill 259392 tok in 1351.3s)
+[23:16:22]   vram peak: card0 14343 MiB, card1 13828 MiB
+[23:16:22]   server: -m C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q4_K_M.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 264064 --no-webui -np 1 -sm layer -ctxcp 0 --cache-ram 0 -ctk f16 -ctv f16 -fa on -ub 512 -b 2048
+[23:16:38]   server ready in 17s
+[23:16:38] SWEEP backfill-top-Qwen3.6-35B-A3B-UD-Q4_K_M--ctk_f16_-ctv_f16_-fa_on_-ub_512_-b_2048 (layer): levels [259392], ctx 264064, slot 262144
+[23:39:29]     259392: pp512     77.1  pp2048    106.2  tg   23.29  (fill 259392 tok in 1338.6s)
+[23:39:36]   vram peak: card0 14682 MiB, card1 14169 MiB
+[23:39:36] STEP topups done in 5.88 h
+[23:39:36]   server: -m C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 1050496 --no-webui -np 1 -sm layer -ctxcp 0 --cache-ram 0 -ctk f16 -ctv f16 -fa on -ub 512 -b 2048
+[23:39:51]   server ready in 15s
+[23:39:51] SWEEP backfill-NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0--ctk_f16_-ctv_f16_-fa_on_-ub_512_-b_2048 (layer): levels [65536, 73728, 98304, 131072, 261120, 524288, 1045824], ctx 1050496, slot 1048576
+[23:42:15]      65536: pp512    239.8  pp2048    334.2  tg   57.48  (fill 65536 tok in 131.6s)
+[23:42:42]      73728: pp512    231.3  pp2048    297.2  tg   56.17  (fill 5505 tok in 16.2s)
+[23:44:05]      98304: pp512    207.5  pp2048    279.8  tg   53.08  (fill 21889 tok in 70.3s)
+[23:46:13]     131072: pp512    162.7  pp2048    232.2  tg   49.04  (fill 30081 tok in 113.3s)
+[23:57:58]     261120: pp512    110.3  pp2048    141.1  tg   37.59  (fill 127361 tok in 681.6s)
+[00:38:46]     524288: pp512     61.0  pp2048     83.2  tg   25.75  (fill 260481 tok in 2409.5s)

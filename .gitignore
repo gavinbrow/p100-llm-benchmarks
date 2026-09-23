@@ -1,0 +1,23 @@
+# llama.cpp release binaries and CUDA runtime DLLs (~1.7 GB).
+# Not ours to redistribute, and METHODOLOGY.md names the exact build to fetch.
+tools/
+
+# wikitext-2-raw, downloaded for the perplexity runs (~17 MB).
+# Publicly available; README.md "Reproducing" says where to get it.
+data/
+
+# Model weights never live in this tree - they are under the LM Studio
+# models directory. Belt and braces in case one is ever copied here.
+*.gguf
+*.safetensors
+*.bin
+
+*.tmp
+*.part
+
+# Saved KV-cache slots from the save/restore tests (up to 16.5 GB each).
+tmp-slots/
+
+# Python bytecode.
+__pycache__/
+*.pyc

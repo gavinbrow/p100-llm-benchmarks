@@ -1,0 +1,18 @@
+0.00.154.272 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.154.379 I srv          init: The UI is disabled
+0.00.154.379 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.154.474 W srv  llama_server: -----------------
+0.00.154.477 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.154.479 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.154.479 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.154.480 W srv  llama_server: -----------------
+0.00.169.235 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\bartowski\mistralai_Magistral-Small-2509-GGUF\mistralai_Magistral-Small-2509-Q6_K.gguf'
+0.00.601.982 W common_fit_params: failed to fit params to free device memory: n_gpu_layers already set by user to 999, abort
+0.14.129.208 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 10752.00 MiB on device 0: cudaMalloc failed: out of memory
+0.14.129.507 E alloc_tensor_range: failed to allocate CUDA0 buffer of size 11274289152
+0.14.131.744 E llama_init_from_model: failed to initialize the context: failed to allocate buffer for kv cache
+0.14.131.749 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\bartowski\mistralai_Magistral-Small-2509-GGUF\mistralai_Magistral-Small-2509-Q6_K.gguf'
+0.14.131.750 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\bartowski\mistralai_Magistral-Small-2509-GGUF\mistralai_Magistral-Small-2509-Q6_K.gguf'
+0.14.131.752 E srv    load_model: failed to create_context with model 'C:\Users\PC\.lmstudio\models\bartowski\mistralai_Magistral-Small-2509-GGUF\mistralai_Magistral-Small-2509-Q6_K.gguf'
+0.14.131.758 I srv    operator(): operator(): cleaning up before exit...
+0.14.132.878 E srv  llama_server: exiting due to model loading error

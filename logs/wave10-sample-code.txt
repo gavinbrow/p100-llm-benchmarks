@@ -1,0 +1,2068 @@
+# P100 benchmark runner.
+# Wraps llama-bench, captures structured JSON + a VRAM/power/temp sample taken
+# while the run is hot, and appends one row per test to results\raw.jsonl
+#
+# Usage:
+#   .\bench.ps1 -Model <path> -Suite quick|standard|context|kv|devices -Tag "label"
+
+param(
+  [Parameter(Mandatory=$true)][string]$Model,
+  [string]$Suite = "standard",
+  [string]$Tag = "",
+  [string[]]$Extra = @(),
+  [int]$Reps = 5
+)
+
+$ErrorActionPreference = "Continue"
+$LB   = "C:\Projects\p100 testing\tools\llamacpp\llama-bench.exe"
+$OUT  = "C:\Projects\p100 testing\results\raw.jsonl"
+$LOGD = "C:\Projects\p100 testing\logs"
+
+if (-not (Test-Path $Model)) { Write-Output "MISSING MODEL: $Model"; exit 1 }
+$name = [System.IO.Path]::GetFileNameWithoutExtension($Model)
+if ($Tag -eq "") { $Tag = $Suite }
+
+# ---- suite definitions -------------------------------------------------
+# Each suite is an argument list appended to the base llama-bench invocation.
+$suites = @{
+  # sanity / fast signal
+  "quick"    = @("-p","512","-n","128")
+
+  # headline numbers: prompt processing + generation, both GPUs, fa auto
+  "standard" = @("-p","512,2048","-n","128")
+
+  # agent turn shape: read a ~2k-token tool result, then write (wave 10, used with -d)
+  "agent"    = @("-p","2048","-n","128")
+
+  # how does generation hold up as the KV cache fills?
+  # -d N pre-fills the cache to depth N, then measures tg
+  "context"  = @("-p","0","-n","128","-d","0,4096,16384,32768")
+
+  # KV cache quantisation: does q8_0/q4_0 KV buy speed or only memory?
+  "kv"       = @("-p","512","-n","128","-d","0,16384","-ctk","f16,q8_0,q4_0","-ctv","f16,q8_0,q4_0")
+
+  # single GPU vs both (only valid for models that fit in 16GB)
+  "devices"  = @("-p","512","-n","128","-dev","CUDA0","-dev","CUDA0,CUDA1")
+
+  # flash attention on/off
+  "fa"       = @("-p","512","-n","128","-fa","on,off")
+
+  # batch/ubatch sweep - mostly affects prompt processing
+  "batch"    = @("-p","2048","-n","0","-b","512,1024,2048","-ub","128,256,512")
+}
+
+if (-not $suites.ContainsKey($Suite)) { Write-Output "Unknown suite: $Suite"; exit 1 }
+
+$stamp   = Get-Date -Format "yyyyMMdd-HHmmss"
+$jsonOut = Join-Path $LOGD "$name.$Tag.$stamp.json"
+$errOut  = Join-Path $LOGD "$name.$Tag.$stamp.stderr.txt"
+
+$args = @("-m", $Model) + $suites[$Suite] + @("-r", "$Reps", "-o", "json") + $Extra
+
+Write-Output "=== $name | suite=$Suite | reps=$Reps ==="
+Write-Output "    $($args -replace '^-m$','')"
+
+# Sample GPU state continuously while the benchmark runs. nvidia-smi writes
+# straight to a CSV so we still get data if we have to kill the sampler.
+$smiCsv = Join-Path $LOGD "$name.$Tag.$stamp.gpu.csv"
+$sampler = Start-Process -FilePath "nvidia-smi" `
+  -ArgumentList "--query-gpu=index,memory.used,utilization.gpu,temperature.gpu,power.draw",
+                "--format=csv,noheader,nounits","-l","1" `
+  -RedirectStandardOutput $smiCsv -NoNewWindow -PassThru
+
+$t0 = Get-Date
+& $LB @args 1> $jsonOut 2> $errOut
+$exit = $LASTEXITCODE
+$elapsed = [math]::Round(((Get-Date) - $t0).TotalSeconds, 1)
+
+try { Stop-Process -Id $sampler.Id -Force -ErrorAction SilentlyContinue } catch {}
+Start-Sleep -Milliseconds 500
+
+# Aggregate peaks per GPU. Drop the first 5s of samples: that window is model
+# load, not compute, so it would understate util and overstate nothing useful.
+$gpu = $null
+if (Test-Path $smiCsv) {
+  $peak = @{}
+  $lines = @(Get-Content $smiCsv -ErrorAction SilentlyContinue)
+  if ($lines.Count -gt 10) { $lines = $lines[10..($lines.Count-1)] }
+  foreach ($line in $lines) {
+    $p = $line -split ',\s*'
+    if ($p.Count -lt 5) { continue }
+    $i = $p[0].Trim()
+    if (-not $peak.ContainsKey($i)) { $peak[$i] = [ordered]@{mem_mib=0;util_pct=0;temp_c=0;power_w=0.0} }
+    if ([int]$p[1]    -gt $peak[$i].mem_mib)  { $peak[$i].mem_mib  = [int]$p[1] }
+    if ([int]$p[2]    -gt $peak[$i].util_pct) { $peak[$i].util_pct = [int]$p[2] }
+    if ([int]$p[3]    -gt $peak[$i].temp_c)   { $peak[$i].temp_c   = [int]$p[3] }
+    if ([double]$p[4] -gt $peak[$i].power_w)  { $peak[$i].power_w  = [double]$p[4] }
+  }
+  if ($peak.Count -gt 0) { $gpu = $peak }
+}
+
+if ($exit -ne 0) {
+  $why = (Get-Content $errOut -Tail 6) -join ' | '
+  Write-Output "  FAILED (exit $exit): $why"
+  $rec = [ordered]@{ ok=$false; model=$name; suite=$Suite; tag=$Tag; ts=$stamp; error=$why } | ConvertTo-Json -Compress
+  Add-Content -Path $OUT -Value $rec -Encoding utf8
+  exit $exit
+}
+
+# llama-bench emits a JSON array, one object per test
+$rows = Get-Content $jsonOut -Raw | ConvertFrom-Json
+foreach ($r in $rows) {
+  $rec = [ordered]@{
+    ok            = $true
+    model         = $name
+    suite         = $Suite
+    tag           = $Tag
+    ts            = $stamp
+    model_type    = $r.model_type
+    model_size_gb = [math]::Round($r.model_size / 1GB, 3)
+    params_b      = [math]::Round($r.model_n_params / 1e9, 2)
+    n_prompt      = $r.n_prompt
+    n_gen         = $r.n_gen
+    n_depth       = $r.n_depth
+    n_batch       = $r.n_batch
+    n_ubatch      = $r.n_ubatch
+    type_k        = $r.type_k
+    type_v        = $r.type_v
+    flash_attn    = $r.flash_attn
+    split_mode    = $r.split_mode
+    devices       = ($r.devices -join ',')
+    n_gpu_layers  = $r.n_gpu_layers
+    tps_avg       = [math]::Round($r.avg_ts, 3)
+    tps_stddev    = [math]::Round($r.stddev_ts, 3)
+    ms_avg        = [math]::Round($r.avg_ns / 1e6, 2)
+    reps          = $Reps
+    build         = $r.build_commit
+    gpu_peak      = $gpu
+    wall_s        = $elapsed
+  } | ConvertTo-Json -Depth 5 -Compress
+  Add-Content -Path $OUT -Value $rec -Encoding utf8
+
+  $label = if ($r.n_prompt -gt 0) { "pp$($r.n_prompt)" } else { "tg$($r.n_gen)" }
+  if ($r.n_depth -gt 0) { $label += "@d$($r.n_depth)" }
+  Write-Output ("  {0,-16} {1,8:N2} t/s  +/- {2,5:N2}   [k={3} v={4} fa={5} dev={6}]" -f `
+    $label, $r.avg_ts, $r.stddev_ts, $r.type_k, $r.type_v, $r.flash_attn, ($r.devices -join '+'))
+}
+Write-Output "  done in ${elapsed}s -> $OUT"
+
+# Downloads the benchmark model set into .\models using curl.exe (streaming + resumable).
+# Usage: powershell -ExecutionPolicy Bypass -File download.ps1 -Wave 1
+param([int]$Wave = 1)
+
+$ErrorActionPreference = "Continue"
+$root = "C:\Projects\p100 testing\models"
+
+$manifest = @(
+  # --- Wave 1: Qwen3.8-27B quant sweep (the headline model) ---
+  # IQ4_XS / Q3_K_XL are chosen to fit on a SINGLE 16GB P100 (single- vs dual-GPU test)
+  @{r="unsloth/Qwen3.8-27B-GGUF";  f="Qwen3.8-27B-Q4_0.gguf";          w=1},
+  @{r="unsloth/Qwen3.8-27B-GGUF";  f="Qwen3.8-27B-UD-Q3_K_XL.gguf";    w=1},
+  @{r="unsloth/Qwen3.8-27B-GGUF";  f="Qwen3.8-27B-UD-IQ4_XS.gguf";     w=1},
+  @{r="unsloth/Qwen3.8-27B-GGUF";  f="Qwen3.8-27B-UD-Q6_K.gguf";       w=1},
+  @{r="unsloth/Qwen3.8-27B-GGUF";  f="Qwen3.8-27B-Q8_0.gguf";          w=1},
+
+  # --- Wave 2: the size ladder, 3B -> 9B ---
+  @{r="LiquidAI/LFM2.5-2.6B-GGUF"; f="LFM2.5-2.6B-Q4_0.gguf";          w=2},
+  @{r="LiquidAI/LFM2.5-2.6B-GGUF"; f="LFM2.5-2.6B-Q4_K_M.gguf";        w=2},
+  @{r="LiquidAI/LFM2.5-2.6B-GGUF"; f="LFM2.5-2.6B-Q8_0.gguf";          w=2},
+  @{r="LiquidAI/LFM2.5-2.6B-GGUF"; f="LFM2.5-2.6B-F16.gguf";           w=2},
+  @{r="unsloth/Qwen3.5-9B-GGUF";   f="Qwen3.5-9B-Q4_0.gguf";           w=2},
+  @{r="unsloth/Qwen3.5-9B-GGUF";   f="Qwen3.5-9B-Q4_K_M.gguf";         w=2},
+  @{r="unsloth/Qwen3.5-9B-GGUF";   f="Qwen3.5-9B-Q8_0.gguf";           w=2},
+  @{r="unsloth/Qwen3.5-9B-GGUF";   f="Qwen3.5-9B-BF16.gguf";           w=2},
+
+  # --- Wave 3: MoE + max-size-that-fits-32GB ---
+  @{r="unsloth/Qwen3.6-35B-A3B-GGUF"; f="Qwen3.6-35B-A3B-UD-Q4_K_M.gguf";  w=3},
+  @{r="unsloth/Qwen3.6-35B-A3B-GGUF"; f="Qwen3.6-35B-A3B-MXFP4_MOE.gguf";  w=3},
+  @{r="unsloth/Qwen3.6-35B-A3B-GGUF"; f="Qwen3.6-35B-A3B-UD-Q6_K.gguf";    w=3},
+  @{r="unsloth/Qwen3.8-27B-GGUF";     f="Qwen3.8-27B-UD-Q8_K_XL.gguf";     w=3},
+
+  # --- Wave 4: breadth. other families, other architectures, gen-over-gen ---
+  # Qwen3.6-27B vs Qwen3.8-27B is a like-for-like generational comparison
+  @{r="unsloth/Qwen3.6-27B-GGUF";  f="Qwen3.6-27B-Q4_0.gguf";                    w=4},
+  # most-downloaded GGUF on HF right now; MoE coder
+  @{r="unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"; f="Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf"; w=4},
+  # a non-Qwen MoE, to check the MoE advantage generalises across families
+  @{r="ornith-ai/Ornith-1.5-35B-A3B-GGUF"; f="Ornith-1.5-35B-Q4_K_M.gguf";       w=4},
+  # QAT (quantisation-aware trained) dense 12B - different quality/size curve
+  @{r="unsloth/gemma-4-12B-it-qat-GGUF"; f="gemma-4-12B-it-qat-UD-Q4_K_XL.gguf"; w=4},
+  # gemma ships a tiny MTP head: a second speculative-decoding data point
+  @{r="unsloth/gemma-4-12B-it-qat-GGUF"; f="mtp-gemma-4-12B-it-Q8_0.gguf";       w=4}
+)
+
+New-Item -ItemType Directory -Force -Path $root | Out-Null
+
+foreach ($m in $manifest | Where-Object { $_.w -eq $Wave }) {
+  $out = Join-Path $root $m.f
+  if (Test-Path $out) {
+    $gb = [math]::Round((Get-Item $out).Length / 1GB, 2)
+    Write-Output "SKIP (exists, $gb GB): $($m.f)"
+    continue
+  }
+  $url = "https://huggingface.co/$($m.r)/resolve/main/$($m.f)"
+  Write-Output "GET $($m.r) :: $($m.f)"
+  $t0 = Get-Date
+  # -C - resume, -L follow redirects, --retry survive transient HF 5xx
+  curl.exe -L -C - --retry 5 --retry-delay 5 --retry-all-errors -s -S -o "$out.part" $url
+  if ($LASTEXITCODE -eq 0) {
+    Move-Item -Force "$out.part" $out
+    $gb = [math]::Round((Get-Item $out).Length / 1GB, 2)
+    $secs = [math]::Round(((Get-Date) - $t0).TotalSeconds, 0)
+    $mbps = if ($secs -gt 0) { [math]::Round($gb * 1024 / $secs, 1) } else { 0 }
+    Write-Output "  OK $gb GB in ${secs}s (${mbps} MB/s)"
+  } else {
+    Write-Output "  FAIL $($m.f): curl exit $LASTEXITCODE"
+  }
+}
+Write-Output "WAVE $Wave COMPLETE"
+
+# Wave 5: the "bigger models" set. Downloads straight into the LM Studio tree.
+#
+# Selection rule: every file must be LARGER than the previous ceiling (29.3 GB /
+# 35B params) in at least one dimension, must still fit 32,574 MiB of VRAM, and
+# must answer a question the existing 109 runs do not.
+#
+#   Qwen3-Next-80B-A3B  Q2_K       26.2 GB  most params that fit (80B); new hybrid attn
+#   Llama-3.3-70B       UD-Q2_K_XL 25.1 GB  largest DENSE - the bandwidth thesis at 70B
+#   Seed-OSS-36B        Q6_K       27.6 GB  largest dense at a HIGH quant
+#   Qwen3-32B           Q6_K       25.0 GB  fills the 27B->70B dense gap
+#   Nemotron-3.5-30B    Q4_0       17.6 GB  new family + ships an MTP head
+#   Nemotron-3.5-30B    mtp Q4_0    1.1 GB  the MTP test that 404'd in wave 4
+#   Nemotron-3.5-30B    Q8_0       31.3 GB  deliberate VRAM-ceiling probe (may not fit)
+
+param([switch]$List)
+
+$ErrorActionPreference = "Continue"
+$root = "C:\Users\PC\.lmstudio\models"
+
+$manifest = @(
+  @{r="bartowski/Qwen_Qwen3-Next-80B-A3B-Thinking-GGUF"; f="Qwen_Qwen3-Next-80B-A3B-Thinking-Q2_K.gguf"},
+  @{r="unsloth/Llama-3.3-70B-Instruct-GGUF";             f="Llama-3.3-70B-Instruct-UD-Q2_K_XL.gguf"},
+  @{r="lmstudio-community/Seed-OSS-36B-Instruct-GGUF";   f="Seed-OSS-36B-Instruct-Q6_K.gguf"},
+  @{r="unsloth/Qwen3-32B-GGUF";                          f="Qwen3-32B-Q6_K.gguf"},
+  @{r="ggml-org/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF"; f="NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf"},
+  @{r="ggml-org/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF"; f="mtp-NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf"},
+  @{r="ggml-org/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF"; f="NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q8_0.gguf"}
+)
+
+if ($List) { $manifest | ForEach-Object { Write-Output (Join-Path (Join-Path $root $_.r) $_.f) }; exit 0 }
+
+foreach ($m in $manifest) {
+  $dir = Join-Path $root $m.r
+  New-Item -ItemType Directory -Force -Path $dir | Out-Null
+  $out = Join-Path $dir $m.f
+
+  # wave 4 produced a 0-byte file when two downloads raced on the same .part,
+  # and the plain -Test-Path skip then treated the stub as complete. Require
+  # a non-trivial size before believing a file is already here.
+  if ((Test-Path $out) -and (Get-Item $out).Length -gt 1MB) {
+    Write-Output "SKIP (exists, $([math]::Round((Get-Item $out).Length/1GB,2)) GB): $($m.f)"
+    continue
+  }
+  if (Test-Path $out) { Remove-Item -LiteralPath $out -Force }
+
+  $url = "https://huggingface.co/$($m.r)/resolve/main/$($m.f)"
+  Write-Output "GET $($m.r) :: $($m.f)"
+  $t0 = Get-Date
+  curl.exe -L -C - --retry 5 --retry-delay 5 --retry-all-errors -s -S -o "$out.part" $url
+  if ($LASTEXITCODE -eq 0) {
+    Move-Item -Force "$out.part" $out
+    $gb = [math]::Round((Get-Item $out).Length / 1GB, 2)
+    $secs = [math]::Round(((Get-Date) - $t0).TotalSeconds, 0)
+    $mbps = if ($secs -gt 0) { [math]::Round($gb * 1024 / $secs, 1) } else { 0 }
+    Write-Output "  OK $gb GB in ${secs}s (${mbps} MB/s)"
+  } else {
+    Write-Output "  FAIL $($m.f): curl exit $LASTEXITCODE"
+  }
+}
+Write-Output "WAVE 5 COMPLETE"
+
+# Wave 6: four models people actually run day to day.
+#
+# The library up to now was Qwen-heavy, which made the quant/architecture
+# findings well-supported but said nothing about whether they generalise. These
+# four are the most-downloaded members of four families not otherwise present -
+# Mistral, OpenAI, Microsoft, Meta - so every result here is a check on whether
+# the Pascal dequantisation story holds outside Qwen.
+#
+# Sizes are chosen to leave room for a large KV cache rather than to maximise
+# quality: the long-context pass needs ~12-15 GB of the 32,574 MiB budget free.
+#
+# The eagle3 head is not a model under test. It is a draft for gpt-oss-20b and
+# gives a second speculative-decoding mechanism to compare against Nemotron's MTP.
+
+param([switch]$List)
+
+$ErrorActionPreference = "Continue"
+$dst = "C:\Users\PC\.lmstudio\models"
+
+$manifest = @(
+  @{r="unsloth/Mistral-Small-3.2-24B-Instruct-2506-GGUF"; f="Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf"},
+  @{r="ggml-org/gpt-oss-20b-GGUF";                        f="gpt-oss-20b-MXFP4.gguf"},
+  @{r="ggml-org/gpt-oss-20b-GGUF";                        f="eagle3-gpt-oss-20b-Q8_0.gguf"},
+  @{r="unsloth/phi-4-GGUF";                               f="phi-4-Q8_0.gguf"},
+  @{r="bartowski/Meta-Llama-3.1-8B-Instruct-GGUF";        f="Meta-Llama-3.1-8B-Instruct-Q8_0.gguf"}
+)
+
+if ($List) {
+  foreach ($m in $manifest) { Join-Path $dst "$($m.r -replace '/','\')\$($m.f)" }
+  return
+}
+
+foreach ($m in $manifest) {
+  $dir = Join-Path $dst ($m.r -replace '/','\')
+  if (-not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
+  $out = Join-Path $dir $m.f
+  $url = "https://huggingface.co/$($m.r)/resolve/main/$($m.f)"
+
+  # A stub left behind by an interrupted run must not count as "already here",
+  # so require a non-trivial size before skipping.
+  if ((Test-Path $out) -and (Get-Item $out).Length -gt 1MB) {
+    Write-Output ("SKIP  {0}  ({1:N1} GB already)" -f $m.f, ((Get-Item $out).Length/1GB))
+    continue
+  }
+  if (Test-Path $out) { Remove-Item -LiteralPath $out -Force }
+
+  Write-Output "GET   $($m.f)"
+  curl.exe -L -C - --retry 5 --retry-delay 5 --retry-all-errors -s -S -o "$out.part" $url
+  if ($LASTEXITCODE -ne 0) { Write-Output "  FAILED ($LASTEXITCODE)"; continue }
+  Move-Item -LiteralPath "$out.part" -Destination $out -Force
+  Write-Output ("  OK  {0:N1} GB" -f ((Get-Item $out).Length/1GB))
+}
+
+Write-Output "WAVE 6 COMPLETE"
+
+# Wave 8 downloads - 11 models, 245 GB, into the LM Studio tree.
+#
+# Filenames here were NOT guessed. Every one was read from
+# https://huggingface.co/api/models/<repo> (siblings.rfilename) during preflight,
+# because two of them do not follow the convention the source table implied:
+# google publishes "gemma-4-31B_q4_0-it.gguf" (quant mid-name, lowercase) and
+# mradermacher uses a dot before the i1- prefix. See report\PLAN-WAVE8.md.
+#
+# Ordered ascending by size: first results land soonest and the disk stays
+# comfortable longest. 264 GB free at start, ~19 GB at finish.
+
+$ErrorActionPreference = "Continue"
+
+# NOT $M. PowerShell variable names are case-insensitive, so $M and the $m loop
+# variable below are the same variable - $M silently became the manifest hashtable
+# on the first iteration and Join-Path stringified it, dumping 37 GB into a
+# directory literally named "System.Collections.Hashtable".
+$MODELS = "C:\Users\PC\.lmstudio\models"
+
+$manifest = @(
+  @{r="google/gemma-4-31B-it-qat-q4_0-gguf";                     f="gemma-4-31B_q4_0-it.gguf";                            gb=16.44},
+  @{r="bartowski/mistralai_Magistral-Small-2509-GGUF";           f="mistralai_Magistral-Small-2509-Q6_K.gguf";             gb=18.02},
+  @{r="bartowski/zai-org_GLM-4.7-Flash-GGUF";                    f="zai-org_GLM-4.7-Flash-Q5_K_M.gguf";                    gb=20.09},
+  @{r="bartowski/nex-agi_Nex-N2.5-mini-GGUF";                    f="nex-agi_Nex-N2.5-mini-Q4_K_M.gguf";                    gb=20.79},
+  @{r="bartowski/allenai_Olmo-3.1-32B-Think-GGUF";               f="allenai_Olmo-3.1-32B-Think-Q5_K_M.gguf";               gb=21.29},
+  @{r="bartowski/DeepSeek-R1-Distill-Qwen-32B-GGUF";             f="DeepSeek-R1-Distill-Qwen-32B-Q5_K_M.gguf";             gb=21.66},
+  @{r="unsloth/Qwen3-Coder-Next-GGUF";                           f="Qwen3-Coder-Next-UD-Q2_K_XL.gguf";                     gb=24.92},
+  @{r="mradermacher/Mistral-Small-4-119B-2603-i1-GGUF";          f="Mistral-Small-4-119B-2603.i1-IQ1_M.gguf";              gb=24.85},
+  @{r="bartowski/nvidia_Llama-3_3-Nemotron-Super-49B-v1_5-GGUF"; f="nvidia_Llama-3_3-Nemotron-Super-49B-v1_5-IQ4_XS.gguf"; gb=25.03},
+  @{r="mradermacher/Qwen3.5-122B-A10B-i1-GGUF";                  f="Qwen3.5-122B-A10B.i1-IQ1_M.gguf";                      gb=25.70},
+  @{r="bartowski/Qwen_Qwen3-Next-80B-A3B-Instruct-GGUF";         f="Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf";           gb=26.23}
+)
+
+foreach ($m in $manifest) {
+  $dir = Join-Path $MODELS ($m.r -replace '/', '\')
+  $out = Join-Path $dir $m.f
+  New-Item -ItemType Directory -Force -Path $dir | Out-Null
+
+  # A stub left behind by an interrupted run must not count as "already here",
+  # so require a non-trivial size before skipping.
+  if ((Test-Path $out) -and (Get-Item $out).Length -gt 1MB) {
+    "SKIP (present): $($m.f)"
+    continue
+  }
+
+  $free = [math]::Round((Get-PSDrive C).Free / 1GB, 1)
+  "==== $($m.f)  ($($m.gb) GB, ${free} GB free) ===="
+  if ($free -lt ($m.gb + 5)) {
+    "ABORT: only ${free} GB free, need $($m.gb) GB plus headroom. Stopping before $($m.f)."
+    break
+  }
+
+  $url = "https://huggingface.co/$($m.r)/resolve/main/$($m.f)"
+  $t0 = Get-Date
+  # -C - resumes a partial file; downloading to .part means an interrupted run
+  # can never leave a truncated file that looks complete to the skip check above.
+  curl.exe -L -C - --retry 5 --retry-delay 5 --retry-all-errors -s -S -o "$out.part" $url
+  if ($LASTEXITCODE -ne 0) { "  FAILED (curl $LASTEXITCODE): $($m.f)"; continue }
+
+  Move-Item "$out.part" $out -Force
+  $mins = [math]::Round(((Get-Date) - $t0).TotalMinutes, 1)
+  $gb   = [math]::Round((Get-Item $out).Length / 1GB, 2)
+  "  done: $gb GB in $mins min"
+}
+
+"WAVE 8 DOWNLOADS COMPLETE"
+
+"""Dependency-free GGUF metadata reader.
+
+Prints the keys that decide how much context a model can hold: the trained
+context length and the attention geometry that sets KV-cache bytes per token.
+Arrays are summarised (length, and for small int arrays the values) because
+some hybrids store per-layer head_count_kv as an array, with 0 marking layers
+that carry no KV cache at all (SSM / linear-attention layers).
+"""
+import struct, sys, json, os
+
+T = {0:'<B',1:'<b',2:'<H',3:'<h',4:'<I',5:'<i',6:'<f',7:'<?',10:'<Q',11:'<q',12:'<d'}
+
+def rstr(f):
+    n, = struct.unpack('<Q', f.read(8)); return f.read(n).decode('utf-8', 'replace')
+
+def rval(f, t):
+    if t in T:
+        fmt = T[t]; return struct.unpack(fmt, f.read(struct.calcsize(fmt)))[0]
+    if t == 8: return rstr(f)
+    if t == 9:
+        et, = struct.unpack('<I', f.read(4)); n, = struct.unpack('<Q', f.read(8))
+        if et == 8:
+            for _ in range(n): rstr(f)
+            return f'<str[{n}]>'
+        sz = struct.calcsize(T[et])
+        if n > 512: f.seek(sz*n, 1); return f'<arr[{n}]>'
+        return [struct.unpack(T[et], f.read(sz))[0] for _ in range(n)]
+    raise ValueError(t)
+
+WANT = ('context_length','block_count','head_count','head_count_kv','key_length','value_length',
+        'embedding_length','sliding_window','full_attention_interval','attention.sliding_window',
+        'kv_lora_rank','ssm.','rope.scaling','expert_count','expert_used_count')
+
+def meta(path):
+    out = {}
+    with open(path,'rb') as f:
+        assert f.read(4) == b'GGUF'
+        ver, = struct.unpack('<I', f.read(4)); nt, nkv = struct.unpack('<QQ', f.read(16))
+        for _ in range(nkv):
+            k = rstr(f); t, = struct.unpack('<I', f.read(4)); v = rval(f, t)
+            if k == 'general.architecture' or any(w in k for w in WANT): out[k] = v
+    return out
+
+for p in sys.argv[1:]:
+    print(json.dumps({'file': os.path.basename(p), **meta(p)}))
+
+# Builds THE master table: every token-generation measurement in the study, one
+# row each, fully qualified by the settings that produced it.
+#
+# The per-topic tables in TABLES.md each answer one question and hide the columns
+# that were held constant. This does the opposite - nothing is hidden, so any row
+# can be reproduced from the row itself, and any two rows can be compared by
+# reading across. Outputs results\master.csv and report\MASTER-TABLE.md.
+
+$ErrorActionPreference = "Stop"
+$root = "C:\Projects\p100 testing"
+$raw  = Join-Path $root "results\raw.jsonl"
+$csv  = Join-Path $root "results\master.csv"
+$md   = Join-Path $root "report\MASTER-TABLE.md"
+$js   = Join-Path $root "report\master-data.js"   # same-origin data file for the published report
+
+$PEAK_BW_GBS = 732.2      # Tesla P100-PCIE-16GB HBM2, per card
+$GIB_TO_GB   = 1.073741824
+
+# Splits "Qwen3.6-35B-A3B-UD-Q4_K_M" into base model and quant. The quant is the
+# trailing type, optionally preceded by a publisher's prefix - unsloth's UD-
+# (dynamic) or mradermacher's i1- (imatrix).
+#
+# Three shapes are not the trailing-hyphen convention:
+#   - mradermacher delimits with a dot:  "Qwen3.5-122B-A10B.i1-IQ1_M"
+#   - google puts the quant mid-name:    "gemma-4-31B_q4_0-it"
+#   - bartowski prefixes the publisher:  "nex-agi_Nex-N2.5-mini-Q4_K_M"
+# The first two need their own patterns; the third only needs stripping, and is
+# stripped for every model so the table does not carry six different vendor
+# prefixes in a column that is already wide.
+function Split-Name([string]$n) {
+  $n = $n -replace '^(bartowski|unsloth|mradermacher|ggml-org|google|nvidia|mistralai|allenai|nex-agi|zai-org|Qwen)_', ''
+
+  # google QAT: "gemma-4-31B_q4_0-it" -> base "gemma-4-31B-it", quant "Q4_0"
+  if ($n -match '^(?<a>.+?)_(?<q>[qQ]\d[^-]*)-(?<b>.+)$') {
+    return @{ base = "$($Matches.a)-$($Matches.b)"; quant = $Matches.q.ToUpper() }
+  }
+  # trailing quant, after either a hyphen or mradermacher's dot
+  if ($n -match '^(?<b>.+?)[-.](?<q>(UD-|i1-)?(IQ\d\S*|Q\d\S*|MXFP4(_MOE)?|BF16|F16))$') {
+    return @{ base = $Matches.b; quant = $Matches.q }
+  }
+  return @{ base = $n; quant = "" }
+}
+
+$rows = Get-Content $raw | Where-Object { $_.Trim() } | ForEach-Object { $_ | ConvertFrom-Json } |
+        Where-Object { $_.ok -and $_.n_gen -gt 0 -and $_.tag -notlike 'harness-test*' }
+
+$flat = $rows | ForEach-Object {
+  $sp = Split-Name $_.model
+  $sizeGB = [math]::Round($_.model_size_gb * $GIB_TO_GB, 3)
+
+  # See report.ps1: size x tok/s is achieved bandwidth only for DENSE models.
+  # Most MoE filenames advertise the active-parameter count ("-A3B-"), but some
+  # name the family instead. gpt-oss-20b is 20.9B total / ~3.6B active and says
+  # so nowhere in the filename; leaving it on the dense path put it at 103% of
+  # rated bandwidth, which is the exact impossible figure that flags the mistake.
+  # Wave 8 added four more MoE models whose filenames carry no active-param
+  # marker: Qwen3-Coder-Next (80B/3B), Mistral-Small-4-119B (119B/6.5B),
+  # GLM-4.7-Flash (30B/3B) and Nex-N2.5-mini (35B MoE). Matched by name because
+  # the filename offers nothing else to key on.
+  $isMoE = ($_.model -match 'A\d+B|MoE|MXFP4_MOE') -or
+           ($_.model -match '(^|_)(Ornith-1\.5-35B|gpt-oss-|Qwen3-Coder-Next|Mistral-Small-4-119B|zai-org_GLM-4\.7-Flash|GLM-4\.7-Flash|nex-agi_Nex-N2\.5-mini|Nex-N2\.5-mini)')
+  $effBW = if (-not $isMoE) { [math]::Round($sizeGB * $_.tps_avg, 1) } else { $null }
+
+  $g = $_.gpu_peak; $memTot = 0; $pwrTot = 0.0
+  if ($g) { foreach ($k in $g.PSObject.Properties.Name) {
+    $memTot += [int]$g.$k.mem_mib; $pwrTot += [double]$g.$k.power_w } }
+
+  # KV cache is f16/f16 unless the run overrode it; collapse to one cell since
+  # every run in this study set K and V to the same type.
+  $kv = if ($_.type_k -eq $_.type_v) { $_.type_k } else { "$($_.type_k)/$($_.type_v)" }
+
+  # llama-bench writes devices="auto" when it took every visible GPU, and the
+  # explicit device list only when -dev was passed. So "auto" here means both
+  # cards; anything naming a single CUDA device means one.
+  $gpus = if ($_.devices -eq 'auto') { 2 } elseif ($_.devices -match ',') { ($_.devices -split ',').Count } else { 1 }
+
+  # flash_attn is tri-state in the JSON: -1 auto, 0 off, 1 on.
+  $fa = switch ([int]$_.flash_attn) { 1 { "on" } 0 { "off" } default { "auto" } }
+
+  [PSCustomObject]@{
+    model       = $sp.base
+    quant       = $sp.quant
+    arch        = if ($isMoE) { "MoE" } else { "dense" }
+    params_b    = $_.params_b
+    size_gb     = $sizeGB
+    kv_depth    = $_.n_depth
+    kv_type     = $kv
+    flash_attn  = $fa
+    gpus        = $gpus
+    n_batch     = $_.n_batch
+    tok_s       = $_.tps_avg
+    stddev      = $_.tps_stddev
+    eff_bw_gbs  = $effBW
+    pct_peak    = if ($effBW) { [math]::Round($effBW / $PEAK_BW_GBS * 100, 1) } else { $null }
+    vram_mib    = $memTot
+    power_w     = [math]::Round($pwrTot, 0)
+    reps        = $_.reps
+    tag         = $_.tag
+  }
+}
+
+$flat = $flat | Sort-Object @{e='params_b'}, @{e='model'}, @{e='size_gb';Descending=$true}, @{e='kv_depth'}, @{e='kv_type'}, @{e='gpus'}
+$flat | Export-Csv -Path $csv -NoTypeInformation -Encoding utf8
+Write-Output "wrote $csv ($($flat.Count) rows)"
+
+$sb = [System.Text.StringBuilder]::new()
+[void]$sb.AppendLine("# Master table - every generation measurement")
+[void]$sb.AppendLine()
+[void]$sb.AppendLine("Generated $(Get-Date -Format 'yyyy-MM-dd HH:mm'). $($flat.Count) rows.")
+[void]$sb.AppendLine("All figures are ``tg128`` (128 generated tokens), mean of N repetitions after a warmup pass.")
+[void]$sb.AppendLine()
+[void]$sb.AppendLine("**Columns.** *KV depth* is how full the cache was before generation started (0 = empty).")
+[void]$sb.AppendLine("*KV type* is the cache quantisation. *GPUs* is how many cards the layers were split across.")
+[void]$sb.AppendLine("*GB/s* is ``size_GB x tok/s``, the achieved memory bandwidth, and *%peak* compares it to the")
+[void]$sb.AppendLine("P100's $PEAK_BW_GBS GB/s spec. Both are blank for MoE rows, where the arithmetic does not apply")
+[void]$sb.AppendLine("(a sparse model reads only its active experts per token). *W* is the sum across both cards.")
+[void]$sb.AppendLine()
+
+$cols = @(
+  @{h='Model';     e={$_.model};      a='l'},
+  @{h='Quant';     e={$_.quant};      a='l'},
+  @{h='Arch';      e={$_.arch};       a='l'},
+  @{h='B';         e={$_.params_b};   a='r'},
+  @{h='Size GB';   e={$_.size_gb};    a='r'},
+  @{h='KV depth';  e={$_.kv_depth};   a='r'},
+  @{h='KV type';   e={$_.kv_type};    a='l'},
+  @{h='FA';        e={$_.flash_attn}; a='l'},
+  @{h='GPUs';      e={$_.gpus};       a='r'},
+  @{h='tok/s';     e={'**' + $_.tok_s + '**'}; a='r'},
+  @{h='+/-';       e={$_.stddev};     a='r'},
+  @{h='GB/s';      e={$_.eff_bw_gbs}; a='r'},
+  @{h='%peak';     e={$_.pct_peak};   a='r'},
+  @{h='VRAM MiB';  e={$_.vram_mib};   a='r'},
+  @{h='W';         e={$_.power_w};    a='r'}
+)
+
+[void]$sb.AppendLine("| " + (($cols | ForEach-Object { $_.h }) -join " | ") + " |")
+[void]$sb.AppendLine("|" + (($cols | ForEach-Object { if ($_.a -eq 'r') { "---:" } else { ":---" } }) -join "|") + "|")
+foreach ($r in $flat) {
+  # Pipe the row INTO the column's scriptblock so $_ binds to the row. Calling
+  # `& $c.e` directly would leave $_ bound to whatever the enclosing loop set.
+  $vals = foreach ($c in $cols) {
+    $v = $r | ForEach-Object $c.e
+    if ($null -eq $v -or "$v" -eq "" -or "$v" -eq "****") { "" } else { "$v" }
+  }
+  [void]$sb.AppendLine("| " + ($vals -join " | ") + " |")
+}
+
+Set-Content -Path $md -Value $sb.ToString() -Encoding utf8
+Write-Output "wrote $md"
+
+# ---------- data for the published report ----------
+# Injected straight into the report's inline <script id="master-data"> block
+# instead of shipped as a sibling file. It is only a few KB, and inlining means
+# the page has no path or load-order dependency - it renders identically when
+# opened as a local file, where a relative <script src> would not resolve.
+$payload = [ordered]@{
+  generated = (Get-Date -Format 'yyyy-MM-dd')
+  peak_bw   = $PEAK_BW_GBS
+  rows      = @($flat | ForEach-Object {
+    [ordered]@{
+      m = $_.model; q = $_.quant; a = $_.arch; b = $_.params_b; s = $_.size_gb
+      d = $_.kv_depth; k = $_.kv_type; f = $_.flash_attn; g = $_.gpus
+      t = $_.tok_s; sd = $_.stddev; bw = $_.eff_bw_gbs; pk = $_.pct_peak; v = $_.vram_mib
+    }
+  })
+}
+$json = $payload | ConvertTo-Json -Depth 5 -Compress
+# "</script>" can never appear in these values, but guard anyway: a literal one
+# inside an inline script terminates the block early and breaks the page.
+$json = $json -replace '</script', '<\/script'
+Set-Content -Path $js -Value "window.MASTER=$json;" -Encoding utf8 -NoNewline
+Write-Output "wrote $js ($($flat.Count) rows)"
+
+$page = Join-Path $root "report\p100-report.html"
+if (Test-Path $page) {
+  $html = Get-Content $page -Raw -Encoding UTF8
+  $pat  = '(?s)/\*BEGIN-MASTER-DATA\*/.*?/\*END-MASTER-DATA\*/'
+  if ($html -match $pat) {
+    # Regex replacement, so $ and \ in the payload must not be read as group refs.
+    $repl = '/*BEGIN-MASTER-DATA*/window.MASTER=' + $json + ';/*END-MASTER-DATA*/'
+    $html = [regex]::Replace($html, $pat, [System.Text.RegularExpressions.MatchEvaluator]{ param($m) $repl })
+    Set-Content -Path $page -Value $html -Encoding utf8 -NoNewline
+    Write-Output "injected $($flat.Count) rows into $page"
+  } else {
+    Write-Output "WARN: marker block not found in $page - data NOT injected"
+  }
+}
+
+# Perplexity on wikitext-2 test, so the speed table can be paired with a
+# quality column. Without this, "Q4_0 is fastest" is only half an argument -
+# the question is always what you give up for it.
+#
+# --chunks is capped for wall-clock reasons: these are RELATIVE comparisons
+# between quants of the same base model, all measured identically, not
+# publication-grade absolute PPL figures. Chunk count is recorded per row.
+
+param(
+  [int]$Chunks = 40,
+  [int]$Ctx = 512,
+  [string[]]$Models = @()
+)
+
+$root = "C:\Projects\p100 testing"
+Set-Location $root
+# NB: PowerShell variable names are case-INSENSITIVE, so this must not be
+# named $PPL - the parsed perplexity value below would overwrite the exe path.
+$PPLEXE = "$root\tools\llamacpp\llama-perplexity.exe"
+$DATA = "$root\data\wikitext-2-raw\wiki.test.raw"
+$OUT  = "$root\results\perplexity.jsonl"
+
+if ($Models.Count -eq 0) {
+  $Models = @(
+    "Qwen3.8-27B-UD-Q3_K_XL.gguf",
+    "Qwen3.8-27B-UD-IQ4_XS.gguf",
+    "Qwen3.8-27B-Q4_0.gguf",
+    "Qwen3.8-27B-UD-Q6_K.gguf",
+    "Qwen3.8-27B-Q8_0.gguf",
+    "Qwen3.6-35B-A3B-MXFP4_MOE.gguf",
+    "Qwen3.6-35B-A3B-UD-Q4_K_M.gguf"
+  )
+}
+
+foreach ($f in $Models) {
+  $p = if (Test-Path $f) { $f } else { Join-Path "$root\models" $f }
+  if (-not (Test-Path $p)) { Write-Output "SKIP missing: $f"; continue }
+  $name = [System.IO.Path]::GetFileNameWithoutExtension($p)
+  $log  = "$root\logs\ppl.$name.log"
+
+  Write-Output "=== perplexity: $name (chunks=$Chunks ctx=$Ctx) ==="
+  $t0 = Get-Date
+  & $PPLEXE -m $p -f $DATA -c $Ctx --chunks $Chunks -ngl 999 2> $log | Out-Null
+  $secs = [math]::Round(((Get-Date) - $t0).TotalSeconds, 0)
+
+  # llama-perplexity prints the running estimate to stderr; the last
+  # "Final estimate: PPL = X +/- Y" line is what we want.
+  $txt = Get-Content $log -Raw -ErrorAction SilentlyContinue
+  $pplVal = $null; $pplErr = $null
+  if ($txt -match 'Final estimate:\s*PPL\s*=\s*([0-9.]+)\s*\+/-\s*([0-9.]+)') {
+    $pplVal = [double]$Matches[1]; $pplErr = [double]$Matches[2]
+  } elseif ($txt -match '\[\d+\]([0-9.]+),\s*$') {
+    $pplVal = [double]$Matches[1]
+  }
+
+  if ($null -eq $pplVal) {
+    $tail = (Get-Content $log -Tail 4 -ErrorAction SilentlyContinue) -join ' | '
+    Write-Output "  could not parse PPL: $tail"
+  } else {
+    Write-Output ("  PPL = {0} +/- {1}   ({2}s)" -f $pplVal, $pplErr, $secs)
+  }
+
+  $rec = [ordered]@{
+    model=$name; ppl=$pplVal; ppl_stderr=$pplErr; chunks=$Chunks; ctx=$Ctx
+    dataset="wikitext-2-raw/test"; wall_s=$secs
+    ts=(Get-Date -Format "yyyyMMdd-HHmmss")
+  } | ConvertTo-Json -Compress
+  Add-Content -Path $OUT -Value $rec -Encoding utf8
+}
+Write-Output "PPL SWEEP COMPLETE"
+
+# Copies the report into docs/ for GitHub Pages.
+#
+# GitHub Pages will serve from the repo root or from /docs, and only those two.
+# The report is generated as report\p100-report.html (mastertable.ps1 injects the
+# data payload into that path), so docs\index.html is a copy, not the original -
+# run this after any change to the report, or Pages serves a stale page.
+#
+# The .nojekyll marker stops Pages running the file through Jekyll, which would
+# otherwise strip any path beginning with an underscore.
+
+$ErrorActionPreference = "Stop"
+$root = Split-Path $PSScriptRoot -Parent
+$src  = Join-Path $root "report\p100-report.html"
+$dst  = Join-Path $root "docs\index.html"
+
+if (-not (Test-Path $src)) { throw "report not found: $src" }
+
+New-Item -ItemType Directory -Force -Path (Split-Path $dst -Parent) | Out-Null
+Copy-Item $src $dst -Force
+
+$nojekyll = Join-Path $root "docs\.nojekyll"
+if (-not (Test-Path $nojekyll)) { New-Item -ItemType File -Path $nojekyll | Out-Null }
+
+$kb = [math]::Round((Get-Item $dst).Length / 1KB, 1)
+Write-Output "published $dst ($kb KB)"
+
+# Moves the benchmark weights out of .\models and into the LM Studio models tree
+# so they show up in LM Studio's "My Models" pane alongside the user's own downloads.
+#
+# LM Studio indexes <downloadsFolder>\<publisher>\<repo>\<file>.gguf - a two-level
+# layout. Anything flat or three-deep is ignored, so the HF repo each file came
+# from is reproduced exactly.
+#
+# Same volume, so Move-Item is a rename: ~290 GB relocates instantly, no copy.
+
+$ErrorActionPreference = "Stop"
+$src = "C:\Projects\p100 testing\models"
+$dst = "C:\Users\PC\.lmstudio\models"
+
+# filename glob -> HF repo it was fetched from
+$map = @(
+  @{p="Qwen3.8-27B-DFlash2-*";        r="z-lab/Qwen3.8-27B-DFlash2-GGUF"},
+  @{p="Qwen3.8-27B-*";                r="unsloth/Qwen3.8-27B-GGUF"},
+  @{p="Qwen3.8-2B-*";                 r="unsloth/Qwen3.8-2B-GGUF"},
+  @{p="LFM2.5-2.6B-*";                r="LiquidAI/LFM2.5-2.6B-GGUF"},
+  @{p="Qwen3.5-9B-*";                 r="unsloth/Qwen3.5-9B-GGUF"},
+  @{p="Qwen3.6-35B-A3B-*";            r="unsloth/Qwen3.6-35B-A3B-GGUF"},
+  @{p="Qwen3.6-27B-*";                r="unsloth/Qwen3.6-27B-GGUF"},
+  @{p="Qwen3-Coder-30B-A3B-*";        r="unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF"},
+  @{p="Ornith-1.5-35B-*";             r="ornith-ai/Ornith-1.5-35B-A3B-GGUF"},
+  @{p="*gemma-4-12B-it-qat-*";        r="unsloth/gemma-4-12B-it-qat-GGUF"}
+)
+
+if (-not (Test-Path $src)) { Write-Output "nothing to relocate"; exit 0 }
+
+$moved = 0; $bytes = 0
+foreach ($f in Get-ChildItem $src -Filter *.gguf) {
+  # first matching pattern wins, so put the more specific globs earlier in $map
+  $hit = $map | Where-Object { $f.Name -like $_.p } | Select-Object -First 1
+  if (-not $hit) { Write-Output "NO MAPPING (left in place): $($f.Name)"; continue }
+
+  $target = Join-Path $dst $hit.r
+  New-Item -ItemType Directory -Force -Path $target | Out-Null
+  $out = Join-Path $target $f.Name
+  if (Test-Path $out) { Write-Output "EXISTS (skipped): $($hit.r)\$($f.Name)"; continue }
+
+  Move-Item -LiteralPath $f.FullName -Destination $out
+  $moved++; $bytes += $f.Length
+  Write-Output ("MOVED {0,-45} -> {1}" -f $f.Name, $hit.r)
+}
+Write-Output ""
+Write-Output "$moved files, $([math]::Round($bytes/1GB,1)) GB relocated to $dst"
+
+﻿# Turns results\raw.jsonl into publishable artifacts:
+#   results\results.csv   - one row per measurement, flat, for spreadsheets/plots
+#   report\TABLES.md      - pre-rendered markdown tables
+#
+# Effective bandwidth is the headline derived metric: for token generation the
+# model must be read once per token, so  size_GB * tok/s  ~= achieved GB/s.
+# Comparing that against the P100's 732 GB/s spec is what exposes the
+# dequantisation bottleneck.
+
+$ErrorActionPreference = "Stop"
+$root = "C:\Projects\p100 testing"
+$raw  = Join-Path $root "results\raw.jsonl"
+$csv  = Join-Path $root "results\results.csv"
+$md   = Join-Path $root "report\TABLES.md"
+
+$PEAK_BW_GBS = 732.2   # Tesla P100-PCIE-16GB, HBM2 spec sheet
+$GIB_TO_GB   = 1.073741824
+
+$rows = Get-Content $raw | Where-Object { $_.Trim() } | ForEach-Object { $_ | ConvertFrom-Json } | Where-Object { $_.ok }
+
+$flat = $rows | ForEach-Object {
+  $isGen = $_.n_gen -gt 0
+  $sizeGB = [math]::Round($_.model_size_gb * $GIB_TO_GB, 3)
+
+  # size_GB * tok/s only equals achieved bandwidth for DENSE models, where every
+  # weight is read once per token. A sparse MoE reads only its active experts,
+  # so the same arithmetic yields a meaningless figure above hardware peak.
+  # Report it only for dense models; for MoE the useful number is plain t/s.
+  # Most MoE files carry the active-param count in the name (e.g. "35B-A3B"),
+  # but some drop it in the GGUF filename even though the repo has it, so a few
+  # are listed explicitly. Misclassifying MoE as dense is obvious in the output:
+  # the effective-bandwidth column goes above 100% of hardware peak.
+  $isMoE = ($_.model -match 'A\d+B|MoE|MXFP4_MOE') -or ($_.model -match '^Ornith-1\.5-35B')
+  $effBW = if ($isGen -and -not $isMoE) { [math]::Round($sizeGB * $_.tps_avg, 1) } else { $null }
+
+  $g = $_.gpu_peak
+  $memTot = 0; $pwrTot = 0.0; $tMax = 0
+  if ($g) {
+    foreach ($k in $g.PSObject.Properties.Name) {
+      $memTot += [int]$g.$k.mem_mib
+      $pwrTot += [double]$g.$k.power_w
+      if ([int]$g.$k.temp_c -gt $tMax) { $tMax = [int]$g.$k.temp_c }
+    }
+  }
+
+  [PSCustomObject]@{
+    model        = $_.model
+    tag          = $_.tag
+    suite        = $_.suite
+    arch         = if ($isMoE) { "MoE" } else { "dense" }
+    params_b     = $_.params_b
+    size_gib     = $_.model_size_gb
+    size_gb      = $sizeGB
+    test         = if ($isGen) { "tg$($_.n_gen)" } else { "pp$($_.n_prompt)" }
+    depth        = $_.n_depth
+    type_k       = $_.type_k
+    type_v       = $_.type_v
+    flash_attn   = $_.flash_attn
+    devices      = $_.devices
+    n_batch      = $_.n_batch
+    n_ubatch     = $_.n_ubatch
+    tps          = $_.tps_avg
+    tps_stddev   = $_.tps_stddev
+    eff_bw_gbs   = $effBW
+    pct_of_peak  = if ($effBW) { [math]::Round($effBW / $PEAK_BW_GBS * 100, 1) } else { $null }
+    vram_mib     = $memTot
+    power_w      = [math]::Round($pwrTot, 0)
+    temp_c       = $tMax
+    build        = $_.build
+    ts           = $_.ts
+  }
+}
+
+$flat | Sort-Object model, test, depth | Export-Csv -Path $csv -NoTypeInformation -Encoding utf8
+Write-Output "wrote $csv ($($flat.Count) rows)"
+
+# ---------- markdown ----------
+function Emit-Table($title, $data, $cols) {
+  $sb = [System.Text.StringBuilder]::new()
+  [void]$sb.AppendLine("### $title").AppendLine()
+  [void]$sb.AppendLine("| " + ($cols -join " | ") + " |")
+  [void]$sb.AppendLine("|" + (($cols | ForEach-Object { "---" }) -join "|") + "|")
+  foreach ($r in $data) {
+    $vals = $cols | ForEach-Object { $v = $r.$_; if ($null -eq $v) { "" } else { "$v" } }
+    [void]$sb.AppendLine("| " + ($vals -join " | ") + " |")
+  }
+  [void]$sb.AppendLine()
+  $sb.ToString()
+}
+
+$out = [System.Text.StringBuilder]::new()
+[void]$out.AppendLine("# P100 benchmark tables").AppendLine()
+[void]$out.AppendLine("Generated $(Get-Date -Format 'yyyy-MM-dd HH:mm'). Peak HBM2 bandwidth reference: $PEAK_BW_GBS GB/s per GPU.").AppendLine()
+
+$qs = $flat | Where-Object { $_.tag -eq 'quant-sweep' -and $_.test -like 'tg*' } | Sort-Object tps -Descending
+if ($qs) { [void]$out.Append((Emit-Table "Quantisation sweep - token generation" $qs @('model','size_gb','tps','tps_stddev','eff_bw_gbs','pct_of_peak','vram_mib','power_w'))) }
+
+$pp = $flat | Where-Object { $_.tag -eq 'quant-sweep' -and $_.test -like 'pp*' } | Sort-Object model, test
+if ($pp) { [void]$out.Append((Emit-Table "Quantisation sweep - prompt processing" $pp @('model','test','size_gb','tps','tps_stddev'))) }
+
+$ctx = $flat | Where-Object { $_.tag -like 'kv-*' -or $_.tag -eq 'ctx-scaling' } | Sort-Object model, type_k, depth
+if ($ctx) { [void]$out.Append((Emit-Table "Context depth + KV cache type" $ctx @('model','tag','type_k','type_v','depth','tps','eff_bw_gbs','vram_mib'))) }
+
+$dev = $flat | Where-Object { $_.tag -like 'single-gpu*' -or $_.tag -eq 'devices' } | Sort-Object model, devices
+if ($dev) { [void]$out.Append((Emit-Table "Single GPU vs dual GPU" $dev @('model','devices','test','tps','tps_stddev','vram_mib'))) }
+
+$ladder = $flat | Where-Object { $_.tag -eq 'ladder' } | Sort-Object params_b
+if ($ladder) { [void]$out.Append((Emit-Table "Model size ladder" $ladder @('model','arch','params_b','size_gb','test','tps','eff_bw_gbs','pct_of_peak','vram_mib','power_w'))) }
+
+Set-Content -Path $md -Value $out.ToString() -Encoding utf8
+Write-Output "wrote $md"
+
+
+# Size ladder: 2.6B -> 35B, holding quantisation as constant as the available
+# files allow, so the numbers isolate model size rather than quant format.
+# Q4_0 is used wherever it exists because the quant sweep showed it is the
+# fastest format on Pascal; Q4_K_M is run alongside as the "what most people
+# actually download" comparison.
+
+$root = "C:\Projects\p100 testing"
+Set-Location $root
+
+$ladder = @(
+  @{ f="LFM2.5-2.6B-Q4_0.gguf";           note="2.6B dense" },
+  @{ f="LFM2.5-2.6B-Q4_K_M.gguf";         note="2.6B dense" },
+  @{ f="LFM2.5-2.6B-Q8_0.gguf";           note="2.6B dense" },
+  @{ f="LFM2.5-2.6B-F16.gguf";            note="2.6B dense, fp16 (P100 has 2:1 FP16)" },
+  @{ f="Qwen3.5-9B-Q4_0.gguf";            note="9B dense" },
+  @{ f="Qwen3.5-9B-Q4_K_M.gguf";          note="9B dense" },
+  @{ f="Qwen3.5-9B-Q8_0.gguf";            note="9B dense" },
+  @{ f="Qwen3.5-9B-BF16.gguf";            note="9B dense, bf16" },
+  @{ f="Qwen3.8-27B-Q4_0.gguf";           note="27B dense" },
+  @{ f="Qwen3.6-35B-A3B-MXFP4_MOE.gguf";  note="35B MoE, 3B active" },
+  @{ f="Qwen3.6-35B-A3B-UD-Q4_K_M.gguf";  note="35B MoE, 3B active" }
+)
+
+# Largest things that still fit entirely in 32GB of VRAM
+$biggest = @(
+  @{ f="Qwen3.8-27B-UD-Q8_K_XL.gguf";     note="biggest dense that fits 32GB" },
+  @{ f="Qwen3.6-35B-A3B-UD-Q6_K.gguf";    note="biggest MoE that fits 32GB" },
+  @{ f="Qwen3.8-27B-Q8_0.gguf";           note="27B Q8_0" }
+)
+
+foreach ($m in ($ladder + $biggest)) {
+  $p = Join-Path "$root\models" $m.f
+  if (-not (Test-Path $p)) { Write-Output "SKIP missing: $($m.f)"; continue }
+  Write-Output ""
+  Write-Output "########## $($m.f)  --  $($m.note)"
+  & "$root\scripts\bench.ps1" -Model $p -Suite standard -Tag "ladder" -Reps 5
+}
+Write-Output ""
+Write-Output "LADDER COMPLETE"
+
+# Wave 5 benchmark pass: the big models.
+#
+# Run AFTER downloads are idle. Concurrent download traffic does not touch the
+# GPU, but it did visibly inflate run-to-run variance once (13.88 +/- 0.59 vs
+# 14.55 +/- 0.00 re-measured quiet), so headline numbers are taken quiet.
+
+param([switch]$SkipStandard, [switch]$SkipContext)
+
+$ErrorActionPreference = "Continue"
+$bench = "C:\Projects\p100 testing\scripts\bench.ps1"
+$M     = "C:\Users\PC\.lmstudio\models"
+
+# name -> path. Ordered small-to-large so a VRAM failure late does not block the
+# rest of the pass.
+$models = [ordered]@{
+  "Nemotron-3.5-30B-A3B-Q4_0" = "$M\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf"
+  "Qwen3-32B-Q6_K"            = "$M\unsloth\Qwen3-32B-GGUF\Qwen3-32B-Q6_K.gguf"
+  "Llama-3.3-70B-UD-Q2_K_XL"  = "$M\unsloth\Llama-3.3-70B-Instruct-GGUF\Llama-3.3-70B-Instruct-UD-Q2_K_XL.gguf"
+  "Qwen3-Next-80B-A3B-Q2_K"   = "$M\bartowski\Qwen_Qwen3-Next-80B-A3B-Thinking-GGUF\Qwen_Qwen3-Next-80B-A3B-Thinking-Q2_K.gguf"
+  "Seed-OSS-36B-Q6_K"         = "$M\lmstudio-community\Seed-OSS-36B-Instruct-GGUF\Seed-OSS-36B-Instruct-Q6_K.gguf"
+  "Nemotron-3.5-30B-A3B-Q8_0" = "$M\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q8_0.gguf"
+}
+
+foreach ($k in $models.Keys) {
+  $p = $models[$k]
+  if (-not (Test-Path $p)) { Write-Output "SKIP (not downloaded): $k"; continue }
+
+  Write-Output ""
+  Write-Output "################ $k ################"
+
+  if (-not $SkipStandard) {
+    # pp512/pp2048 + tg128 at defaults - the row that makes this model
+    # comparable to every other model in the study.
+    & $bench -Model $p -Suite standard -Tag "ladder" -Reps 5
+  }
+  if (-not $SkipContext) {
+    # How generation holds up as the cache fills. 3 reps; these are slow.
+    & $bench -Model $p -Suite context -Tag "ctx-scaling" -Reps 3
+  }
+}
+
+Write-Output ""
+Write-Output "WAVE 5 BENCH COMPLETE"
+
+# Wave 6 benchmark pass: the four common models, plus the gemma-4 MoE that was
+# downloaded in an earlier wave and never measured.
+#
+# Run quiet - see run-wave5.ps1 for why downloads must be idle first.
+
+param([switch]$SkipStandard, [switch]$SkipContext)
+
+$ErrorActionPreference = "Continue"
+$bench = "C:\Projects\p100 testing\scripts\bench.ps1"
+$M     = "C:\Users\PC\.lmstudio\models"
+
+$models = [ordered]@{
+  "Llama-3.1-8B-Instruct-Q8_0" = "$M\bartowski\Meta-Llama-3.1-8B-Instruct-GGUF\Meta-Llama-3.1-8B-Instruct-Q8_0.gguf"
+  "gpt-oss-20b-MXFP4"          = "$M\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf"
+  "phi-4-Q8_0"                 = "$M\unsloth\phi-4-GGUF\phi-4-Q8_0.gguf"
+  "gemma-4-26B-A4B-it-QAT-Q4_0"= "$M\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf"
+  "Mistral-Small-3.2-24B-UD-Q4_K_XL" = "$M\unsloth\Mistral-Small-3.2-24B-Instruct-2506-GGUF\Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf"
+}
+
+foreach ($k in $models.Keys) {
+  $p = $models[$k]
+  if (-not (Test-Path $p)) { Write-Output "SKIP (not downloaded): $k"; continue }
+
+  Write-Output ""
+  Write-Output "################ $k ################"
+
+  if (-not $SkipStandard) { & $bench -Model $p -Suite standard -Tag "ladder"      -Reps 5 }
+  if (-not $SkipContext)  { & $bench -Model $p -Suite context  -Tag "ctx-scaling" -Reps 3 }
+}
+
+Write-Output ""
+Write-Output "WAVE 6 BENCH COMPLETE"
+
+# Wave 7: how deep can the KV cache actually go, and is the model still usable there?
+#
+# Every depth is a SEPARATE llama-bench invocation. A single invocation with a
+# depth list is cheaper, but llama-bench aborts the whole run when one depth
+# fails to allocate - and failing to allocate is the expected outcome at the top
+# of this ladder, so batching would throw away the shallower results that worked.
+#
+# Phase A establishes which KV cache type fits at 72k. f16 is included knowing it
+# will usually fail: "f16 cannot do this and q8_0 can" is the finding, not noise.
+# Phase B then walks the depth ladder at whichever type Phase A showed to work.
+#
+# Reps drop to 2 past 64k. Each rep re-prefills the full cache, so a 3-rep run at
+# 128k spends most of an hour on prefill that is never timed.
+
+param(
+  [switch]$SkipA,
+  [switch]$SkipB,
+  [string[]]$Only = @()
+)
+
+$ErrorActionPreference = "Continue"
+$bench = "C:\Projects\p100 testing\scripts\bench.ps1"
+$M     = "C:\Users\PC\.lmstudio\models"
+
+# One representative per size class: the fastest model measured in that class at
+# default settings, plus gpt-oss-20b as the wave-6 candidate for the same role.
+$models = [ordered]@{
+  "Qwen3.5-9B-Q4_0"           = "$M\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_0.gguf"
+  "gpt-oss-20b-MXFP4"         = "$M\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf"
+  "Qwen3.8-27B-Q4_0"          = "$M\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf"
+  "Nemotron-3.5-30B-A3B-Q4_0" = "$M\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf"
+}
+
+$PROBE = 73728          # 72k: the shallowest depth that satisfies "70k or above"
+$LADDER = @(0, 32768, 65536, 98304, 131072)
+$KVTYPES = @("f16", "q8_0", "q4_0")
+
+function Invoke-Depth($name, $path, $depth, $kv, $tag) {
+  $reps = if ($depth -ge 65536) { 2 } else { 3 }
+  # Quantised KV needs flash attention; pinning it on for every row here keeps
+  # the f16 baseline comparable to the quantised ones rather than letting the
+  # auto heuristic change two things at once.
+  $extra = @("-d", "$depth", "-ctk", $kv, "-ctv", $kv, "-fa", "on")
+  Write-Output "---- $name  d=$depth  kv=$kv ----"
+  & $bench -Model $path -Suite quick -Tag $tag -Reps $reps -Extra $extra
+}
+
+foreach ($k in $models.Keys) {
+  if ($Only.Count -gt 0 -and $Only -notcontains $k) { continue }
+  $p = $models[$k]
+  if (-not (Test-Path $p)) { Write-Output "SKIP (not downloaded): $k"; continue }
+
+  Write-Output ""
+  Write-Output "################ $k ################"
+
+  $best = "q8_0"
+  if (-not $SkipA) {
+    foreach ($kv in $KVTYPES) { Invoke-Depth $k $p $PROBE $kv "kv-at-72k" }
+  }
+  if (-not $SkipB) {
+    foreach ($d in $LADDER) { Invoke-Depth $k $p $d $best "longctx" }
+  }
+}
+
+Write-Output ""
+Write-Output "WAVE 7 COMPLETE"
+
+# Wave 7b: the depth ladder again, at f16 KV.
+#
+# Wave 7 walked the ladder at q8_0 because that is the type guaranteed to fit
+# everywhere, which made the four models comparable. But its Phase A probe showed
+# f16 beating q8_0 at 72k on every single model - by 27% on Qwen3.5-9B and 73% on
+# gpt-oss-20b - so the q8_0 ladder is a picture of the configuration nobody
+# should actually run. This fills in the one you should.
+#
+# 72k is already measured at f16 by wave 7 Phase A, so only the other four depths
+# are repeated here. The three models are the ones fast enough for the result to
+# matter; the dense 27B is left on its Phase A point because each of its deep
+# runs costs 10-20 minutes and the conclusion there is already unambiguous.
+
+$ErrorActionPreference = "Continue"
+$bench = "C:\Projects\p100 testing\scripts\bench.ps1"
+$M     = "C:\Users\PC\.lmstudio\models"
+
+$models = [ordered]@{
+  "Qwen3.5-9B-Q4_0"           = "$M\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_0.gguf"
+  "gpt-oss-20b-MXFP4"         = "$M\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf"
+  "Nemotron-3.5-30B-A3B-Q4_0" = "$M\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf"
+}
+
+foreach ($k in $models.Keys) {
+  $p = $models[$k]
+  if (-not (Test-Path $p)) { Write-Output "SKIP (not downloaded): $k"; continue }
+  Write-Output ""
+  Write-Output "################ $k ################"
+  foreach ($d in @(0, 32768, 65536, 98304, 131072)) {
+    $reps = if ($d -ge 65536) { 2 } else { 3 }
+    Write-Output "---- $k  d=$d  kv=f16 ----"
+    & $bench -Model $p -Suite quick -Tag "longctx-f16" -Reps $reps `
+             -Extra @("-d", "$d", "-ctk", "f16", "-ctv", "f16", "-fa", "on")
+  }
+}
+
+Write-Output ""
+Write-Output "WAVE 7B COMPLETE"
+
+# Wave 8 benchmarks - 11 new models. See report\PLAN-WAVE8.md for the design.
+#
+# Two passes per model:
+#   1. standard suite at depth 0 (pp512, pp2048, tg128) - headline + bandwidth
+#   2. a depth ladder, ONE INVOCATION PER DEPTH
+#
+# The per-depth invocation is deliberate, not wasteful. llama-bench aborts the
+# whole run when a single depth fails to allocate, and failing to allocate is the
+# expected outcome at the top of these ladders - several of these models are
+# 25 GB against 31.8 GiB of total VRAM. Batching the depth list would throw away
+# every shallower result that already succeeded.
+#
+# All depth runs pin f16 KV and -fa on. Wave 7 established that a quantised cache
+# costs 21-42% of throughput on Pascal to save under a gigabyte, so the quantised
+# ladder is a picture of a configuration nobody should run. Pinning -fa on rather
+# than leaving it auto keeps the whole ladder comparable instead of letting the
+# heuristic change a second variable partway up.
+#
+# Usage: .\run-wave8.ps1 [-Only <substring>]
+
+param([string]$Only = "")
+
+$ErrorActionPreference = "Continue"
+$bench = "C:\Projects\p100 testing\scripts\bench.ps1"
+$M     = "C:\Users\PC\.lmstudio\models"
+
+# ladder: the planned depths. "extend" lists depths tried only if the last
+# planned depth succeeded - a ceiling is a finding, but so is clearing one.
+$models = @(
+  @{n="gemma-4-31B-it-qat";     p="$M\google\gemma-4-31B-it-qat-q4_0-gguf\gemma-4-31B_q4_0-it.gguf";
+    ladder=@(0,4096,16384,32768,65536);  extend=@(131072)},
+  @{n="Magistral-Small-2509";   p="$M\bartowski\mistralai_Magistral-Small-2509-GGUF\mistralai_Magistral-Small-2509-Q6_K.gguf";
+    ladder=@(0,4096,16384,32768,65536);  extend=@()},
+  @{n="GLM-4.7-Flash";          p="$M\bartowski\zai-org_GLM-4.7-Flash-GGUF\zai-org_GLM-4.7-Flash-Q5_K_M.gguf";
+    ladder=@(0,4096,16384,32768,65536);  extend=@(131072)},
+  @{n="Nex-N2.5-mini";          p="$M\bartowski\nex-agi_Nex-N2.5-mini-GGUF\nex-agi_Nex-N2.5-mini-Q4_K_M.gguf";
+    ladder=@(0,4096,16384,32768,65536);  extend=@(131072)},
+  @{n="Olmo-3.1-32B-Think";     p="$M\bartowski\allenai_Olmo-3.1-32B-Think-GGUF\allenai_Olmo-3.1-32B-Think-Q5_K_M.gguf";
+    ladder=@(0,4096,16384,32768,65536);  extend=@()},
+  @{n="DeepSeek-R1-Distill-32B";p="$M\bartowski\DeepSeek-R1-Distill-Qwen-32B-GGUF\DeepSeek-R1-Distill-Qwen-32B-Q5_K_M.gguf";
+    ladder=@(0,4096,16384,32768,65536);  extend=@()},
+  @{n="Qwen3-Coder-Next";       p="$M\unsloth\Qwen3-Coder-Next-GGUF\Qwen3-Coder-Next-UD-Q2_K_XL.gguf";
+    ladder=@(0,4096,16384,32768);        extend=@(65536)},
+  @{n="Mistral-Small-4-119B";   p="$M\mradermacher\Mistral-Small-4-119B-2603-i1-GGUF\Mistral-Small-4-119B-2603.i1-IQ1_M.gguf";
+    ladder=@(0,4096,16384,32768);        extend=@(65536)},
+  @{n="Nemotron-Super-49B";     p="$M\bartowski\nvidia_Llama-3_3-Nemotron-Super-49B-v1_5-GGUF\nvidia_Llama-3_3-Nemotron-Super-49B-v1_5-IQ4_XS.gguf";
+    ladder=@(0,4096,16384,32768);        extend=@(65536)},
+  @{n="Qwen3.5-122B-A10B";      p="$M\mradermacher\Qwen3.5-122B-A10B-i1-GGUF\Qwen3.5-122B-A10B.i1-IQ1_M.gguf";
+    ladder=@(0,4096,16384,32768);        extend=@(65536)},
+  @{n="Qwen3-Next-80B-Instruct";p="$M\bartowski\Qwen_Qwen3-Next-80B-A3B-Instruct-GGUF\Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf";
+    ladder=@(0,4096,16384,32768);        extend=@(65536)}
+)
+
+# Status comes back out-of-band in $script:DepthOk rather than as a return value.
+# A function's return value in PowerShell is its ENTIRE output stream, so
+# `return ($LASTEXITCODE -eq 0)` after calling bench.ps1 hands the caller an array
+# of [every line bench printed..., $true] - which swallows the benchmark output
+# and is always truthy, so the ceiling check below could never fire.
+function Invoke-Depth($path, $depth) {
+  $reps = if ($depth -ge 65536) { 2 } elseif ($depth -gt 0) { 3 } else { 5 }
+  & $bench -Model $path -Suite quick -Tag "wave8-ladder" -Reps $reps `
+           -Extra @("-d","$depth","-ctk","f16","-ctv","f16","-fa","on")
+  $script:DepthOk = ($LASTEXITCODE -eq 0)
+}
+
+foreach ($m in $models) {
+  if ($Only -and $m.n -notlike "*$Only*") { continue }
+  if (-not (Test-Path $m.p)) { Write-Output "SKIP (not downloaded yet): $($m.n)"; continue }
+
+  Write-Output ""
+  Write-Output "################ $($m.n) ################"
+
+  # Pass 1: headline. pp512/pp2048/tg128 at an empty cache, 5 reps.
+  & $bench -Model $m.p -Suite standard -Tag "wave8" -Reps 5
+
+  # Pass 2: the ladder.
+  $script:DepthOk = $true
+  foreach ($d in $m.ladder) {
+    Write-Output "---- $($m.n)  d=$d ----"
+    Invoke-Depth $m.p $d
+    if (-not $script:DepthOk) { Write-Output "  CEILING: $($m.n) failed to allocate at d=$d - stopping ladder"; break }
+  }
+
+  # Only probe deeper if the model cleared its whole planned ladder. A model that
+  # already hit its ceiling will fail every deeper depth too, at 10-20 min each.
+  if ($script:DepthOk) {
+    foreach ($d in $m.extend) {
+      Write-Output "---- $($m.n)  d=$d (extension) ----"
+      Invoke-Depth $m.p $d
+      if (-not $script:DepthOk) { Write-Output "  CEILING: $($m.n) at d=$d"; break }
+    }
+  }
+}
+
+Write-Output ""
+Write-Output "WAVE 8 COMPLETE"
+
+# Wave 9 - 256k context for agents, then one card vs two. See report\PLAN-WAVE9.md.
+#
+# Same shape as run-wave8.ps1: one llama-bench invocation per depth, because an
+# allocation failure aborts the whole run and throws away every depth that worked.
+# A model's remaining depths are skipped after its first failure - a deeper depth
+# needs strictly more memory, and each fill at this scale costs up to an hour.
+#
+# Usage: .\run-wave9.ps1 [-Phase 1|2|3|all] [-Only <substring>]
+
+param([string]$Phase = "all", [string]$Only = "")
+
+$ErrorActionPreference = "Continue"
+$bench  = "C:\Projects\p100 testing\scripts\bench.ps1"
+$MODELS = "C:\Users\PC\.lmstudio\models"   # not $M - see download8.ps1
+
+# 256k = 261,120 tokens pre-filled, so pp512 on top (261,632) stays inside the
+# 262,144-token trained window.
+$D256 = 261120
+$F16  = @("-ctk","f16","-ctv","f16","-fa","on")
+$Q8   = @("-ctk","q8_0","-ctv","q8_0","-fa","on")
+
+$nemo = "$MODELS\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf"
+
+# ---- phase 1: 256k. depths skip 131072 where waves 6-8 already have it. ----
+$phase1 = @(
+  @{n="Nemotron-3.5-Lightning Q4_0"; p=$nemo; depths=@($D256); kv=$F16},
+  @{n="Nex-N2.5-mini Q4_K_M";  p="$MODELS\bartowski\nex-agi_Nex-N2.5-mini-GGUF\nex-agi_Nex-N2.5-mini-Q4_K_M.gguf"; depths=@($D256); kv=$F16},
+  @{n="gemma-4-26B-A4B Q4_0";  p="$MODELS\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf"; depths=@($D256); kv=$F16},
+  @{n="Qwen3.6-35B-A3B UD-Q4_K_M"; p="$MODELS\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q4_K_M.gguf"; depths=@(131072,$D256); kv=$F16},
+  @{n="Ornith-1.5-35B Q4_K_M"; p="$MODELS\ornith-ai\Ornith-1.5-35B-A3B-GGUF\Ornith-1.5-35B-Q4_K_M.gguf"; depths=@(131072,$D256); kv=$F16},
+  @{n="Qwen3.5-9B Q8_0";       p="$MODELS\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q8_0.gguf"; depths=@(131072,$D256); kv=$F16},
+  @{n="Qwen3-Coder-Next UD-Q2_K_XL"; p="$MODELS\unsloth\Qwen3-Coder-Next-GGUF\Qwen3-Coder-Next-UD-Q2_K_XL.gguf"; depths=@(131072,$D256); kv=$F16},
+  @{n="Qwen3-Next-80B-Instruct Q2_K"; p="$MODELS\bartowski\Qwen_Qwen3-Next-80B-A3B-Instruct-GGUF\Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf"; depths=@(131072,$D256); kv=$F16},
+  @{n="Qwen3.5-122B-A10B i1-IQ1_M"; p="$MODELS\mradermacher\Qwen3.5-122B-A10B-i1-GGUF\Qwen3.5-122B-A10B.i1-IQ1_M.gguf"; depths=@(131072,$D256); kv=$F16},
+  # q8_0 KV is the only way this all-attention model reaches 256k (24 GiB of f16 KV).
+  @{n="Qwen3-Coder-30B-A3B Q4_K_M (q8_0 KV)"; p="$MODELS\unsloth\Qwen3-Coder-30B-A3B-Instruct-GGUF\Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf"; depths=@(131072,$D256); kv=$Q8},
+  @{n="Qwen3.8-27B UD-IQ4_XS"; p="$MODELS\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-UD-IQ4_XS.gguf"; depths=@(131072,$D256); kv=$F16},
+  @{n="Qwen3.8-27B Q4_0";      p="$MODELS\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf"; depths=@($D256); kv=$F16}
+)
+
+# ---- phase 2: one card vs two ----
+$single = @(
+  @{n="LFM2.5-2.6B Q4_K_M"; p="$MODELS\LiquidAI\LFM2.5-2.6B-GGUF\LFM2.5-2.6B-Q4_K_M.gguf"},
+  @{n="LFM2.5-2.6B Q8_0";   p="$MODELS\LiquidAI\LFM2.5-2.6B-GGUF\LFM2.5-2.6B-Q8_0.gguf"},
+  @{n="LFM2.5-2.6B F16";    p="$MODELS\LiquidAI\LFM2.5-2.6B-GGUF\LFM2.5-2.6B-F16.gguf"},
+  @{n="Qwen3.8-2B Q8_0";    p="$MODELS\unsloth\Qwen3.8-2B-GGUF\Qwen3.8-2B-Q8_0.gguf"},
+  @{n="Qwen3.5-9B Q4_K_M";  p="$MODELS\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_K_M.gguf"},
+  @{n="Qwen3.5-9B Q8_0";    p="$MODELS\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q8_0.gguf"},
+  @{n="Llama-3.1-8B Q8_0";  p="$MODELS\bartowski\Meta-Llama-3.1-8B-Instruct-GGUF\Meta-Llama-3.1-8B-Instruct-Q8_0.gguf"},
+  @{n="gemma-4-12B UD-Q4_K_XL"; p="$MODELS\unsloth\gemma-4-12B-it-qat-GGUF\gemma-4-12B-it-qat-UD-Q4_K_XL.gguf"},
+  @{n="gpt-oss-20b MXFP4";  p="$MODELS\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf"},
+  @{n="Qwen3.8-27B UD-Q3_K_XL"; p="$MODELS\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-UD-Q3_K_XL.gguf"},
+  @{n="Qwen3.8-27B UD-IQ4_XS";  p="$MODELS\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-UD-IQ4_XS.gguf"},
+  @{n="gemma-4-26B-A4B Q4_0";   p="$MODELS\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf"},
+  @{n="Mistral-Small-3.2-24B UD-Q4_K_XL"; p="$MODELS\unsloth\Mistral-Small-3.2-24B-Instruct-2506-GGUF\Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf"},
+  @{n="phi-4 Q8_0";         p="$MODELS\unsloth\phi-4-GGUF\phi-4-Q8_0.gguf"},
+  @{n="Qwen3.6-27B Q4_0";   p="$MODELS\unsloth\Qwen3.6-27B-GGUF\Qwen3.6-27B-Q4_0.gguf"},
+  @{n="Qwen3.8-27B Q4_0";   p="$MODELS\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf"}
+)
+$singleCtx = @(
+  @{n="Qwen3.5-9B Q4_K_M"; p="$MODELS\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_K_M.gguf"; depths=@(32768,131072,$D256)},
+  @{n="gpt-oss-20b MXFP4"; p="$MODELS\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf"; depths=@(32768,130048)},
+  @{n="gemma-4-26B-A4B Q4_0"; p="$MODELS\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf"; depths=@(32768,65536)},
+  @{n="Qwen3.8-27B UD-Q3_K_XL"; p="$MODELS\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-UD-Q3_K_XL.gguf"; depths=@(32768)}
+)
+
+# ---- phase 3: stretch ----
+$phase3 = @(
+  # 524288 completed 2026-09-16 15:52 (73.9 pp / 26.9 tg). The first run was killed
+  # with its Claude session ~65 min into the 1M fill; the resume starts at 1M.
+  @{n="Nemotron-3.5-Lightning Q4_0 (1M trained)"; p=$nemo; depths=@(1047552); kv=$F16},
+  @{n="Mistral-Small-4-119B i1-IQ1_M"; p="$MODELS\mradermacher\Mistral-Small-4-119B-2603-i1-GGUF\Mistral-Small-4-119B-2603.i1-IQ1_M.gguf"; depths=@(131072,$D256); kv=$F16}
+)
+
+# Status out-of-band: a PowerShell function returns its whole output stream.
+function Invoke-One($path, $tag, $reps, [string[]]$extra) {
+  $t0 = Get-Date
+  & $bench -Model $path -Suite quick -Tag $tag -Reps $reps -Extra $extra
+  $script:Ok = ($LASTEXITCODE -eq 0)
+  Write-Output ("  [{0}] {1:N1} min" -f ($(if ($script:Ok) {"ok"} else {"FAIL"})), ((Get-Date) - $t0).TotalMinutes)
+}
+
+function Run-Ladder($list, $tag) {
+  foreach ($m in $list) {
+    if ($Only -and $m.n -notlike "*$Only*") { continue }
+    if (-not (Test-Path $m.p)) { Write-Output "SKIP (missing file): $($m.n)"; continue }
+    foreach ($d in $m.depths) {
+      Write-Output ""; Write-Output "==== $(Get-Date -Format HH:mm)  $($m.n)  d=$d ===="
+      Invoke-One $m.p $tag 2 (@("-d","$d") + $m.kv)
+      if (-not $script:Ok) { Write-Output "  CEILING: $($m.n) at d=$d - skipping deeper"; break }
+    }
+  }
+}
+
+if ($Phase -in "1","all") { Write-Output "######## PHASE 1: 256k ########"; Run-Ladder $phase1 "wave9-256k" }
+
+if ($Phase -in "2","all") {
+  Write-Output ""; Write-Output "######## PHASE 2: one card vs two ########"
+  foreach ($m in $single) {
+    if ($Only -and $m.n -notlike "*$Only*") { continue }
+    if (-not (Test-Path $m.p)) { Write-Output "SKIP (missing file): $($m.n)"; continue }
+    Write-Output ""; Write-Output "==== $(Get-Date -Format HH:mm)  $($m.n)  d=0 ===="
+    Invoke-One $m.p "wave9-1gpu" 5 (@("-dev","CUDA0") + $F16)
+    Invoke-One $m.p "wave9-2gpu" 5 $F16
+  }
+  foreach ($m in $singleCtx) {
+    if ($Only -and $m.n -notlike "*$Only*") { continue }
+    $one = $true; $two = $true
+    foreach ($d in $m.depths) {
+      Write-Output ""; Write-Output "==== $(Get-Date -Format HH:mm)  $($m.n)  d=$d  1 vs 2 cards ===="
+      if ($one) { Invoke-One $m.p "wave9-1gpu" 2 (@("-d","$d","-dev","CUDA0") + $F16); $one = $script:Ok }
+      if ($two) { Invoke-One $m.p "wave9-2gpu" 2 (@("-d","$d") + $F16); $two = $script:Ok }
+      if (-not ($one -or $two)) { break }
+    }
+  }
+}
+
+if ($Phase -in "3","all") { Write-Output ""; Write-Output "######## PHASE 3: stretch ########"; Run-Ladder $phase3 "wave9-stretch" }
+
+Write-Output ""; Write-Output "WAVE 9 COMPLETE $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
+
+# Speculative decoding test. llama-bench can't do spec-dec, so this drives
+# llama-server directly and reads the per-request timings it reports.
+#
+# Gains from speculative decoding are extremely workload-dependent - code and
+# structured text draft well, freeform prose does not - so we run a fixed set of
+# three prompt types and report each separately rather than a single average.
+
+param(
+  [Parameter(Mandatory=$true)][string]$Model,
+  [string]$Draft = "",
+  [string]$SpecType = "none",
+  [int]$DraftMax = 3,
+  [string]$Tag = "",
+  [int]$NPredict = 256,
+  [string[]]$Extra = @()
+)
+
+$ErrorActionPreference = "Continue"
+$SRV  = "C:\Projects\p100 testing\tools\llamacpp\llama-server.exe"
+$OUT  = "C:\Projects\p100 testing\results\specdec.jsonl"
+$LOGD = "C:\Projects\p100 testing\logs"
+$PORT = 8099
+
+if ($Tag -eq "") { $Tag = $SpecType }
+$stamp = Get-Date -Format "yyyyMMdd-HHmmss"
+$name  = [System.IO.Path]::GetFileNameWithoutExtension($Model)
+$slog  = Join-Path $LOGD "server.$name.$Tag.$stamp.log"
+
+# Three workloads with very different draft-predictability
+$prompts = @(
+  @{ kind="code";  text="Write a complete Python implementation of a red-black tree with insert, delete, and in-order traversal. Include type hints and docstrings." }
+  @{ kind="prose"; text="Write a vivid, original short story about a lighthouse keeper who discovers something unexpected in the fog. Do not use cliches." }
+  @{ kind="fact";  text="List the planets of the solar system in order from the sun. For each, give its diameter in km, orbital period, and number of moons, formatted as a markdown table." }
+)
+
+$args = @("-m", $Model, "--port", "$PORT", "--host", "127.0.0.1",
+          "-ngl", "999", "-c", "8192", "--no-webui") + $Extra
+if ($SpecType -ne "none") {
+  $args += @("--spec-type", $SpecType, "--spec-draft-n-max", "$DraftMax")
+  if ($Draft -ne "") { $args += @("-md", $Draft, "-ngld", "999") }
+}
+
+Write-Output "=== $name | spec=$SpecType | draft=$(if($Draft){Split-Path $Draft -Leaf}else{'none'}) | n-max=$DraftMax ==="
+
+$srv = Start-Process -FilePath $SRV -ArgumentList $args -PassThru -NoNewWindow `
+        -RedirectStandardOutput "$slog" -RedirectStandardError "$slog.err"
+
+# wait for readiness (model load on these can take ~60s from cold cache)
+$ready = $false
+foreach ($i in 1..180) {
+  Start-Sleep -Seconds 2
+  if ($srv.HasExited) { break }
+  try {
+    $h = Invoke-RestMethod -Uri "http://127.0.0.1:$PORT/health" -TimeoutSec 3 -ErrorAction Stop
+    if ($h.status -eq "ok") { $ready = $true; break }
+  } catch {}
+}
+
+if (-not $ready) {
+  $tail = (Get-Content "$slog.err" -Tail 8 -ErrorAction SilentlyContinue) -join ' | '
+  Write-Output "  SERVER FAILED TO START: $tail"
+  if (-not $srv.HasExited) { Stop-Process -Id $srv.Id -Force -ErrorAction SilentlyContinue }
+  return
+}
+
+foreach ($p in $prompts) {
+  # greedy decoding: makes acceptance rates comparable run to run
+  $body = @{
+    prompt      = $p.text
+    n_predict   = $NPredict
+    temperature = 0.0
+    top_k       = 1
+    cache_prompt = $false
+  } | ConvertTo-Json -Depth 4
+
+  try {
+    $r = Invoke-RestMethod -Uri "http://127.0.0.1:$PORT/completion" -Method Post `
+           -Body $body -ContentType "application/json" -TimeoutSec 900
+  } catch {
+    Write-Output "  $($p.kind): request failed - $($_.Exception.Message)"
+    continue
+  }
+
+  $t = $r.timings
+  $acc = $null
+  if ($null -ne $t.draft_n -and $t.draft_n -gt 0) {
+    $acc = [math]::Round($t.draft_n_accepted / $t.draft_n * 100, 1)
+  }
+
+  $rec = [ordered]@{
+    model=$name; spec_type=$SpecType; tag=$Tag
+    draft=$(if($Draft){Split-Path $Draft -Leaf}else{$null}); draft_n_max=$DraftMax
+    kind=$p.kind; ts=$stamp
+    predicted_n=$t.predicted_n
+    predicted_ms=[math]::Round($t.predicted_ms,1)
+    tps=[math]::Round($t.predicted_per_second,3)
+    prompt_n=$t.prompt_n
+    prompt_tps=[math]::Round($t.prompt_per_second,2)
+    draft_n=$t.draft_n; draft_n_accepted=$t.draft_n_accepted; accept_pct=$acc
+  } | ConvertTo-Json -Depth 4 -Compress
+  Add-Content -Path $OUT -Value $rec -Encoding utf8
+
+  $accs = if ($null -ne $acc) { "  accept=$acc%" } else { "" }
+  Write-Output ("  {0,-6} {1,7:N2} t/s  ({2} tok){3}" -f $p.kind, $t.predicted_per_second, $t.predicted_n, $accs)
+}
+
+Stop-Process -Id $srv.Id -Force -ErrorAction SilentlyContinue
+Start-Sleep -Seconds 3
+
+# Reorders the running wave 10 without losing work.
+#
+# The first runner (PID passed in) was launched with e0 e2a e2b e1 e3 e4 e5. The full-window
+# sweep (e6) was added afterwards and should run before the thermal, MTP, micro-batch and
+# tokenizer experiments. This waits until that runner finishes e2b - detected by e1 logging
+# its first line, which is followed by a cooldown wait of at least a few minutes, so nothing
+# has touched the GPUs yet - stops it, and starts a second runner with e6 e1 e3 e4 e5.
+
+param([Parameter(Mandatory=$true)][int]$RunnerPid)
+
+$root = "C:\Projects\p100 testing"
+$log  = "$root\logs\wave10.log"
+
+while ($true) {
+  if (Select-String -Path $log -Pattern 'E1 soak 27b-card0' -Quiet) { break }
+  if (-not (Get-Process -Id $RunnerPid -ErrorAction SilentlyContinue)) { break }
+  Start-Sleep -Seconds 15
+}
+
+Get-CimInstance Win32_Process -Filter "ParentProcessId=$RunnerPid" |
+  ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
+Stop-Process -Id $RunnerPid -Force -ErrorAction SilentlyContinue
+Start-Sleep -Seconds 5
+
+$py = (Get-Command python).Source
+Start-Process -FilePath $py -ArgumentList '-u', "`"$root\scripts\wave10.py`"", 'e6', 'e1', 'e3', 'e4', 'e5' `
+  -WorkingDirectory "$root\scripts" -WindowStyle Hidden `
+  -RedirectStandardOutput "$root\logs\wave10b.log" -RedirectStandardError "$root\logs\wave10b.err"
+
+"""Wave 10 - does the long-context result survive real use? See report/PLAN-WAVE10.md.
+
+Drives llama-server directly (llama-bench cannot do multi-turn sessions, speculative
+decoding or sustained load) and appends one JSON row per measurement to
+results/wave10.jsonl. The llama-bench parts go through scripts/bench.ps1 so their rows
+land in results/raw.jsonl with the same schema as every other wave.
+
+Usage:  python wave10.py [experiment ...]      e.g.  python wave10.py e0 e2a
+        python wave10.py all
+        python wave10.py smoke                  quick self-test on a small model
+
+No third-party dependencies: urllib for HTTP, subprocess for the server and nvidia-smi.
+"""
+import json, os, random, subprocess, sys, time, urllib.error, urllib.request
+
+ROOT    = r"C:\Projects\p100 testing"
+TOOLS   = ROOT + r"\tools\llamacpp"
+SERVER  = TOOLS + r"\llama-server.exe"
+TOKENIZE = TOOLS + r"\llama-tokenize.exe"
+BENCH   = ROOT + r"\scripts\bench.ps1"
+LOGD    = ROOT + r"\logs"
+OUT     = ROOT + r"\results\wave10.jsonl"
+WIKI_TRAIN = ROOT + r"\data\wikitext-2-raw\wiki.train.raw"
+WIKI_TEST  = ROOT + r"\data\wikitext-2-raw\wiki.test.raw"
+M = r"C:\Users\PC\.lmstudio\models"
+PORT = 8110
+BASE = f"http://127.0.0.1:{PORT}"
+
+NEMO   = M + r"\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf"
+NEMO_MTP = M + r"\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\mtp-NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf"
+Q36    = M + r"\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q4_K_M.gguf"
+NEX    = M + r"\bartowski\nex-agi_Nex-N2.5-mini-GGUF\nex-agi_Nex-N2.5-mini-Q4_K_M.gguf"
+GEMMA26 = M + r"\lmstudio-community\gemma-4-26B-A4B-it-QAT-GGUF\gemma-4-26B-A4B-it-QAT-Q4_0.gguf"
+Q35_9B = M + r"\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_K_M.gguf"
+CODERNEXT = M + r"\unsloth\Qwen3-Coder-Next-GGUF\Qwen3-Coder-Next-UD-Q2_K_XL.gguf"
+NEXT80 = M + r"\bartowski\Qwen_Qwen3-Next-80B-A3B-Instruct-GGUF\Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf"
+GPTOSS = M + r"\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf"
+Q38_27B = M + r"\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf"
+Q38_2B = M + r"\unsloth\Qwen3.8-2B-GGUF\Qwen3.8-2B-Q8_0.gguf"
+
+STAMP = time.strftime("%Y%m%d-%H%M%S")
+
+
+# ---------------------------------------------------------------- plumbing
+def log(msg):
+    print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
+
+def record(row):
+    row = {"ts": time.strftime("%Y%m%d-%H%M%S"), **row}
+    with open(OUT, "a", encoding="utf-8") as f:
+        f.write(json.dumps(row) + "\n")
+
+def post(path, body, timeout):
+    req = urllib.request.Request(BASE + path, data=json.dumps(body).encode("utf-8"),
+                                 headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read())
+
+def name_of(path):
+    return os.path.splitext(os.path.basename(path))[0]
+
+def gpu_temps():
+    out = subprocess.run(["nvidia-smi", "--query-gpu=temperature.gpu", "--format=csv,noheader,nounits"],
+                         capture_output=True, text=True).stdout
+    return [int(x) for x in out.split() if x.strip().isdigit()]
+
+def wait_cool(target=45, cap_s=900):
+    t0 = time.time()
+    while True:
+        t = gpu_temps()
+        if t and max(t) <= target:
+            log(f"  cards at {t} C after {time.time()-t0:.0f}s"); return t
+        if time.time() - t0 > cap_s:
+            log(f"  cooldown cap reached, cards at {t} C"); return t
+        time.sleep(15)
+
+
+class Sampler:
+    """nvidia-smi at 1 Hz straight to CSV, including the clock-event (throttle) bitmask."""
+    FIELDS = ("timestamp,index,temperature.gpu,power.draw,utilization.gpu,memory.used,"
+              "clocks.current.graphics,clocks.current.memory,pstate,clocks_event_reasons.active")
+    def __init__(self, path):
+        self.path = path
+        self.f = open(path, "w", encoding="utf-8")
+        self.f.write(self.FIELDS + "\n"); self.f.flush()
+        self.p = subprocess.Popen(["nvidia-smi", "--query-gpu=" + self.FIELDS,
+                                   "--format=csv,noheader,nounits", "-l", "1"], stdout=self.f)
+    def stop(self):
+        self.p.terminate()
+        try: self.p.wait(10)
+        except Exception: self.p.kill()
+        self.f.close()
+
+def summarize_gpu(path, t_from=None):
+    """Per card: max temp, mean power, mean graphics clock, and the share of samples in which
+    a throttle reason other than 'GPU idle' (0x1) was active."""
+    per = {}
+    for line in open(path, encoding="utf-8").read().splitlines()[1:]:
+        p = [x.strip() for x in line.split(",")]
+        if len(p) < 10: continue
+        try:
+            idx, temp, pwr, util, mem, clk = p[1], int(p[2]), float(p[3]), int(p[4]), int(p[5]), float(p[6])
+            reasons = int(p[9], 16)
+        except ValueError:
+            continue
+        d = per.setdefault(idx, {"n": 0, "tmax": 0, "pw": 0.0, "clk": 0.0, "thr": 0, "reasons": 0, "mem": 0})
+        d["mem"] = max(d["mem"], mem)
+        if util < 50: continue          # only loaded samples below here
+        d["n"] += 1; d["tmax"] = max(d["tmax"], temp); d["pw"] += pwr; d["clk"] += clk
+        if reasons & ~0x1: d["thr"] += 1
+        d["reasons"] |= reasons
+    return {k: {"loaded_samples": v["n"], "temp_max": v["tmax"], "mem_max_mib": v["mem"],
+                "power_mean": round(v["pw"]/v["n"], 1) if v["n"] else None,
+                "gfx_clock_mean": round(v["clk"]/v["n"]) if v["n"] else None,
+                "throttled_pct": round(100*v["thr"]/v["n"], 1) if v["n"] else None,
+                "reasons_seen": hex(v["reasons"])}
+            for k, v in per.items()}
+
+
+class Server:
+    def __init__(self, model, ctx, extra, tag):
+        self.model, self.ctx, self.extra, self.tag = model, ctx, list(extra), tag
+        self.logpath = os.path.join(LOGD, f"server.wave10.{name_of(model)}.{tag}.{time.strftime('%Y%m%d-%H%M%S')}.log")
+        self.p = None
+    def start(self, timeout=1200):
+        args = [SERVER, "-m", self.model, "--host", "127.0.0.1", "--port", str(PORT),
+                "-ngl", "999", "-c", str(self.ctx), "--no-webui"] + self.extra
+        log(f"  server: {' '.join(a if ' ' not in a else repr(a) for a in args[1:])}")
+        self.lf = open(self.logpath, "w", encoding="utf-8", errors="replace")
+        self.p = subprocess.Popen(args, stdout=self.lf, stderr=subprocess.STDOUT)
+        t0 = time.time()
+        while time.time() - t0 < timeout:
+            if self.p.poll() is not None:
+                raise RuntimeError(f"server exited ({self.p.returncode}): " + self.tail())
+            try:
+                with urllib.request.urlopen(BASE + "/health", timeout=5) as r:
+                    if json.loads(r.read()).get("status") == "ok":
+                        log(f"  server ready in {time.time()-t0:.0f}s"); return
+            except Exception:
+                pass
+            time.sleep(2)
+        raise RuntimeError("server did not become ready: " + self.tail())
+    def tail(self, n=6):
+        try:
+            self.lf.flush()
+            lines = open(self.logpath, encoding="utf-8", errors="replace").read().splitlines()
+            return " | ".join(l.strip() for l in lines[-n:])
+        except Exception as e:
+            return str(e)
+    def stop(self):
+        if self.p and self.p.poll() is None:
+            self.p.terminate()
+            try: self.p.wait(30)
+            except Exception: self.p.kill(); self.p.wait(10)
+        try: self.lf.close()
+        except Exception: pass
+        time.sleep(5)
+
+
+def run_bench(model, tag, reps, extra, suite="quick"):
+    arr = ",".join("'" + a + "'" for a in extra)
+    cmd = (f"& '{BENCH}' -Model '{model}' -Suite {suite} -Tag '{tag}' -Reps {reps} -Extra @({arr})")
+    log(f"  bench: {tag} {' '.join(extra)}")
+    r = subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", cmd],
+                       capture_output=True, text=True)
+    for line in r.stdout.splitlines():
+        if "t/s" in line or "FAILED" in line: log("   " + line.strip())
+    return r.returncode == 0
+
+
+# ---------------------------------------------------------------- text
+_WIKI = None
+def wiki():
+    global _WIKI
+    if _WIKI is None:
+        _WIKI = open(WIKI_TRAIN, encoding="utf-8").read()
+    return _WIKI
+
+def ntokens(text):
+    return len(post("/tokenize", {"content": text}, 600)["tokens"])
+
+NAMES = ["Heron", "Basalt", "Juniper", "Quarry", "Lantern", "Meridian", "Thistle", "Cobalt"]
+DEPTHS = [0.05, 0.18, 0.31, 0.44, 0.57, 0.70, 0.83, 0.95]
+
+def build_document(target_tokens, needles=True, seed=7):
+    """WikiText cut to target_tokens with the server's own tokenizer, optionally with eight
+    planted facts at fixed depths. Returns (doc, codes, chars_used, chars_per_token)."""
+    text = wiki()
+    sample = text[:400_000]
+    cpt = len(sample) / ntokens(sample)
+    rng = random.Random(seed)
+    codes = {n: str(rng.randint(100000, 999999)) for n in NAMES}
+    nchars = int(target_tokens * cpt * 0.97)
+    for attempt in range(4):
+        body = text[:nchars]
+        cut = body.rfind("\n"); body = body[:cut] if cut > 0 else body
+        doc = body
+        if needles:
+            parts, last = [], 0
+            for n, d in zip(NAMES, DEPTHS):
+                pos = body.find("\n", int(len(body) * d))
+                pos = len(body) if pos < 0 else pos
+                parts.append(body[last:pos])
+                parts.append(f"\nArchive note: the access code for the {n} vault is {codes[n]}.\n")
+                last = pos
+            parts.append(body[last:])
+            doc = "".join(parts)
+        n = ntokens(doc)
+        if n <= target_tokens:
+            return doc, codes, len(body), cpt, n
+        nchars = int(nchars * target_tokens / n * 0.99)
+    raise RuntimeError("could not size document")
+
+
+# ---------------------------------------------------------------- E0 cold canary
+def e0():
+    log("E0: cold canary, Qwen3.8-27B Q4_0 on each card alone")
+    wait_cool(45, 600)
+    for dev in ("CUDA0", "CUDA1"):
+        run_bench(Q38_27B, f"wave10-card{dev[-1]}-cold", 3, ["-dev", dev, "-ctk", "f16", "-ctv", "f16", "-fa", "on"])
+
+
+# ---------------------------------------------------------------- E2 agent sessions
+SYSTEM = ("You are a careful research assistant. Answer questions using only the documents and "
+          "tool results in this conversation. Be brief.")
+
+def agent_session(label, model, ctx, dev_args, reasoning, turns=8, max_tokens=64, extra=()):
+    tag = f"agent-{label}"
+    log(f"E2 {label}: {name_of(model)} ctx={ctx} reasoning={reasoning}")
+    srv = Server(model, ctx, list(dev_args) + ["-np", "1", "-fa", "on", "-ctk", "f16", "-ctv", "f16",
+                                                "--reasoning", reasoning] + list(extra), tag)
+    base = {"exp": "agent", "label": label, "model": name_of(model), "ctx": ctx,
+            "reasoning": reasoning, "cards": 1 if dev_args else 2, "extra": " ".join(extra)}
+    try:
+        srv.start()
+        doc, codes, used, cpt, doc_tokens = build_document(ctx - 24000)
+        log(f"  document {doc_tokens} tokens ({cpt:.2f} chars/token)")
+        chunk_chars = int(2000 * cpt)
+        off = used
+        messages = [{"role": "system", "content": SYSTEM},
+                    {"role": "user", "content": f"<document>\n{doc}\n</document>\n\n"
+                     f"What is the access code for the {NAMES[0]} vault? Reply with only the code."}]
+        for turn in range(turns):
+            t0 = time.time()
+            try:
+                resp = post("/v1/chat/completions", {"messages": messages, "max_tokens": max_tokens,
+                                                     "temperature": 0, "cache_prompt": True}, 4 * 3600)
+            except Exception as e:
+                record({**base, "turn": turn, "error": str(e)[:300], "server_tail": srv.tail()})
+                log(f"  turn {turn} FAILED: {e}"); break
+            wall = time.time() - t0
+            msg = resp["choices"][0]["message"]
+            content = msg.get("content") or ""
+            rc = msg.get("reasoning_content") or ""
+            tim = resp.get("timings", {}) or {}
+            usage = resp.get("usage", {}) or {}
+            total = usage.get("prompt_tokens")
+            pn = tim.get("prompt_n")
+            ok = codes[NAMES[turn]] in content
+            row = {**base, "turn": turn, "needle": NAMES[turn], "needle_depth": DEPTHS[turn],
+                   "doc_tokens": doc_tokens, "context_tokens": total, "prompt_n": pn,
+                   "cache_n": tim.get("cache_n"), "prompt_ms": tim.get("prompt_ms"),
+                   "prompt_tps": tim.get("prompt_per_second"), "predicted_n": tim.get("predicted_n"),
+                   "predicted_tps": tim.get("predicted_per_second"), "wall_s": round(wall, 1),
+                   "correct": ok, "answer": content.strip()[:80], "reasoning_chars": len(rc),
+                   "finish": resp["choices"][0].get("finish_reason")}
+            record(row)
+            log(f"  turn {turn}: ctx={total} processed={pn} cached={tim.get('cache_n')} "
+                f"ttft={ (tim.get('prompt_ms') or 0)/1000:.1f}s gen={tim.get('predicted_per_second') or 0:.1f}t/s "
+                f"wall={wall:.0f}s {'OK' if ok else 'MISS'} [{content.strip()[:30]!r}]")
+            if turn > 0 and pn and total and pn > 0.5 * total:
+                log("  -> turn re-processed over half the context; recording and stopping this session")
+                record({**base, "turn": turn, "note": "full_reprocess_guard"}); break
+            if turn + 1 < turns:
+                messages.append({"role": "assistant", "content": content})
+                chunk = wiki()[off: off + chunk_chars]; off += chunk_chars
+                messages.append({"role": "user", "content":
+                                 f"Tool result from search_archive (page {turn+1}):\n{chunk}\n\n"
+                                 f"What is the access code for the {NAMES[turn+1]} vault? Reply with only the code."})
+    except Exception as e:
+        record({**base, "error": str(e)[:500]})
+        log(f"  SESSION FAILED: {e}")
+    finally:
+        srv.stop()
+
+def e2a():
+    agent_session("nemotron-256k", NEMO, 262144, [], "off")
+    agent_session("qwen36-256k", Q36, 262144, [], "off")
+    agent_session("nex-256k", NEX, 262144, [], "off")
+    agent_session("gemma26-256k", GEMMA26, 262144, [], "off")
+    agent_session("qwen35-9b-1card-256k", Q35_9B, 262144, ["-dev", "CUDA0"], "off")
+    agent_session("codernext-128k", CODERNEXT, 131072, [], "off")
+    agent_session("next80-128k", NEXT80, 131072, [], "off")
+    agent_session("gptoss-128k", GPTOSS, 131072, [], "auto", max_tokens=1024)
+
+def e2b():
+    agent_session("nemotron-64k-think", NEMO, 65536, [], "on", turns=6, max_tokens=1024)
+    agent_session("nemotron-64k-think-preserve", NEMO, 65536, [], "on", turns=6, max_tokens=1024,
+                  extra=["--reasoning-preserve"])
+    agent_session("qwen36-64k-think", Q36, 65536, [], "on", turns=6, max_tokens=1024)
+    agent_session("qwen36-64k-think-preserve", Q36, 65536, [], "on", turns=6, max_tokens=1024,
+                  extra=["--reasoning-preserve"])
+    agent_session("gemma26-64k-think", GEMMA26, 65536, [], "on", turns=6, max_tokens=1024)
+
+
+# ---------------------------------------------------------------- E1 sustained load
+SOAK_PROMPT = "Write a detailed, multi-part history of the telescope, from Galileo to space observatories."
+
+def soak(label, model, dev_args, minutes):
+    log(f"E1 soak {label}: {name_of(model)} for {minutes} min")
+    start_temps = wait_cool(45, 900)
+    csvp = os.path.join(LOGD, f"wave10-soak.{label}.{time.strftime('%Y%m%d-%H%M%S')}.gpu.csv")
+    samp = Sampler(csvp)
+    srv = Server(model, 4096, list(dev_args) + ["-np", "1", "-fa", "on"], f"soak-{label}")
+    base = {"exp": "soak", "label": label, "model": name_of(model), "cards": 1 if dev_args else 2,
+            "start_temps": start_temps, "gpu_csv": os.path.basename(csvp)}
+    rates = []
+    try:
+        srv.start()
+        t0 = time.time(); i = 0
+        while time.time() - t0 < minutes * 60:
+            r = post("/completion", {"prompt": SOAK_PROMPT, "n_predict": 512, "ignore_eos": True,
+                                     "temperature": 0, "cache_prompt": False}, 900)
+            t = r["timings"]
+            rates.append(t["predicted_per_second"])
+            record({**base, "i": i, "t_s": round(time.time() - t0, 1), "clock": time.strftime("%H:%M:%S"),
+                    "predicted_tps": round(t["predicted_per_second"], 3), "predicted_n": t["predicted_n"]})
+            i += 1
+    except Exception as e:
+        record({**base, "error": str(e)[:500]}); log(f"  SOAK FAILED: {e}")
+    finally:
+        srv.stop(); samp.stop()
+    if rates:
+        first = sum(rates[:3]) / len(rates[:3]); last = sum(rates[-5:]) / len(rates[-5:])
+        g = summarize_gpu(csvp)
+        record({**base, "summary": True, "requests": len(rates), "first3_tps": round(first, 3),
+                "last5_tps": round(last, 3), "change_pct": round(100 * (last - first) / first, 1), "gpu": g})
+        log(f"  {label}: first {first:.2f} -> last {last:.2f} t/s ({100*(last-first)/first:+.1f}%)  gpu={g}")
+
+def e1():
+    soak("27b-card0", Q38_27B, ["-dev", "CUDA0"], 25)
+    soak("27b-card1", Q38_27B, ["-dev", "CUDA1"], 25)
+    soak("27b-both", Q38_27B, [], 25)
+    soak("nemotron-both", NEMO, [], 20)
+
+
+# ---------------------------------------------------------------- E3 MTP at depth
+SPEC_PROMPTS = [
+    ("code", "Write a complete Python implementation of a red-black tree with insert, delete, and in-order traversal. Include type hints and docstrings."),
+    ("prose", "Write a vivid, original short story about a lighthouse keeper who discovers something unexpected in the fog. Do not use cliches."),
+    ("fact", "List the planets of the solar system in order from the sun. For each, give its diameter in km, orbital period, and number of moons, formatted as a markdown table."),
+]
+
+def mtp_depth(ctx, spec):
+    label = f"mtp-{ctx//1024}k-{'n2' if spec else 'base'}"
+    log(f"E3 {label}")
+    extra = ["-np", "1", "-fa", "on", "-ctk", "f16", "-ctv", "f16"]
+    if spec:
+        extra += ["--spec-type", "draft-mtp", "-md", NEMO_MTP, "--spec-draft-n-max", "2", "-ngld", "999"]
+    srv = Server(NEMO, ctx, extra, label)
+    base = {"exp": "mtp_depth", "label": label, "model": name_of(NEMO), "ctx": ctx, "spec": spec}
+    try:
+        srv.start()
+        doc, _, _, _, doc_tokens = build_document(ctx - 4096, needles=False)
+        for kind, text in SPEC_PROMPTS:
+            t0 = time.time()
+            r = post("/completion", {"prompt": doc + "\n\n" + text, "n_predict": 256, "temperature": 0,
+                                     "top_k": 1, "cache_prompt": True}, 4 * 3600)
+            t = r["timings"]
+            acc = (round(100 * t["draft_n_accepted"] / t["draft_n"], 1)
+                   if t.get("draft_n") else None)
+            record({**base, "kind": kind, "doc_tokens": doc_tokens, "prompt_n": t.get("prompt_n"),
+                    "cache_n": t.get("cache_n"), "prompt_ms": t.get("prompt_ms"),
+                    "predicted_n": t.get("predicted_n"), "predicted_tps": t.get("predicted_per_second"),
+                    "draft_n": t.get("draft_n"), "draft_n_accepted": t.get("draft_n_accepted"),
+                    "accept_pct": acc, "wall_s": round(time.time() - t0, 1)})
+            log(f"  {kind}: {t.get('predicted_per_second'):.2f} t/s  processed={t.get('prompt_n')} accept={acc}")
+    except Exception as e:
+        record({**base, "error": str(e)[:500]}); log(f"  MTP FAILED: {e}")
+    finally:
+        srv.stop()
+
+def e3():
+    for ctx in (131072, 262144):
+        mtp_depth(ctx, False)
+        mtp_depth(ctx, True)
+
+
+# ---------------------------------------------------------------- E4 micro-batch at depth
+def e4():
+    log("E4: -ub sweep at 64k")
+    for model in (NEMO, Q36):
+        for ub in (512, 1024, 2048, 4096):
+            run_bench(model, "wave10-ubatch", 2, ["-d", "65536", "-b", "4096", "-ub", str(ub),
+                                                  "-ctk", "f16", "-ctv", "f16", "-fa", "on"], suite="agent")
+
+
+# ---------------------------------------------------------------- E5 tokenizer efficiency
+def e5():
+    log("E5: tokens per 1,000 characters")
+    eng = os.path.join(LOGD, "wave10-sample-english.txt")
+    code = os.path.join(LOGD, "wave10-sample-code.txt")
+    with open(eng, "w", encoding="utf-8") as f:
+        f.write(open(WIKI_TEST, encoding="utf-8").read()[:500_000])
+    with open(code, "w", encoding="utf-8") as f:
+        for fn in sorted(os.listdir(ROOT + r"\scripts")):
+            if fn.endswith((".ps1", ".py")):
+                f.write(open(os.path.join(ROOT, "scripts", fn), encoding="utf-8", errors="replace").read() + "\n")
+    samples = {"english": eng, "code": code}
+    seen = set()
+    for dp, _, fns in os.walk(M):
+        for fn in sorted(fns):
+            if not fn.endswith(".gguf") or fn.startswith(("mmproj", "mtp-", "eagle3")) or "DFlash" in fn:
+                continue
+            fam = fn.split(".gguf")[0]
+            key = dp  # one file per repository folder is one tokenizer
+            if key in seen: continue
+            seen.add(key)
+            path = os.path.join(dp, fn)
+            row = {"exp": "tokenizer", "model": fam}
+            for kind, sp in samples.items():
+                nchar = len(open(sp, encoding="utf-8").read())
+                t0 = time.time()
+                r = subprocess.run([TOKENIZE, "-m", path, "-f", sp, "--show-count", "--log-disable", "--ids"],
+                                   capture_output=True, text=True, encoding="utf-8", errors="replace")
+                cnt = None
+                for line in r.stdout.splitlines()[::-1]:
+                    if "Total number of tokens" in line:
+                        cnt = int(line.split(":")[-1].strip()); break
+                row[f"{kind}_tokens"] = cnt
+                row[f"{kind}_chars"] = nchar
+                row[f"{kind}_tok_per_1k_chars"] = round(1000 * cnt / nchar, 1) if cnt else None
+                row[f"{kind}_s"] = round(time.time() - t0, 1)
+            record(row)
+            log(f"  {fam}: english {row['english_tok_per_1k_chars']}  code {row['code_tok_per_1k_chars']} tok/1k chars")
+
+
+# ---------------------------------------------------------------- E6 full-window sweep
+# Every model, filled to its own maximum context: the trained window, or the largest one
+# that allocates in 32 GB if that is smaller. llama-bench's -d fill is untimed, so it cannot
+# say how long a full prompt takes to read. This drives llama-server instead and measures,
+# at each fill level on the way up:
+#   - time to first token for the whole prompt so far (cold-equivalent, see below)
+#   - average prefill speed over the whole prompt, and the marginal speed of the last segment
+#   - generation speed with that much context
+# One fill per model: each level's prompt extends the previous one, so the server reuses the
+# cached prefix and only reads the new segment. Cold-equivalent TTFT is the sum of the segment
+# prefill times, which is the same work a single cold prompt does (checked against the E2
+# turn-0 cold fills). Prompts are cut at newlines so the token boundary never moves.
+W = [
+    # tier 1 - long windows, the agent-relevant models
+    ("nemotron-q4_0", NEMO, [1048576]),
+    ("qwen36-35b-ud-q4_k_m", Q36, [262144]),
+    ("nex-n2.5-mini", NEX, [262144]),
+    ("gemma4-26b-a4b", GEMMA26, [262144]),
+    ("qwen35-9b-q8_0", M + r"\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q8_0.gguf", [262144]),
+    ("qwen3-coder-next", CODERNEXT, [262144, 196608, 131072]),
+    ("qwen3-next-80b-instruct", NEXT80, [262144, 196608, 131072]),
+    ("gpt-oss-20b", GPTOSS, [131072]),
+    ("qwen38-2b-q8_0", Q38_2B, [262144]),
+    ("gemma4-12b", M + r"\unsloth\gemma-4-12B-it-qat-GGUF\gemma-4-12B-it-qat-UD-Q4_K_XL.gguf", [262144, 196608, 131072]),
+    ("llama31-8b-q8_0", M + r"\bartowski\Meta-Llama-3.1-8B-Instruct-GGUF\Meta-Llama-3.1-8B-Instruct-Q8_0.gguf", [131072, 98304]),
+    ("lfm25-2.6b-q8_0", M + r"\LiquidAI\LFM2.5-2.6B-GGUF\LFM2.5-2.6B-Q8_0.gguf", [131072]),
+    ("ornith-1.5-35b", M + r"\ornith-ai\Ornith-1.5-35B-A3B-GGUF\Ornith-1.5-35B-Q4_K_M.gguf", [262144]),
+    ("qwen3-coder-30b-f16kv", M + r"\unsloth\Qwen3-Coder-30B-A3B-Instruct-GGUF\Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf", [262144, 196608, 131072, 98304, 65536]),
+    ("qwen36-35b-q6_k", M + r"\unsloth\Qwen3.6-35B-A3B-GGUF\Qwen3.6-35B-A3B-UD-Q6_K.gguf", [262144, 196608, 131072, 98304]),
+    ("qwen35-122b-iq1_m", M + r"\mradermacher\Qwen3.5-122B-A10B-i1-GGUF\Qwen3.5-122B-A10B.i1-IQ1_M.gguf", [262144, 196608, 131072, 98304]),
+    # tier 2 - dense and 131k-trained models
+    ("mistral-small-3.2-24b", M + r"\unsloth\Mistral-Small-3.2-24B-Instruct-2506-GGUF\Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf", [131072, 98304, 65536]),
+    ("magistral-small-2509-q6_k", M + r"\bartowski\mistralai_Magistral-Small-2509-GGUF\mistralai_Magistral-Small-2509-Q6_K.gguf", [131072, 98304, 65536]),
+    ("qwen38-27b-q4_0", Q38_27B, [262144, 196608, 131072]),
+    ("qwen36-27b-q4_0", M + r"\unsloth\Qwen3.6-27B-GGUF\Qwen3.6-27B-Q4_0.gguf", [262144, 196608, 131072]),
+    ("gemma4-31b-q4_0", M + r"\google\gemma-4-31B-it-qat-q4_0-gguf\gemma-4-31B_q4_0-it.gguf", [262144, 196608, 131072]),
+    ("olmo-3.1-32b-think", M + r"\bartowski\allenai_Olmo-3.1-32B-Think-GGUF\allenai_Olmo-3.1-32B-Think-Q5_K_M.gguf", [65536]),
+    ("deepseek-r1-distill-32b", M + r"\bartowski\DeepSeek-R1-Distill-Qwen-32B-GGUF\DeepSeek-R1-Distill-Qwen-32B-Q5_K_M.gguf", [131072, 98304, 65536, 49152, 32768]),
+    ("phi-4-q8_0", M + r"\unsloth\phi-4-GGUF\phi-4-Q8_0.gguf", [16384]),
+    ("qwen3-32b-q6_k", M + r"\unsloth\Qwen3-32B-GGUF\Qwen3-32B-Q6_K.gguf", [40960, 32768, 24576, 16384]),
+    ("seed-oss-36b-q6_k", M + r"\lmstudio-community\Seed-OSS-36B-Instruct-GGUF\Seed-OSS-36B-Instruct-Q6_K.gguf", [16384, 12288, 8192]),
+    ("llama33-70b-q2_k_xl", M + r"\unsloth\Llama-3.3-70B-Instruct-GGUF\Llama-3.3-70B-Instruct-UD-Q2_K_XL.gguf", [16384, 12288, 8192]),
+    # tier 3 - MLA models whose prefill collapses with depth (hours per window)
+    ("glm-4.7-flash-q5_k_m", M + r"\bartowski\zai-org_GLM-4.7-Flash-GGUF\zai-org_GLM-4.7-Flash-Q5_K_M.gguf", [131072]),
+    ("mistral-small-4-119b-iq1_m", M + r"\mradermacher\Mistral-Small-4-119B-2603-i1-GGUF\Mistral-Small-4-119B-2603.i1-IQ1_M.gguf", [131072]),
+]
+LEVELS = [4096, 16384, 32768, 65536, 131072, 262144, 524288]
+
+def window_sweep(label, model, candidates):
+    log(f"E6 {label}: candidates {candidates}")
+    csvp = os.path.join(LOGD, f"wave10-window.{label}.{time.strftime('%Y%m%d-%H%M%S')}.gpu.csv")
+    base = {"exp": "window", "label": label, "model": name_of(model)}
+    srv, ctx = None, None
+    # largest context that allocates
+    for c in candidates:
+        s = Server(model, c, ["-np", "1", "-fa", "on", "-ctk", "f16", "-ctv", "f16"], f"window-{c}")
+        try:
+            s.start(); srv, ctx = s, c; break
+        except Exception as e:
+            record({**base, "ctx_try": c, "loaded": False, "error": str(e)[-300:]})
+            log(f"  ctx {c}: did not load"); s.stop()
+    if not srv:
+        log("  no candidate context loaded"); return
+    samp = Sampler(csvp)
+    base["ctx"] = ctx
+    try:
+        text = wiki()
+        sample = text[:400_000]
+        cpt = len(sample) / ntokens(sample)
+        levels = [l for l in LEVELS if l <= ctx - 1024]
+        top = ctx - 1024
+        if not levels or top - levels[-1] > 0.05 * top:
+            levels.append(top)
+        cum_ms, prev_chars = 0.0, 0
+        for lvl in levels:
+            nchars = max(int(lvl * cpt * 0.98), prev_chars + 1000)
+            for attempt in range(4):
+                cut = text.rfind("\n", 0, nchars)
+                prompt = text[:cut]
+                n = ntokens(prompt)
+                if n <= lvl or attempt == 3: break
+                nchars = int(nchars * lvl / n * 0.995)
+            prev_chars = len(prompt)
+            t0 = time.time()
+            try:
+                r = post("/completion", {"prompt": prompt, "n_predict": 128, "ignore_eos": True,
+                                         "temperature": 0, "cache_prompt": True}, 6 * 3600)
+            except Exception as e:
+                record({**base, "level": lvl, "error": str(e)[:300], "server_tail": srv.tail()})
+                log(f"  level {lvl}: FAILED {e}"); break
+            t = r["timings"]
+            cum_ms += t["prompt_ms"]
+            ctx_tokens = r.get("tokens_evaluated") or n
+            row = {**base, "level": lvl, "context_tokens": ctx_tokens,
+                   "segment_tokens": t["prompt_n"], "cache_n": t.get("cache_n"),
+                   "segment_prefill_s": round(t["prompt_ms"] / 1000, 2),
+                   "segment_prefill_tps": round(t["prompt_per_second"], 2),
+                   "ttft_cold_s": round(cum_ms / 1000, 1),
+                   "avg_prefill_tps": round(ctx_tokens / (cum_ms / 1000), 2),
+                   "gen_tps": round(t["predicted_per_second"], 3), "gen_n": t["predicted_n"],
+                   "wall_s": round(time.time() - t0, 1)}
+            record(row)
+            log(f"  {ctx_tokens:>8} tok: TTFT {cum_ms/1000:8.1f}s  prefill avg {row['avg_prefill_tps']:8.1f} "
+                f"(last segment {row['segment_prefill_tps']:.1f}) t/s  gen {row['gen_tps']:6.2f} t/s")
+    except Exception as e:
+        record({**base, "error": str(e)[:500]}); log(f"  SWEEP FAILED: {e}")
+    finally:
+        srv.stop(); samp.stop()
+        g = summarize_gpu(csvp)
+        record({**base, "summary": True, "gpu": g})
+        log(f"  vram peak: {', '.join(f'card{k} {v['mem_max_mib']} MiB' for k, v in sorted(g.items()))}")
+
+def e6():
+    for label, model, cands in W:
+        if os.path.exists(model):
+            window_sweep(label, model, cands)
+        else:
+            log(f"E6 {label}: missing file, skipped")
+
+
+# ---------------------------------------------------------------- smoke test
+def smoke():
+    global OUT
+    OUT = ROOT + r"\results\wave10-smoke.jsonl"
+    log("SMOKE: agent session, small model, 16k")
+    agent_session("smoke", Q38_2B, 32768, ["-dev", "CUDA1"], "off", turns=3)
+    log("SMOKE: soak 1 min")
+    soak("smoke", Q38_2B, ["-dev", "CUDA1"], 1)
+
+
+def smoke_window():
+    global OUT, LEVELS
+    OUT = ROOT + r"\results\wave10-smoke.jsonl"
+    LEVELS = [4096, 16384]
+    window_sweep("smoke", Q38_2B, [65536, 32768])
+
+EXPERIMENTS = {"e0": e0, "e2a": e2a, "e2b": e2b, "e1": e1, "e3": e3, "e4": e4, "e5": e5, "e6": e6,
+               "smoke": smoke, "smoke_window": smoke_window}
+
+if __name__ == "__main__":
+    wanted = sys.argv[1:] or ["all"]
+    if wanted == ["all"]:
+        wanted = ["e0", "e2a", "e2b", "e1", "e3", "e4", "e5"]
+    # Hold off idle sleep for the life of this process only (ES_CONTINUOUS | ES_SYSTEM_REQUIRED);
+    # it is released automatically when the process exits and changes no power settings.
+    try:
+        import ctypes
+        ctypes.windll.kernel32.SetThreadExecutionState(0x80000000 | 0x00000001)
+    except Exception:
+        pass
+    log(f"WAVE 10 start: {wanted}")
+    for w in wanted:
+        try:
+            EXPERIMENTS[w]()
+        except Exception as e:
+            log(f"EXPERIMENT {w} CRASHED: {e}")
+    log("WAVE 10 COMPLETE")
+

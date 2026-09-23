@@ -1,0 +1,23 @@
+0.00.155.474 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.155.583 I srv          init: The UI is disabled
+0.00.155.584 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.155.679 W srv  llama_server: -----------------
+0.00.155.681 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.155.682 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.155.683 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.155.683 W srv  llama_server: -----------------
+0.00.172.500 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-27B-GGUF\Qwen3.6-27B-Q4_0.gguf'
+0.00.748.933 W common_fit_params: failed to fit params to free device memory: n_gpu_layers already set by user to 999, abort
+0.11.705.155 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 1186.06 MiB on device 0: cudaMalloc failed: out of memory
+0.11.705.446 E ggml_gallocr_reserve_n_impl: failed to allocate CUDA0 buffer of size 1243677184
+0.11.705.448 E graph_reserve: failed to allocate compute buffers
+0.11.705.460 W sched_reserve: compute buffer allocation failed, retrying without pipeline parallelism
+0.11.708.404 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 378.02 MiB on device 1: cudaMalloc failed: out of memory
+0.11.708.407 E ggml_gallocr_reserve_n_impl: failed to allocate CUDA1 buffer of size 396378368
+0.11.708.408 E graph_reserve: failed to allocate compute buffers
+0.11.719.437 E llama_init_from_model: failed to initialize the context: failed to allocate compute pp buffers
+0.11.719.442 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-27B-GGUF\Qwen3.6-27B-Q4_0.gguf'
+0.11.719.443 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-27B-GGUF\Qwen3.6-27B-Q4_0.gguf'
+0.11.719.445 E srv    load_model: failed to create_context with model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3.6-27B-GGUF\Qwen3.6-27B-Q4_0.gguf'
+0.11.719.453 I srv    operator(): operator(): cleaning up before exit...
+0.11.720.610 E srv  llama_server: exiting due to model loading error

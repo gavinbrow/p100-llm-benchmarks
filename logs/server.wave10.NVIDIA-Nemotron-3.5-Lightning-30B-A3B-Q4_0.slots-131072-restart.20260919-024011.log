@@ -1,0 +1,21 @@
+0.00.153.560 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.153.676 I srv          init: The UI is disabled
+0.00.153.677 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.153.784 W srv  llama_server: -----------------
+0.00.153.787 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.153.789 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.153.789 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.153.789 W srv  llama_server: -----------------
+0.00.167.831 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf'
+0.08.591.025 I cmn          init: llama threadpool init, n_threads = 6
+0.08.785.258 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 131072, kv_unified = 'false'
+0.08.795.704 W srv          init: chat template supports preserving reasoning, it is enabled by default (may use more tokens, disable via --no-reasoning-preserve)
+0.08.795.730 I srv  llama_server: model loaded
+0.08.795.734 I srv  llama_server: listening on http://127.0.0.1:8110
+0.11.585.543 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 1.000
+0.11.585.652 I slot launch_slot_: id  0 | task 1 | processing task, is_child = 0
+0.12.306.085 I slot print_timing: id  0 | task 1 | prompt eval time =     182.44 ms /    11 tokens (   16.59 ms per token,    60.29 tokens per second)
+0.12.306.090 I slot print_timing: id  0 | task 1 |        eval time =     537.98 ms /    28 tokens (   19.93 ms per token,    50.19 tokens per second)
+0.12.306.091 I slot print_timing: id  0 | task 1 |       total time =     720.41 ms /    39 tokens
+0.12.306.092 I slot print_timing: id  0 | task 1 |    graphs reused =         27
+0.12.312.146 I slot      release: id  0 | task 1 | stop processing: n_tokens = 126134, truncated = 0

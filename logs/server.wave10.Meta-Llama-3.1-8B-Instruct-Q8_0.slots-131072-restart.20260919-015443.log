@@ -1,0 +1,20 @@
+0.00.152.796 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.152.910 I srv          init: The UI is disabled
+0.00.152.911 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.153.008 W srv  llama_server: -----------------
+0.00.153.012 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.153.013 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.153.013 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.153.014 W srv  llama_server: -----------------
+0.00.170.379 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\bartowski\Meta-Llama-3.1-8B-Instruct-GGUF\Meta-Llama-3.1-8B-Instruct-Q8_0.gguf'
+0.04.305.769 I cmn          init: llama threadpool init, n_threads = 6
+0.04.548.084 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 131072, kv_unified = 'false'
+0.04.557.562 I srv  llama_server: model loaded
+0.04.557.566 I srv  llama_server: listening on http://127.0.0.1:8110
+0.14.851.557 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 1.000
+0.14.851.676 I slot launch_slot_: id  0 | task 1 | processing task, is_child = 0
+0.17.148.969 I slot print_timing: id  0 | task 1 | prompt eval time =     499.00 ms /    11 tokens (   45.36 ms per token,    22.04 tokens per second)
+0.17.148.973 I slot print_timing: id  0 | task 1 |        eval time =    1798.26 ms /    32 tokens (   58.01 ms per token,    17.24 tokens per second)
+0.17.148.974 I slot print_timing: id  0 | task 1 |       total time =    2297.26 ms /    43 tokens
+0.17.148.975 I slot print_timing: id  0 | task 1 |    graphs reused =         31
+0.17.155.212 I slot      release: id  0 | task 1 | stop processing: n_tokens = 125872, truncated = 0

@@ -1,0 +1,21 @@
+0.00.156.493 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.156.619 I srv          init: The UI is disabled
+0.00.156.620 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.156.730 W srv  llama_server: -----------------
+0.00.156.734 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.156.735 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.156.736 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.156.736 W srv  llama_server: -----------------
+0.00.169.494 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\bartowski\allenai_Olmo-3.1-32B-Think-GGUF\allenai_Olmo-3.1-32B-Think-Q5_K_M.gguf'
+0.17.342.929 W llama_context: n_ctx_seq (68608) > n_ctx_train (65536) -- possible training context overflow
+0.17.391.154 I cmn          init: llama threadpool init, n_threads = 6
+0.17.624.822 W srv    load_model: the slot context (68608) exceeds the training context of the model (65536) - capping
+0.17.754.067 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 65536, kv_unified = 'false'
+0.17.754.238 W srv          init: --cache-idle-slots requires --cache-ram, disabling
+0.17.763.283 I srv  llama_server: model loaded
+0.17.763.288 I srv  llama_server: listening on http://127.0.0.1:8110
+0.18.889.262 I slot get_availabl: id  0 | task -1 | selected slot by LRU, t_last = -1
+0.18.889.332 I slot launch_slot_: id  0 | task 0 | processing task, is_child = 0
+0.18.889.346 E srv    send_error: task id = 0, error: request (65536 tokens) exceeds the available context size (65536 tokens), try increasing it
+0.18.889.349 I slot      release: id  0 | task 0 | stop processing: n_tokens = 0, truncated = 0
+0.18.889.383 W srv          stop: cancel task, id_task = 0

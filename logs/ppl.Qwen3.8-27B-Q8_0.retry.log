@@ -1,0 +1,33 @@
+llama-perplexity.exe : 0.01.211.559 W model has unused tensor blk.64.attn_norm.weight (size = 20480 bytes) -- ignoring
+At line:7 char:3
++   & $PPLEXE -m $m.p -f $DATA -c 512 --chunks 60 -b 256 -ub 256 -ngl 9 ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (0.01.211.559 W ...es) -- ignoring:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+0.01.211.572 W model has unused tensor blk.64.post_attention_norm.weight (size = 20480 bytes) -- ignoring
+0.01.211.595 W model has unused tensor blk.64.attn_q.weight (size = 66846720 bytes) -- ignoring
+0.01.211.603 W model has unused tensor blk.64.attn_k.weight (size = 5570560 bytes) -- ignoring
+0.01.211.611 W model has unused tensor blk.64.attn_v.weight (size = 5570560 bytes) -- ignoring
+0.01.211.642 W model has unused tensor blk.64.attn_output.weight (size = 33423360 bytes) -- ignoring
+0.01.211.651 W model has unused tensor blk.64.attn_q_norm.weight (size = 1024 bytes) -- ignoring
+0.01.211.682 W model has unused tensor blk.64.attn_k_norm.weight (size = 1024 bytes) -- ignoring
+0.01.211.706 W model has unused tensor blk.64.ffn_gate.weight (size = 94699520 bytes) -- ignoring
+0.01.211.714 W model has unused tensor blk.64.ffn_down.weight (size = 94699520 bytes) -- ignoring
+0.01.211.722 W model has unused tensor blk.64.ffn_up.weight (size = 94699520 bytes) -- ignoring
+0.01.211.731 W model has unused tensor blk.64.nextn.eh_proj.weight (size = 55705600 bytes) -- ignoring
+0.01.211.741 W model has unused tensor blk.64.nextn.enorm.weight (size = 20480 bytes) -- ignoring
+0.01.211.750 W model has unused tensor blk.64.nextn.hnorm.weight (size = 20480 bytes) -- ignoring
+0.01.211.775 W model has unused tensor blk.64.nextn.shared_head_norm.weight (size = 20480 bytes) -- ignoring
+0.25.481.029 I cmn          init: llama threadpool init, n_threads = 6
+0.25.719.921 I 
+0.25.719.965 I system_info: n_threads = 6 (n_threads_batch = 6) / 12 | CUDA : ARCHS = 500,610,700,750,800,860,890,900 
+| USE_GRAPHS = 1 | FA_QUANTS = q4_0-q4_0,q8_0-q8_0,f16-f16,bf16-bf16 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 
+| F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.25.719.972 I perplexity: tokenizing the input ..
+0.26.135.709 I perplexity: tokenization took 415.731 ms
+0.26.136.188 I perplexity: calculating perplexity over 60 chunks, n_ctx=512, batch_size=256, n_seq=1
+0.30.813.734 E CUDA error: out of memory
+0.30.813.738 E   current device: 1, in function alloc at D:\a\llama.cpp\llama.cpp\ggml\src\ggml-cuda\ggml-cuda.cu:507
+0.30.813.738 E   err
+D:\a\llama.cpp\llama.cpp\ggml\src\ggml-cuda\ggml-cuda.cu:108: CUDA error

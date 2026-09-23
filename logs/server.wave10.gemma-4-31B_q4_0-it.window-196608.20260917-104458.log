@@ -1,0 +1,21 @@
+0.00.157.410 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.157.521 I srv          init: The UI is disabled
+0.00.157.521 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.157.614 W srv  llama_server: -----------------
+0.00.157.617 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.157.619 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.157.619 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.157.619 W srv  llama_server: -----------------
+0.00.169.945 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\google\gemma-4-31B-it-qat-q4_0-gguf\gemma-4-31B_q4_0-it.gguf'
+0.00.964.692 W common_fit_params: failed to fit params to free device memory: n_gpu_layers already set by user to 999, abort
+0.01.548.490 W load: control-looking token:     50 '<|tool_response>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.01.548.947 W load: control-looking token:    212 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.01.590.976 W load: special_eog_ids contains '<|tool_response>', removing '</s>' token from EOG list
+0.08.940.835 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 7680.00 MiB on device 1: cudaMalloc failed: out of memory
+0.08.940.841 E alloc_tensor_range: failed to allocate CUDA1 buffer of size 8053063680
+0.08.945.699 E llama_init_from_model: failed to initialize the context: failed to allocate buffer for kv cache
+0.08.945.703 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\google\gemma-4-31B-it-qat-q4_0-gguf\gemma-4-31B_q4_0-it.gguf'
+0.08.945.704 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\google\gemma-4-31B-it-qat-q4_0-gguf\gemma-4-31B_q4_0-it.gguf'
+0.08.945.706 E srv    load_model: failed to create_context with model 'C:\Users\PC\.lmstudio\models\google\gemma-4-31B-it-qat-q4_0-gguf\gemma-4-31B_q4_0-it.gguf'
+0.08.945.710 I srv    operator(): operator(): cleaning up before exit...
+0.08.946.373 E srv  llama_server: exiting due to model loading error

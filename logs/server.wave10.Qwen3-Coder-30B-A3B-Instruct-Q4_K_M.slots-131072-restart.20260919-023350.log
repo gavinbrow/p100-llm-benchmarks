@@ -1,0 +1,21 @@
+0.00.157.145 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.157.261 I srv          init: The UI is disabled
+0.00.157.261 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.157.359 W srv  llama_server: -----------------
+0.00.157.362 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.157.363 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.157.364 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.157.364 W srv  llama_server: -----------------
+0.00.161.380 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3-Coder-30B-A3B-Instruct-GGUF\Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf'
+0.00.755.992 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.08.378.725 I cmn          init: llama threadpool init, n_threads = 6
+0.08.599.501 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 131072, kv_unified = 'false'
+0.08.604.138 I srv  llama_server: model loaded
+0.08.604.143 I srv  llama_server: listening on http://127.0.0.1:8110
+0.14.392.257 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 1.000
+0.14.392.373 I slot launch_slot_: id  0 | task 1 | processing task, is_child = 0
+0.19.787.746 I slot print_timing: id  0 | task 1 | prompt eval time =     579.13 ms /    11 tokens (   52.65 ms per token,    18.99 tokens per second)
+0.19.787.750 I slot print_timing: id  0 | task 1 |        eval time =    4816.20 ms /    32 tokens (  155.36 ms per token,     6.44 tokens per second)
+0.19.787.751 I slot print_timing: id  0 | task 1 |       total time =    5395.33 ms /    43 tokens
+0.19.787.752 I slot print_timing: id  0 | task 1 |    graphs reused =         31
+0.19.791.372 I slot      release: id  0 | task 1 | stop processing: n_tokens = 126082, truncated = 0

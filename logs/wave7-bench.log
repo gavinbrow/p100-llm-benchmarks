@@ -1,0 +1,202 @@
+
+################ Qwen3.5-9B-Q4_0 ################
+---- Qwen3.5-9B-Q4_0  d=73728  kv=f16 ----
+=== Qwen3.5-9B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 73728 -ctk f16 -ctv f16 -fa on
+  pp512@d73728       245.43 t/s  +/-  0.33   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d73728        33.59 t/s  +/-  0.01   [k=f16 v=f16 fa=1 dev=auto]
+  done in 130s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Qwen3.5-9B-Q4_0  d=73728  kv=q8_0 ----
+=== Qwen3.5-9B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 73728 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d73728       237.72 t/s  +/-  1.42   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d73728        26.62 t/s  +/-  0.06   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 144.2s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Qwen3.5-9B-Q4_0  d=73728  kv=q4_0 ----
+=== Qwen3.5-9B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 73728 -ctk q4_0 -ctv q4_0 -fa on
+  pp512@d73728       237.71 t/s  +/-  1.09   [k=q4_0 v=q4_0 fa=1 dev=auto]
+  tg128@d73728        26.40 t/s  +/-  0.04   [k=q4_0 v=q4_0 fa=1 dev=auto]
+  done in 147.3s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Qwen3.5-9B-Q4_0  d=0  kv=q8_0 ----
+=== Qwen3.5-9B-Q4_0 | suite=quick | reps=3 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_0.gguf -p 512 -n 128 -r 3 -o json -d 0 -ctk q8_0 -ctv q8_0 -fa on
+  pp512              600.58 t/s  +/-  0.24   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128               38.93 t/s  +/-  0.02   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 16.8s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Qwen3.5-9B-Q4_0  d=32768  kv=q8_0 ----
+=== Qwen3.5-9B-Q4_0 | suite=quick | reps=3 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_0.gguf -p 512 -n 128 -r 3 -o json -d 32768 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d32768       348.49 t/s  +/- 15.89   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d32768        32.68 t/s  +/-  0.02   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 66.1s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Qwen3.5-9B-Q4_0  d=65536  kv=q8_0 ----
+=== Qwen3.5-9B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 65536 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d65536       255.32 t/s  +/-  0.06   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d65536        27.67 t/s  +/-  0.05   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 129.5s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Qwen3.5-9B-Q4_0  d=98304  kv=q8_0 ----
+=== Qwen3.5-9B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 98304 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d98304       197.60 t/s  +/-  1.07   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d98304        23.81 t/s  +/-  0.01   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 220.5s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Qwen3.5-9B-Q4_0  d=131072  kv=q8_0 ----
+=== Qwen3.5-9B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.5-9B-GGUF\Qwen3.5-9B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 131072 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d131072      161.58 t/s  +/-  1.40   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d131072       20.74 t/s  +/-  0.00   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 330.5s -> C:\Projects\p100 testing\results\raw.jsonl
+
+################ gpt-oss-20b-MXFP4 ################
+---- gpt-oss-20b-MXFP4  d=73728  kv=f16 ----
+=== gpt-oss-20b-MXFP4 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512 -n 128 -r 2 -o json -d 73728 -ctk f16 -ctv f16 -fa on
+  pp512@d73728       195.61 t/s  +/-  1.37   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d73728        49.17 t/s  +/-  0.08   [k=f16 v=f16 fa=1 dev=auto]
+  done in 189s -> C:\Projects\p100 testing\results\raw.jsonl
+---- gpt-oss-20b-MXFP4  d=73728  kv=q8_0 ----
+=== gpt-oss-20b-MXFP4 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512 -n 128 -r 2 -o json -d 73728 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d73728       190.48 t/s  +/-  0.10   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d73728        28.45 t/s  +/-  0.02   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 190.2s -> C:\Projects\p100 testing\results\raw.jsonl
+---- gpt-oss-20b-MXFP4  d=73728  kv=q4_0 ----
+=== gpt-oss-20b-MXFP4 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512 -n 128 -r 2 -o json -d 73728 -ctk q4_0 -ctv q4_0 -fa on
+  pp512@d73728       191.25 t/s  +/-  0.11   [k=q4_0 v=q4_0 fa=1 dev=auto]
+  tg128@d73728        28.71 t/s  +/-  0.05   [k=q4_0 v=q4_0 fa=1 dev=auto]
+  done in 189.2s -> C:\Projects\p100 testing\results\raw.jsonl
+---- gpt-oss-20b-MXFP4  d=0  kv=q8_0 ----
+=== gpt-oss-20b-MXFP4 | suite=quick | reps=3 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512 -n 128 -r 3 -o json -d 0 -ctk q8_0 -ctv q8_0 -fa on
+  pp512              498.33 t/s  +/-  5.32   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128               60.36 t/s  +/-  0.02   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 17.6s -> C:\Projects\p100 testing\results\raw.jsonl
+---- gpt-oss-20b-MXFP4  d=32768  kv=q8_0 ----
+=== gpt-oss-20b-MXFP4 | suite=quick | reps=3 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512 -n 128 -r 3 -o json -d 32768 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d32768       294.07 t/s  +/-  2.16   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d32768        41.57 t/s  +/-  0.04   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 78.9s -> C:\Projects\p100 testing\results\raw.jsonl
+---- gpt-oss-20b-MXFP4  d=65536  kv=q8_0 ----
+=== gpt-oss-20b-MXFP4 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512 -n 128 -r 2 -o json -d 65536 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d65536       203.25 t/s  +/-  0.47   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d65536        30.62 t/s  +/-  0.04   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 163.3s -> C:\Projects\p100 testing\results\raw.jsonl
+---- gpt-oss-20b-MXFP4  d=98304  kv=q8_0 ----
+=== gpt-oss-20b-MXFP4 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512 -n 128 -r 2 -o json -d 98304 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d98304       159.26 t/s  +/-  1.98   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d98304        23.36 t/s  +/-  0.01   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 280.6s -> C:\Projects\p100 testing\results\raw.jsonl
+---- gpt-oss-20b-MXFP4  d=131072  kv=q8_0 ----
+=== gpt-oss-20b-MXFP4 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf -p 512 -n 128 -r 2 -o json -d 131072 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d131072      128.59 t/s  +/-  0.13   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d131072       18.54 t/s  +/-  0.01   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 424.3s -> C:\Projects\p100 testing\results\raw.jsonl
+
+################ Qwen3.8-27B-Q4_0 ################
+---- Qwen3.8-27B-Q4_0  d=73728  kv=f16 ----
+=== Qwen3.8-27B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 73728 -ctk f16 -ctv f16 -fa on
+  pp512@d73728        74.69 t/s  +/-  0.01   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d73728        11.81 t/s  +/-  0.00   [k=f16 v=f16 fa=1 dev=auto]
+  done in 580s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Qwen3.8-27B-Q4_0  d=73728  kv=q8_0 ----
+=== Qwen3.8-27B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 73728 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d73728        73.90 t/s  +/-  0.16   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d73728         9.35 t/s  +/-  0.00   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 585.6s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Qwen3.8-27B-Q4_0  d=73728  kv=q4_0 ----
+=== Qwen3.8-27B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 73728 -ctk q4_0 -ctv q4_0 -fa on
+  pp512@d73728        73.55 t/s  +/-  0.91   [k=q4_0 v=q4_0 fa=1 dev=auto]
+  tg128@d73728         9.29 t/s  +/-  0.00   [k=q4_0 v=q4_0 fa=1 dev=auto]
+  done in 581.7s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Qwen3.8-27B-Q4_0  d=0  kv=q8_0 ----
+=== Qwen3.8-27B-Q4_0 | suite=quick | reps=3 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf -p 512 -n 128 -r 3 -o json -d 0 -ctk q8_0 -ctv q8_0 -fa on
+  pp512              140.58 t/s  +/-  0.20   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128               14.40 t/s  +/-  0.00   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 50.4s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Qwen3.8-27B-Q4_0  d=32768  kv=q8_0 ----
+=== Qwen3.8-27B-Q4_0 | suite=quick | reps=3 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf -p 512 -n 128 -r 3 -o json -d 32768 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d32768        99.47 t/s  +/-  0.80   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d32768        11.72 t/s  +/-  0.13   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 257.1s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Qwen3.8-27B-Q4_0  d=65536  kv=q8_0 ----
+=== Qwen3.8-27B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 65536 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d65536        78.11 t/s  +/-  0.33   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d65536         9.80 t/s  +/-  0.00   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 507.1s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Qwen3.8-27B-Q4_0  d=98304  kv=q8_0 ----
+=== Qwen3.8-27B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 98304 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d98304        63.55 t/s  +/-  1.24   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d98304         8.25 t/s  +/-  0.00   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 839s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Qwen3.8-27B-Q4_0  d=131072  kv=q8_0 ----
+=== Qwen3.8-27B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3.8-27B-GGUF\Qwen3.8-27B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 131072 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d131072       54.39 t/s  +/-  0.36   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d131072        7.12 t/s  +/-  0.00   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 1237.1s -> C:\Projects\p100 testing\results\raw.jsonl
+
+################ Nemotron-3.5-30B-A3B-Q4_0 ################
+---- Nemotron-3.5-30B-A3B-Q4_0  d=73728  kv=f16 ----
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 73728 -ctk f16 -ctv f16 -fa on
+  pp512@d73728       258.84 t/s  +/-  1.59   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d73728        58.16 t/s  +/-  0.21   [k=f16 v=f16 fa=1 dev=auto]
+  done in 162.2s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Nemotron-3.5-30B-A3B-Q4_0  d=73728  kv=q8_0 ----
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 73728 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d73728       257.35 t/s  +/-  1.57   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d73728        44.67 t/s  +/-  0.06   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 160.2s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Nemotron-3.5-30B-A3B-Q4_0  d=73728  kv=q4_0 ----
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 73728 -ctk q4_0 -ctv q4_0 -fa on
+  pp512@d73728       258.33 t/s  +/-  1.28   [k=q4_0 v=q4_0 fa=1 dev=auto]
+  tg128@d73728        42.60 t/s  +/-  0.05   [k=q4_0 v=q4_0 fa=1 dev=auto]
+  done in 161s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Nemotron-3.5-30B-A3B-Q4_0  d=0  kv=q8_0 ----
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 | suite=quick | reps=3 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf -p 512 -n 128 -r 3 -o json -d 0 -ctk q8_0 -ctv q8_0 -fa on
+  pp512              434.28 t/s  +/-  0.39   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128               70.32 t/s  +/-  0.04   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 21.3s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Nemotron-3.5-30B-A3B-Q4_0  d=32768  kv=q8_0 ----
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 | suite=quick | reps=3 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf -p 512 -n 128 -r 3 -o json -d 32768 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d32768       333.65 t/s  +/-  5.19   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d32768        56.75 t/s  +/-  0.12   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 72.3s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Nemotron-3.5-30B-A3B-Q4_0  d=65536  kv=q8_0 ----
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 65536 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d65536       270.85 t/s  +/-  6.93   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d65536        46.86 t/s  +/-  0.01   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 140s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Nemotron-3.5-30B-A3B-Q4_0  d=98304  kv=q8_0 ----
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 98304 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d98304       225.85 t/s  +/-  2.78   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d98304        38.20 t/s  +/-  0.82   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 228.4s -> C:\Projects\p100 testing\results\raw.jsonl
+---- Nemotron-3.5-30B-A3B-Q4_0  d=131072  kv=q8_0 ----
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 131072 -ctk q8_0 -ctv q8_0 -fa on
+  pp512@d131072      197.67 t/s  +/-  3.76   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  tg128@d131072       32.63 t/s  +/-  0.31   [k=q8_0 v=q8_0 fa=1 dev=auto]
+  done in 334.3s -> C:\Projects\p100 testing\results\raw.jsonl
+
+WAVE 7 COMPLETE

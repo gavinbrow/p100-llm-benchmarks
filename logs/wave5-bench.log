@@ -1,0 +1,73 @@
+
+################ Nemotron-3.5-30B-A3B-Q4_0 ################
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 | suite=standard | reps=5 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf -p 512,2048 -n 128 -r 5 -o json
+  pp512              433.97 t/s  +/-  1.86   [k=f16 v=f16 fa=-1 dev=auto]
+  pp2048             685.41 t/s  +/-  2.32   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128               70.82 t/s  +/-  0.01   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 53.4s -> C:\Projects\p100 testing\results\raw.jsonl
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 | suite=context | reps=3 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf -p 0 -n 128 -d 0,4096,16384,32768 -r 3 -o json
+  tg128               71.02 t/s  +/-  0.14   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d4096         70.01 t/s  +/-  0.04   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d16384        67.36 t/s  +/-  0.08   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d32768        65.00 t/s  +/-  0.08   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 104.7s -> C:\Projects\p100 testing\results\raw.jsonl
+
+################ Qwen3-32B-Q6_K ################
+=== Qwen3-32B-Q6_K | suite=standard | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3-32B-GGUF\Qwen3-32B-Q6_K.gguf -p 512,2048 -n 128 -r 5 -o json
+  pp512              115.06 t/s  +/-  0.39   [k=f16 v=f16 fa=-1 dev=auto]
+  pp2048             164.44 t/s  +/-  0.11   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128                7.17 t/s  +/-  0.04   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 213.7s -> C:\Projects\p100 testing\results\raw.jsonl
+=== Qwen3-32B-Q6_K | suite=context | reps=3 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Qwen3-32B-GGUF\Qwen3-32B-Q6_K.gguf -p 0 -n 128 -d 0,4096,16384,32768 -r 3 -o json
+  FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to create context with model  | 'C:\Users\PC\.lmstudio\models\unsloth\Qwen3-32B-GGUF\Qwen3-32B-Q6_K.gguf'
+
+################ Llama-3.3-70B-UD-Q2_K_XL ################
+=== Llama-3.3-70B-Instruct-UD-Q2_K_XL | suite=standard | reps=5 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Llama-3.3-70B-Instruct-GGUF\Llama-3.3-70B-Instruct-UD-Q2_K_XL.gguf -p 512,2048 -n 128 -r 5 -o json
+  pp512               54.57 t/s  +/-  0.06   [k=f16 v=f16 fa=-1 dev=auto]
+  pp2048              68.68 t/s  +/-  0.58   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128                4.29 t/s  +/-  0.07   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 408.5s -> C:\Projects\p100 testing\results\raw.jsonl
+=== Llama-3.3-70B-Instruct-UD-Q2_K_XL | suite=context | reps=3 ===
+     C:\Users\PC\.lmstudio\models\unsloth\Llama-3.3-70B-Instruct-GGUF\Llama-3.3-70B-Instruct-UD-Q2_K_XL.gguf -p 0 -n 128 -d 0,4096,16384,32768 -r 3 -o json
+  FAILED (exit -1073740791):   Device 0: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB |   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | D:\a\llama.cpp\llama.cpp\ggml\src\ggml-cuda\ggml-cuda.cu:108: CUDA error
+
+################ Qwen3-Next-80B-A3B-Q2_K ################
+=== Qwen_Qwen3-Next-80B-A3B-Thinking-Q2_K | suite=standard | reps=5 ===
+     C:\Users\PC\.lmstudio\models\bartowski\Qwen_Qwen3-Next-80B-A3B-Thinking-GGUF\Qwen_Qwen3-Next-80B-A3B-Thinking-Q2_K.gguf -p 512,2048 -n 128 -r 5 -o json
+  pp512              314.75 t/s  +/-  3.76   [k=f16 v=f16 fa=-1 dev=auto]
+  pp2048             398.52 t/s  +/-  2.95   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128               32.11 t/s  +/-  0.01   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 93.2s -> C:\Projects\p100 testing\results\raw.jsonl
+=== Qwen_Qwen3-Next-80B-A3B-Thinking-Q2_K | suite=context | reps=3 ===
+     C:\Users\PC\.lmstudio\models\bartowski\Qwen_Qwen3-Next-80B-A3B-Thinking-GGUF\Qwen_Qwen3-Next-80B-A3B-Thinking-Q2_K.gguf -p 0 -n 128 -d 0,4096,16384,32768 -r 3 -o json
+  tg128               32.01 t/s  +/-  0.34   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d4096         32.14 t/s  +/-  0.13   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d16384        32.08 t/s  +/-  0.05   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128@d32768        31.08 t/s  +/-  0.08   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 214.6s -> C:\Projects\p100 testing\results\raw.jsonl
+
+################ Seed-OSS-36B-Q6_K ################
+=== Seed-OSS-36B-Instruct-Q6_K | suite=standard | reps=5 ===
+     C:\Users\PC\.lmstudio\models\lmstudio-community\Seed-OSS-36B-Instruct-GGUF\Seed-OSS-36B-Instruct-Q6_K.gguf -p 512,2048 -n 128 -r 5 -o json
+  pp512               96.02 t/s  +/-  0.44   [k=f16 v=f16 fa=-1 dev=auto]
+  pp2048             130.54 t/s  +/-  0.68   [k=f16 v=f16 fa=-1 dev=auto]
+  tg128                6.30 t/s  +/-  0.08   [k=f16 v=f16 fa=-1 dev=auto]
+  done in 256.3s -> C:\Projects\p100 testing\results\raw.jsonl
+=== Seed-OSS-36B-Instruct-Q6_K | suite=context | reps=3 ===
+     C:\Users\PC\.lmstudio\models\lmstudio-community\Seed-OSS-36B-Instruct-GGUF\Seed-OSS-36B-Instruct-Q6_K.gguf -p 0 -n 128 -d 0,4096,16384,32768 -r 3 -o json
+  FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to create context with model  | 'C:\Users\PC\.lmstudio\models\lmstudio-community\Seed-OSS-36B-Instruct-GGUF\Seed-OSS-36B-Instruct-Q6_K.gguf'
+
+################ Nemotron-3.5-30B-A3B-Q8_0 ################
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q8_0 | suite=standard | reps=5 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q8_0.gguf -p 512,2048 -n 128 -r 5 -o json
+  FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to load model 'C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-G | GUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q8_0.gguf'
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q8_0 | suite=context | reps=3 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q8_0.gguf -p 0 -n 128 -d 0,4096,16384,32768 -r 3 -o json
+  FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to load model 'C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-G | GUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q8_0.gguf'
+
+WAVE 5 BENCH COMPLETE

@@ -1,0 +1,19 @@
+0.00.152.676 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.152.785 I srv          init: The UI is disabled
+0.00.152.786 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.152.879 W srv  llama_server: -----------------
+0.00.152.882 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.152.883 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.152.884 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.152.884 W srv  llama_server: -----------------
+0.00.160.581 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\lmstudio-community\Seed-OSS-36B-Instruct-GGUF\Seed-OSS-36B-Instruct-Q6_K.gguf'
+0.00.528.094 W common_fit_params: failed to fit params to free device memory: n_gpu_layers already set by user to 999, abort
+0.00.751.131 W load: special_eos_id is not in special_eog_ids - the tokenizer config may be incorrect
+0.24.322.132 E ggml_backend_cuda_buffer_type_alloc_buffer: allocating 2112.00 MiB on device 0: cudaMalloc failed: out of memory
+0.24.322.311 E alloc_tensor_range: failed to allocate CUDA0 buffer of size 2214592512
+0.24.325.312 E llama_init_from_model: failed to initialize the context: failed to allocate buffer for kv cache
+0.24.325.317 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\lmstudio-community\Seed-OSS-36B-Instruct-GGUF\Seed-OSS-36B-Instruct-Q6_K.gguf'
+0.24.325.322 E cmn  common_init_: failed to create context with model 'C:\Users\PC\.lmstudio\models\lmstudio-community\Seed-OSS-36B-Instruct-GGUF\Seed-OSS-36B-Instruct-Q6_K.gguf'
+0.24.325.325 E srv    load_model: failed to create_context with model 'C:\Users\PC\.lmstudio\models\lmstudio-community\Seed-OSS-36B-Instruct-GGUF\Seed-OSS-36B-Instruct-Q6_K.gguf'
+0.24.325.333 I srv    operator(): operator(): cleaning up before exit...
+0.24.327.934 E srv  llama_server: exiting due to model loading error

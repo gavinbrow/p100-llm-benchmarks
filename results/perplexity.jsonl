@@ -1,0 +1,21 @@
+{"model":"Qwen3.8-27B-UD-Q3_K_XL","ppl":6.5108,"ppl_stderr":0.12846,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":222,"ts":"20260915-014125"}
+{"model":"Qwen3.8-27B-UD-IQ4_XS","ppl":null,"ppl_stderr":null,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":1,"ts":"20260915-014126"}
+{"model":"Qwen3.8-27B-Q4_0","ppl":null,"ppl_stderr":null,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":0,"ts":"20260915-014126"}
+{"model":"Qwen3.8-27B-UD-Q6_K","ppl":null,"ppl_stderr":null,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":0,"ts":"20260915-014126"}
+{"model":"Qwen3.8-27B-Q8_0","ppl":null,"ppl_stderr":null,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":0,"ts":"20260915-014126"}
+{"model":"Qwen3.6-35B-A3B-MXFP4_MOE","ppl":null,"ppl_stderr":null,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":0,"ts":"20260915-014126"}
+{"model":"Qwen3.6-35B-A3B-UD-Q4_K_M","ppl":null,"ppl_stderr":null,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":0,"ts":"20260915-014126"}
+{"model":"Qwen3.8-27B-UD-IQ4_XS","ppl":6.4221,"ppl_stderr":0.12596,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":218,"ts":"20260915-015338"}
+{"model":"Qwen3.8-27B-Q4_0","ppl":6.5168,"ppl_stderr":0.12896,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":214,"ts":"20260915-015711"}
+{"model":"Qwen3.8-27B-UD-Q6_K","ppl":6.3962,"ppl_stderr":0.12551,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":221,"ts":"20260915-020052"}
+{"model":"Qwen3.8-27B-Q8_0","ppl":null,"ppl_stderr":null,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":42,"ts":"20260915-020135"}
+{"model":"Qwen3.6-35B-A3B-MXFP4_MOE","ppl":6.2984,"ppl_stderr":0.12392,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":85,"ts":"20260915-020259"}
+{"model":"Qwen3.6-35B-A3B-UD-Q4_K_M","ppl":6.2676,"ppl_stderr":0.12274,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":90,"ts":"20260915-020429"}
+{"model":"Qwen3.6-35B-A3B-UD-Q6_K","ppl":6.256,"ppl_stderr":0.12256,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":99,"ts":"20260915-020608"}
+{"ctx":512,"dataset":"wikitext-2-raw/test","ppl":6.4113,"ts":"20260915-021441","chunks":60,"model":"Qwen3.8-27B-Q4_K_M","ppl_stderr":0.12545,"wall_s":253,"note":"batch 256 to avoid OOM"}
+{"model":"Qwen3.6-27B-Q4_0","ppl":6.5822,"ppl_stderr":0.1338,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":214,"ts":"20260915-023104"}
+{"model":"Qwen3-Coder-30B-A3B-Instruct-Q4_K_M","ppl":9.2947,"ppl_stderr":0.22803,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":86,"ts":"20260915-023231"}
+{"model":"Ornith-1.5-35B-Q4_K_M","ppl":null,"ppl_stderr":null,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":87,"ts":"20260915-024050"}
+{"model":"gemma-4-12B-it-qat-UD-Q4_K_XL","ppl":null,"ppl_stderr":null,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":94,"ts":"20260915-024224"}
+{"model":"Qwen3.5-9B-Q4_0","ppl":7.9698,"ppl_stderr":0.16683,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":57,"ts":"20260915-024321"}
+{"model":"LFM2.5-2.6B-Q4_0","ppl":55.2088,"ppl_stderr":1.82437,"chunks":60,"ctx":512,"dataset":"wikitext-2-raw/test","wall_s":21,"ts":"20260915-024342"}

@@ -1,0 +1,21 @@
+SKIP (present): gemma-4-31B_q4_0-it.gguf
+SKIP (present): mistralai_Magistral-Small-2509-Q6_K.gguf
+==== zai-org_GLM-4.7-Flash-Q5_K_M.gguf  (20.09 GB, 219.3 GB free) ====
+  done: 20.09 GB in 9.4 min
+==== nex-agi_Nex-N2.5-mini-Q4_K_M.gguf  (20.79 GB, 209.4 GB free) ====
+  done: 20.79 GB in 14 min
+==== allenai_Olmo-3.1-32B-Think-Q5_K_M.gguf  (21.29 GB, 188.6 GB free) ====
+  done: 21.29 GB in 10.9 min
+==== DeepSeek-R1-Distill-Qwen-32B-Q5_K_M.gguf  (21.66 GB, 167.3 GB free) ====
+  done: 21.66 GB in 10 min
+==== Qwen3-Coder-Next-UD-Q2_K_XL.gguf  (24.92 GB, 145.6 GB free) ====
+  done: 24.92 GB in 12.9 min
+==== Mistral-Small-4-119B-2603.i1-IQ1_M.gguf  (24.85 GB, 120.7 GB free) ====
+  done: 24.85 GB in 11.3 min
+==== nvidia_Llama-3_3-Nemotron-Super-49B-v1_5-IQ4_XS.gguf  (25.03 GB, 95.4 GB free) ====
+  done: 25.03 GB in 13.1 min
+==== Qwen3.5-122B-A10B.i1-IQ1_M.gguf  (25.7 GB, 70.4 GB free) ====
+  done: 25.7 GB in 19.4 min
+==== Qwen_Qwen3-Next-80B-A3B-Instruct-Q2_K.gguf  (26.23 GB, 44.7 GB free) ====
+  done: 26.23 GB in 5.9 min
+WAVE 8 DOWNLOADS COMPLETE

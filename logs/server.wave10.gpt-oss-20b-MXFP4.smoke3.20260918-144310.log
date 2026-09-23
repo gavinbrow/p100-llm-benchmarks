@@ -1,0 +1,38 @@
+0.00.155.260 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.155.372 I srv          init: The UI is disabled
+0.00.155.373 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.155.463 W srv  llama_server: -----------------
+0.00.155.466 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.155.468 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.155.468 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.155.468 W srv  llama_server: -----------------
+0.00.164.154 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf'
+0.01.320.837 W load: setting token '<|constrain|>' (200003) attribute to USER_DEFINED (16), old attributes: 8
+0.01.321.067 W load: setting token '<|message|>' (200008) attribute to USER_DEFINED (16), old attributes: 8
+0.01.326.554 W load: setting token '<|channel|>' (200005) attribute to USER_DEFINED (16), old attributes: 8
+0.01.326.557 W load: setting token '<|start|>' (200006) attribute to USER_DEFINED (16), old attributes: 8
+0.01.326.569 W load: special_eog_ids contains both '<|return|>' and '<|call|>', or '<|calls|>' and '<|flush|>' tokens, removing '<|end|>' token from EOG list
+0.06.116.561 W llama_kv_cache_iswa: using full-size SWA cache (ref: https://github.com/ggml-org/llama.cpp/pull/13194#issuecomment-2868343055)
+0.06.136.856 I cmn          init: llama threadpool init, n_threads = 6
+0.06.292.854 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 16384, kv_unified = 'false'
+0.06.297.769 I srv  llama_server: model loaded
+0.06.297.773 I srv  llama_server: listening on http://127.0.0.1:8110
+0.06.825.546 I slot get_availabl: id  0 | task -1 | selected slot by LRU, t_last = -1
+0.06.825.580 I slot launch_slot_: id  0 | task 0 | processing task, is_child = 0
+0.11.113.905 I slot print_timing: id  0 | task 0 | prompt processing, n_tokens =   4096, progress = 0.30, t =   4.29 s / 955.17 tokens per second
+0.13.721.533 I slot print_timing: id  0 | task 0 | prompt processing, n_tokens =   6144, progress = 0.45, t =   6.90 s / 890.97 tokens per second
+0.16.524.598 I slot print_timing: id  0 | task 0 | prompt processing, n_tokens =   8192, progress = 0.60, t =   9.70 s / 844.63 tokens per second
+0.19.501.629 I slot print_timing: id  0 | task 0 | prompt processing, n_tokens =  10240, progress = 0.74, t =  12.68 s / 807.83 tokens per second
+0.22.637.356 I slot print_timing: id  0 | task 0 | prompt processing, n_tokens =  12288, progress = 0.89, t =  15.81 s / 777.15 tokens per second
+0.26.468.199 I slot print_timing: id  0 | task 0 | prompt eval time =   19642.44 ms / 13745 tokens (    1.43 ms per token,   699.76 tokens per second)
+0.26.468.204 I slot print_timing: id  0 | task 0 |        eval time =       0.00 ms /     1 tokens (    0.00 ms per token,     0.00 tokens per second)
+0.26.468.205 I slot print_timing: id  0 | task 0 |       total time =   19642.44 ms / 13746 tokens
+0.26.468.206 I slot print_timing: id  0 | task 0 |    graphs reused =          1
+0.26.468.808 I slot      release: id  0 | task 0 | stop processing: n_tokens = 13745, truncated = 0
+0.27.054.498 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 0.999 (> 0.100 thold), f_keep = 1.000
+0.27.054.630 I slot launch_slot_: id  0 | task 11 | processing task, is_child = 0
+0.27.321.835 I slot print_timing: id  0 | task 11 | prompt eval time =     143.54 ms /    11 tokens (   13.05 ms per token,    76.63 tokens per second)
+0.27.321.840 I slot print_timing: id  0 | task 11 |        eval time =     123.64 ms /     8 tokens (   17.66 ms per token,    56.62 tokens per second)
+0.27.321.841 I slot print_timing: id  0 | task 11 |       total time =     267.18 ms /    19 tokens
+0.27.321.841 I slot print_timing: id  0 | task 11 |    graphs reused =          7
+0.27.322.428 I slot      release: id  0 | task 11 | stop processing: n_tokens = 13762, truncated = 0

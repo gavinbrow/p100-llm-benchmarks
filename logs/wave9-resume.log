@@ -1,0 +1,27 @@
+
+######## PHASE 3: stretch ########
+
+==== 16:58  Nemotron-3.5-Lightning Q4_0 (1M trained)  d=1047552 ====
+=== NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0 | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf -p 512 -n 128 -r 2 -o json -d 1047552 -ctk f16 -ctv f16 -fa on
+  pp512@d1047552      40.49 t/s  +/-  0.12   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d1047552      16.37 t/s  +/-  0.00   [k=f16 v=f16 fa=1 dev=auto]
+  done in 10626s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 177.1 min
+
+==== 19:55  Mistral-Small-4-119B i1-IQ1_M  d=131072 ====
+=== Mistral-Small-4-119B-2603.i1-IQ1_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\mradermacher\Mistral-Small-4-119B-2603-i1-GGUF\Mistral-Small-4-119B-2603.i1-IQ1_M.gguf -p 512 -n 128 -r 2 -o json -d 131072 -ctk f16 -ctv f16 -fa on
+  pp512@d131072       20.25 t/s  +/-  0.03   [k=f16 v=f16 fa=1 dev=auto]
+  tg128@d131072       14.69 t/s  +/-  0.00   [k=f16 v=f16 fa=1 dev=auto]
+  done in 3644.5s -> C:\Projects\p100 testing\results\raw.jsonl
+  [ok] 60.8 min
+
+==== 20:56  Mistral-Small-4-119B i1-IQ1_M  d=261120 ====
+=== Mistral-Small-4-119B-2603.i1-IQ1_M | suite=quick | reps=2 ===
+     C:\Users\PC\.lmstudio\models\mradermacher\Mistral-Small-4-119B-2603-i1-GGUF\Mistral-Small-4-119B-2603.i1-IQ1_M.gguf -p 512 -n 128 -r 2 -o json -d 261120 -ctk f16 -ctv f16 -fa on
+  FAILED (exit 1):   Device 1: Tesla P100-PCIE-16GB, compute capability 6.0, VMM: no, VRAM: 16287 MiB | load_backend: loaded CUDA backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cuda.dll | load_backend: loaded RPC backend from C:\Projects\p100 testing\tools\llamacpp\ggml-rpc.dll | load_backend: loaded CPU backend from C:\Projects\p100 testing\tools\llamacpp\ggml-cpu-haswell.dll | llama_bench: error: failed to create context with model  | 'C:\Users\PC\.lmstudio\models\mradermacher\Mistral-Small-4-119B-2603-i1-GGUF\Mistral-Small-4-119B-2603.i1-IQ1_M.gguf'
+  [FAIL] 0.3 min
+  CEILING: Mistral-Small-4-119B i1-IQ1_M at d=261120 - skipping deeper
+
+WAVE 9 COMPLETE 2026-09-16 20:56

@@ -1,0 +1,13 @@
+[18:58:39] WAVE 11b start: ['handoff', 'validate', 'p', 'tsweep', 's', 'bsweep', 'bbench', 'bub', 'bnemo']
+[18:58:39] handoff: waiting for 'P qwen35-9b-64k' in wave11.log
+[18:58:39]   stopped wave11.py (pid 12936) and its children
+[18:58:39]   stopped wave11.py (pid 3652) and its children
+[18:58:50] STEP handoff done in 0.00 h
+[18:58:50]   server: -m C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 68480 --no-webui -np 1 -sm layer -fa on -ctk f16 -ctv f16 -b 2048 -ub 512
+[18:59:08]   server ready in 18s
+[18:59:08] SWEEP validate-nemotron (layer): levels [32768, 65536], ctx 68480
+[19:00:11]      32768: pp512    305.0  pp2048    374.7  tg   62.39  (fill 32768 tok in 53.6s)  RE-READ
+[19:01:37]      65536: pp512    251.2  pp2048    303.6  tg   57.24  (fill 30212 tok in 74.9s)  RE-READ
+[19:01:45]   vram peak: card0 9415 MiB, card1 10275 MiB
+[19:01:45] STEP validate done in 0.05 h
+[19:01:45] P qwen35-9b-64k: npp 65536, parallel [1, 2, 4], ctx 262656

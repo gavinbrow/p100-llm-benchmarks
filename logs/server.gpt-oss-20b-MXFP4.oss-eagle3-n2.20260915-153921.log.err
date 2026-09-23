@@ -1,0 +1,51 @@
+0.00.153.101 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.153.201 I srv          init: The UI is disabled
+0.00.153.201 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.153.292 W srv  llama_server: -----------------
+0.00.153.294 W srv  llama_server: CORS is set to allow all origins ('*') and no API key is set
+0.00.153.295 W srv  llama_server: this can be a security risk (cross-origin attacks)
+0.00.153.295 W srv  llama_server: more info: https://github.com/ggml-org/llama.cpp/pull/25655
+0.00.153.296 W srv  llama_server: -----------------
+0.00.159.773 I srv    load_model: loading model 'C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf'
+0.01.760.134 W load: setting token '<|constrain|>' (200003) attribute to USER_DEFINED (16), old attributes: 8
+0.01.760.322 W load: setting token '<|message|>' (200008) attribute to USER_DEFINED (16), old attributes: 8
+0.01.765.515 W load: setting token '<|channel|>' (200005) attribute to USER_DEFINED (16), old attributes: 8
+0.01.765.518 W load: setting token '<|start|>' (200006) attribute to USER_DEFINED (16), old attributes: 8
+0.01.765.529 W load: special_eog_ids contains both '<|return|>' and '<|call|>', or '<|calls|>' and '<|flush|>' tokens, removing '<|end|>' token from EOG list
+0.06.488.488 I cmn          init: llama threadpool init, n_threads = 6
+0.06.626.893 I common_speculative_init_result: loading draft model 'C:\Users\PC\.lmstudio\models\ggml-org\gpt-oss-20b-GGUF\eagle3-gpt-oss-20b-Q8_0.gguf'
+0.07.064.576 W load: setting token '<|constrain|>' (200003) attribute to USER_DEFINED (16), old attributes: 8
+0.07.064.746 W load: setting token '<|message|>' (200008) attribute to USER_DEFINED (16), old attributes: 8
+0.07.069.864 W load: setting token '<|channel|>' (200005) attribute to USER_DEFINED (16), old attributes: 8
+0.07.069.867 W load: setting token '<|start|>' (200006) attribute to USER_DEFINED (16), old attributes: 8
+0.07.069.878 W load: special_eog_ids contains both '<|return|>' and '<|call|>', or '<|calls|>' and '<|flush|>' tokens, removing '<|end|>' token from EOG list
+0.07.534.190 I srv    load_model: initializing, n_slots = 4, n_ctx_slot = 8192, kv_unified = 'true'
+0.07.576.495 I srv  llama_server: model loaded
+0.07.576.500 I srv  llama_server: listening on http://127.0.0.1:8099
+0.08.016.254 I slot get_availabl: id  3 | task -1 | selected slot by LRU, t_last = -1
+0.08.016.278 I slot launch_slot_: id  3 | task 0 | processing task, is_child = 0
+0.11.432.991 I slot print_timing: id  3 | task 0 | n_gen =    210, tg =  69.19 t/s, tg_3s =  69.53 t/s
+0.12.074.385 I slot print_timing: id  3 | task 0 | prompt eval time =     396.15 ms /    27 tokens (   14.67 ms per token,    68.16 tokens per second)
+0.12.074.389 I slot print_timing: id  3 | task 0 |        eval time =    3661.89 ms /   256 tokens (   14.36 ms per token,    69.64 tokens per second)
+0.12.074.390 I slot print_timing: id  3 | task 0 |       total time =    4058.03 ms /   283 tokens
+0.12.074.391 I slot print_timing: id  3 | task 0 |    graphs reused =        116
+0.12.075.853 I slot print_timing: id  3 | task 0 | draft acceptance = 0.58547 (  137 accepted /   234 generated), mean len =  2.17
+0.12.075.899 I slot      release: id  3 | task 0 | stop processing: n_tokens = 282, truncated = 0
+0.12.082.713 I slot get_availabl: id  2 | task -1 | selected slot by LRU, t_last = -1
+0.12.082.730 I slot launch_slot_: id  2 | task 121 | processing task, is_child = 0
+0.15.405.302 I slot print_timing: id  2 | task 121 | n_gen =    180, tg =  59.08 t/s, tg_3s =  59.41 t/s
+0.16.544.513 I slot print_timing: id  2 | task 121 | prompt eval time =     287.18 ms /    25 tokens (   11.49 ms per token,    87.05 tokens per second)
+0.16.544.517 I slot print_timing: id  2 | task 121 |        eval time =    4168.90 ms /   256 tokens (   16.35 ms per token,    61.17 tokens per second)
+0.16.544.518 I slot print_timing: id  2 | task 121 |       total time =    4456.07 ms /   281 tokens
+0.16.544.518 I slot print_timing: id  2 | task 121 |    graphs reused =        248
+0.16.544.522 I slot print_timing: id  2 | task 121 | draft acceptance = 0.44776 (  120 accepted /   268 generated), mean len =  1.90
+0.16.544.550 I slot      release: id  2 | task 121 | stop processing: n_tokens = 280, truncated = 0
+0.16.547.339 I slot get_availabl: id  1 | task -1 | selected slot by LRU, t_last = -1
+0.16.547.354 I slot launch_slot_: id  1 | task 259 | processing task, is_child = 0
+0.19.916.242 I slot print_timing: id  1 | task 259 | n_gen =    135, tg =  44.59 t/s, tg_3s =  44.92 t/s
+0.22.876.291 I slot print_timing: id  1 | task 259 | prompt eval time =     357.60 ms /    36 tokens (    9.93 ms per token,   100.67 tokens per second)
+0.22.876.295 I slot print_timing: id  1 | task 259 |        eval time =    5965.36 ms /   256 tokens (   23.39 ms per token,    42.75 tokens per second)
+0.22.876.296 I slot print_timing: id  1 | task 259 |       total time =    6322.97 ms /   292 tokens
+0.22.876.297 I slot print_timing: id  1 | task 259 |    graphs reused =        440
+0.22.876.301 I slot print_timing: id  1 | task 259 | draft acceptance = 0.15424 (   60 accepted /   389 generated), mean len =  1.31
+0.22.876.332 I slot      release: id  1 | task 259 | stop processing: n_tokens = 291, truncated = 0

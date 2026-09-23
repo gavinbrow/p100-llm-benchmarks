@@ -1,0 +1,11 @@
+GET   Mistral-Small-3.2-24B-Instruct-2506-UD-Q4_K_XL.gguf
+  OK  13.5 GB
+GET   gpt-oss-20b-MXFP4.gguf
+  OK  11.3 GB
+GET   eagle3-gpt-oss-20b-Q8_0.gguf
+  OK  0.9 GB
+GET   phi-4-Q8_0.gguf
+  OK  14.5 GB
+GET   Meta-Llama-3.1-8B-Instruct-Q8_0.gguf
+  OK  8.0 GB
+WAVE 6 COMPLETE

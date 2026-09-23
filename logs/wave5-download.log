@@ -1,0 +1,15 @@
+GET bartowski/Qwen_Qwen3-Next-80B-A3B-Thinking-GGUF :: Qwen_Qwen3-Next-80B-A3B-Thinking-Q2_K.gguf
+  OK 26.23 GB in 287s (93.6 MB/s)
+GET unsloth/Llama-3.3-70B-Instruct-GGUF :: Llama-3.3-70B-Instruct-UD-Q2_K_XL.gguf
+  OK 25.11 GB in 640s (40.2 MB/s)
+GET lmstudio-community/Seed-OSS-36B-Instruct-GGUF :: Seed-OSS-36B-Instruct-Q6_K.gguf
+  OK 27.63 GB in 766s (36.9 MB/s)
+GET unsloth/Qwen3-32B-GGUF :: Qwen3-32B-Q6_K.gguf
+  OK 25.04 GB in 697s (36.8 MB/s)
+GET ggml-org/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF :: NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf
+  OK 17.6 GB in 799s (22.6 MB/s)
+GET ggml-org/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF :: mtp-NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf
+  OK 1.08 GB in 29s (38.1 MB/s)
+GET ggml-org/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF :: NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q8_0.gguf
+  OK 31.28 GB in 989s (32.4 MB/s)
+WAVE 5 COMPLETE

@@ -1,0 +1,6 @@
+# Store text with LF line endings, so the data reads the same on every platform.
+# Windows checkouts get CRLF back.
+* text=auto
+
+# Windows PowerShell 5.1 scripts stay CRLF everywhere.
+*.ps1 text eol=crlf

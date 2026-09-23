@@ -1,0 +1,14 @@
+[02:29:46] WAVE 11d start: ['bnemo']
+[02:29:46]   server: -m C:\Users\PC\.lmstudio\models\ggml-org\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-GGUF\NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf --host 127.0.0.1 --port 8110 -ngl 999 -c 1050496 --no-webui -np 1 -sm layer -ctxcp 0 --cache-ram 0 -ctk f16 -ctv f16 -fa on -ub 512 -b 2048
+[02:30:29]   server ready in 43s
+[02:30:29] SWEEP backfill-NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0--ctk_f16_-ctv_f16_-fa_on_-ub_512_-b_2048 (layer): levels [65536, 73728, 98304, 131072, 261120, 524288, 1045824], ctx 1050496, slot 1048576
+[02:34:56]      65536: pp512    111.5  pp2048    147.6  tg   36.50  (fill 65536 tok in 243.4s)
+[02:36:03]      73728: pp512    101.0  pp2048    126.4  tg   29.48  (fill 5505 tok in 41.5s)
+[02:39:31]      98304: pp512     87.1  pp2048    115.7  tg   23.41  (fill 21889 tok in 178.7s)
+[02:44:58]     131072: pp512     78.7  pp2048     83.9  tg   37.50  (fill 30081 tok in 292.0s)
+[03:15:07]     261120: pp512     44.7  pp2048     55.4  tg   31.72  (fill 127361 tok in 1756.0s)
+[04:58:28]     524288: pp512     28.2  pp2048     31.5  tg   17.23  (fill 260481 tok in 6109.7s)
+[11:28:09]    1045824: pp512     15.1  pp2048     16.8  tg   11.69  (fill 518849 tok in 23213.2s)
+[11:28:16]   vram peak: card0 13993 MiB, card1 12931 MiB
+[11:28:16] STEP bnemo done in 8.98 h
+[11:28:16] WAVE 11d COMPLETE
